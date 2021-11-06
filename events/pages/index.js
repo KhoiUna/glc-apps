@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
-import DOMPurify from "https://raw.githubusercontent.com/cure53/DOMPurify/main/dist/purify.min.js";
+import DOMPurify from "dompurify";
 
 export default function Home() {
   const [data, setData] = useState([]);
