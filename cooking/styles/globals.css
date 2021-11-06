@@ -1,0 +1,284 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0 auto;
+}
+
+body {
+  margin: 0;
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.App {
+  text-align: center;
+}
+
+/* Style Header */
+header {
+  background-color: #46166b;
+  margin-bottom: 3%;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+header h1 {
+  color: #db9f11;
+  text-align: center;
+}
+
+header #header-icon {
+  padding-right: 1rem;
+  width: 0.8125em;
+}
+
+/* Style Home page */
+.legend-home {
+  text-align: left;
+  background-color: #aa67dd;
+  margin: 3% 3% 1% 4.5%;
+  padding: 1%;
+  border: 3px dashed #000;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.flex-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: justify-content;
+  padding-top: 1%;
+}
+
+.flex-buttons button {
+  font-size: medium;
+  font-weight: bold;
+  padding: 5px;
+  cursor: pointer;
+  margin-top: 3%;
+  border-radius: 12px;
+}
+
+.flex-buttons button:hover {
+  box-shadow: 0 0.5rem 1rem 0.5rem rgba(0, 0, 0, 0.15);
+  padding: 6px;
+}
+
+.flex-buttons button:focus {
+  outline: none;
+}
+
+#reserve-button {
+  background-color: #adff2f;
+}
+
+#cancel-button {
+  background-color: #ffff00;
+}
+
+#feedback-button {
+  background-color: #ff0000;
+}
+
+/* Style Calendar */
+.Calendar {
+  margin: 2%;
+  text-align: center;
+  max-height: 25rem;
+  overflow-y: auto;
+}
+
+.Calendar table {
+  width: 95%;
+  border-collapse: collapse;
+  border: 3px solid black;
+}
+
+.Calendar table thead {
+  background-color: #640ba8;
+  border-bottom: 3px solid black;
+  color: #db9f11;
+}
+
+.Calendar table thead .thead-title th {
+  top: 0;
+  position: sticky;
+  border-bottom: 3px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  padding: 5px;
+  color: #fff;
+  background-color: #aa67dd;
+}
+
+.Calendar table .arrow-button {
+  cursor: pointer;
+  width: 1rem;
+}
+
+.Calendar table #left-arrow {
+  text-align: left;
+  padding-left: 2%;
+}
+
+.Calendar table #right-arrow {
+  text-align: right;
+  padding-right: 2%;
+}
+
+.Calendar table #month-year {
+  text-align: center;
+  padding: 1% 0;
+}
+
+.Calendar table .date-of-week {
+  text-align: center;
+  padding: 3%;
+}
+
+.Calendar table .reservation-time {
+  text-align: left;
+  padding-left: 1%;
+}
+
+.Calendar table .reservation-data {
+  padding-bottom: 10%;
+  padding-top: 10%;
+}
+
+.Calendar table .reservation-loading {
+  margin: 2% 0;
+}
+
+.Calendar table .reservation-number {
+  text-align: center;
+  padding-right: 3%;
+  font-size: large;
+}
+
+.Calendar table tbody th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 5px;
+}
+
+/* Style ReservationList */
+.ReservationList-layer {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+
+.ReservationList {
+  position: absolute;
+  border-radius: 12px;
+  border-width: 9px;
+  border-style: solid;
+  width: 80%;
+  height: 65%;
+  text-align: center;
+  background-color: white;
+  bottom: 12%;
+  left: 9%;
+}
+
+.ReservationList .title {
+  margin: 2% 0;
+}
+
+.ReservationList .reservations {
+  max-height: 78%;
+  padding: 0 2%;
+  overflow-y: auto;
+}
+
+.ReservationList .reservations table thead th {
+  text-align: center;
+  color: #db9f11;
+}
+
+/* Style Reserve page */
+.reserve-notice {
+  margin-top: 3%;
+}
+
+form {
+  padding: 1rem 0;
+}
+
+.submit-button {
+  margin-bottom: 2%;
+}
+
+/* Style Feedback page */
+.notice {
+  color: #ff0000;
+  font-style: italic;
+  margin: 1rem 1.5rem;
+  text-align: center;
+}
+
+textarea {
+  font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  padding: 5px;
+  font-size: large;
+}
+
+/* Style Popup */
+.Popup {
+  z-index: 1;
+  position: absolute;
+  border: 3px black solid;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  background-color: #fff;
+  top: 0;
+}
+
+.Popup .greet {
+  padding: 3% 0;
+  background-color: greenyellow;
+}
+.Popup #home-button {
+  margin: 2% 0;
+  background-color: #46166b;
+  color: #fff;
+  font-size: medium;
+  font-weight: bold;
+  padding: 0.8rem;
+  cursor: pointer;
+  border-radius: 10px;
+  outline: none;
+}
+.Popup #home-button:hover {
+  box-shadow: 0 0.5rem 1rem 0.5rem rgba(0, 0, 0, 0.15);
+  padding: 0.9rem;
+}
+
+/* Style footer */
+footer {
+  padding: 1rem 0;
+  text-align: center;
+}
+
+footer a {
+  color: #640ba8;
+  text-decoration: none;
+  border-bottom: 3px dashed #db9f11;
+}
+
+footer p {
+  font-weight: bold;
+  font-size: medium;
+}
