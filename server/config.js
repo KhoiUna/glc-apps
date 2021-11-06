@@ -1,6 +1,10 @@
 module.exports = {
   origin:
     process.env.NODE_ENV === "production"
-      ? "https://cooking-reservation.vercel.app"
+      ? [
+          "https://glc-admin.vercel.app",
+          "https://glc-cooking.vercel.app",
+          "https://glc-events.vercel.app",
+        ]
       : "http://localhost:3000",
 };
