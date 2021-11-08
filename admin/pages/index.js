@@ -1,43 +1,37 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Layout from "../containers/layout";
-import { origin } from "../config/config";
-import Link from "next/link";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import ReservationTab from "../components/cooking/reservation_tab";
+import FeedbackTab from "../components/cooking/feedback_tab";
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 export default function Index() {
-  const [feedback, setFeedback] = useState([]);
-  useEffect(() => {
-    const fetchFeedback = async () => {
-      try {
-        const res = await (await fetch(`${origin}/api/feedback`)).json();
-        return res;
-      } catch (err) {
-        console.error("Error fetching feedback");
-      }
-    };
-
-    fetchFeedback()
-      .then((r) => setFeedback(r))
-      .catch((err) => console.error(err));
-  }, []);
-
-  if (feedback.length === 0)
-    return (
-      <Layout componentName="Feedback">
-        <Link href="/reservations">Reservations</Link>
-
-        <p>No feedback!</p>
-      </Layout>
-    );
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
-    <Layout componentName="Feedback">
-      <Link href="/reservations">Reservations</Link>
+    <Layout componentName="Cooking">
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs value={value} onChange={handleChange} aria-label="Cooking tabs">
+            <Tab label="Reservations" {...a11yProps(0)} />
+            <Tab label="Feedback" {...a11yProps(1)} />
+          </Tabs>
+        </Box>
 
-      {feedback.map((item) => (
-        <p>
-          <b>{item.subject}</b>(<i>{item.submitted_date}</i>): {item.feedback}
-        </p>
-      ))}
+        {value === 0 && <ReservationTab value={value} index={0} />}
+        {value === 1 && <FeedbackTab value={value} index={1} />}
+      </Box>
     </Layout>
   );
 }
