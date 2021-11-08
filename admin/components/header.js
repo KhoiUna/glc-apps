@@ -40,8 +40,8 @@ export default function Header({ headerText }) {
     >
       <List>
         {["Cooking", "Events"].map((text, index) => (
-          <Link href={`/${index === 0 ? "" : text.toLowerCase()}`}>
-            <ListItem button key={text}>
+          <Link href={`/${index === 0 ? "" : text.toLowerCase()}`} key={text}>
+            <ListItem button>
               <ListItemIcon>
                 {index % 2 === 0 ? (
                   <FoodBankOutlinedIcon />
