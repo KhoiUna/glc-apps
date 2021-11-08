@@ -16,11 +16,11 @@ export default function Layout({ children, componentName }) {
         <title>GLC | {componentName}</title>
       </Head>
 
-      <main>
+      <header>
         <Header headerText={componentName} />
+      </header>
 
-        {children}
-      </main>
+      <main>{children}</main>
     </>
   );
 }
