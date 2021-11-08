@@ -40,6 +40,7 @@ export default function ReservationBox({
             fontWeight: "bold",
             color: "red",
             cursor: "pointer",
+            marginLeft: "0.5rem",
           }}
           onClick={() => handleClick(id)}
         >

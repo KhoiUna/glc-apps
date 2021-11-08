@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { origin } from "../../config/config";
-import ReservationBox from "../../components/reservation_box";
+import ReservationBox from "./reservation_box";
 import Button from "@mui/material/Button";
 
 export default function ReservationTab({ value, index }) {
