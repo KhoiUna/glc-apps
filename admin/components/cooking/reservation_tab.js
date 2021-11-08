@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { origin } from "../../config/config";
 import ReservationBox from "./reservation_box";
 import Button from "@mui/material/Button";
+import { buttonTheme } from "../../themes/themes";
 
 export default function ReservationTab({ value, index }) {
   const [reservations, setReservations] = useState([]);
@@ -61,14 +62,14 @@ export default function ReservationTab({ value, index }) {
       >
         <div>
           <Button
-            sx={{ margin: "0.5rem" }}
+            sx={buttonTheme}
             variant="contained"
             onClick={() => handleClick("left")}
           >
             Back
           </Button>
           <Button
-            sx={{ margin: "0.5rem" }}
+            sx={buttonTheme}
             variant="contained"
             onClick={() => handleClick("right")}
           >
@@ -101,14 +102,14 @@ export default function ReservationTab({ value, index }) {
       >
         <div>
           <Button
-            sx={{ margin: "0.5rem" }}
+            sx={buttonTheme}
             variant="contained"
             onClick={() => handleClick("left")}
           >
             Back
           </Button>
           <Button
-            sx={{ margin: "0.5rem" }}
+            sx={buttonTheme}
             variant="contained"
             onClick={() => handleClick("right")}
           >
