@@ -39,7 +39,7 @@ export default function Home() {
   };
 
   const handleClick = () => {
-    socket.emit("submit", formValue);
+    socket.emit("submit", { eventName, ...formValue });
   };
 
   return (
