@@ -50,9 +50,9 @@ app.use("/api/time", timeRoute);
 io.on("connection", (socket) => {
   console.log("------User connected------");
 
-  socket.on("submit", ({ firstName, lastName, lNumber }) => {
-    console.log({ firstName, lastName, lNumber });
+  socket.on("submit", ({ eventName, firstName, lastName, lNumber }) => {
     io.emit("submit", {
+      eventName,
       firstName,
       lastName,
       lNumber,
