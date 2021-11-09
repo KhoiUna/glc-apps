@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import Layout from "../containers/layout";
-import Typography from "@mui/material/Typography";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { buttonTheme } from "../themes/themes";
 import FormDialog from "../components/events/form_dialog";
+import OpenedEventsTab from "../components/events/opened_events_tab";
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 export default function Events({}) {
   const [open, setOpen] = useState(false);
@@ -16,40 +25,41 @@ export default function Events({}) {
     setOpen(false);
   };
 
-  const [localStorageEvents, setLocalStorageEvents] = useState([]);
-  useEffect(() => {
-    if (!localStorage.getItem("events"))
-      localStorage.setItem("events", JSON.stringify([]));
-
-    setLocalStorageEvents(JSON.parse(localStorage.getItem("events")));
-  }, [open]);
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <Layout componentName="Events">
-      <Box sx={{ margin: "0.5rem" }}>
-        <Typography sx={{ fontWeight: "bold" }}>Opened events:</Typography>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs value={value} onChange={handleChange} aria-label="Cooking tabs">
+          <Tab label="Opened Events" {...a11yProps(0)} />
+          <Tab label="Submissions" {...a11yProps(1)} />
+          <Tab label="Signature" {...a11yProps(2)} />
+        </Tabs>
+      </Box>
 
-        {localStorageEvents.map((i, index) => (
-          <div key={index}>
-            Name: {i.eventName}
-            <br />
-            Event time: {new Date(i.eventTime).toLocaleString()}
-            <br />
-            <br />
-          </div>
-        ))}
+      <Box
+        sx={{
+          margin: "0.5rem 0 3.5rem 0.5rem",
+        }}
+      >
+        {value === 0 && <OpenedEventsTab value={value} index={0} open={open} />}
+        {/* {value === 1 && <SubmissionsTab value={value} index={1} />}
+      {value === 2 && <SignatureTab value={value} index={2} />} */}
       </Box>
 
       <Fab
         onClick={handleClickOpen}
         color="primary"
         aria-label="Create event"
-        sx={{ ...buttonTheme, position: "absolute", bottom: 10, right: 9 }}
+        sx={{ ...buttonTheme, position: "fixed", bottom: 0, right: 9 }}
       >
         <AddIcon />
       </Fab>
 
-      <FormDialog handleClose={handleClose} open={open} />
+      {open && <FormDialog handleClose={handleClose} open={open} />}
     </Layout>
   );
 }
