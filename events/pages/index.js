@@ -53,7 +53,7 @@ export default function Home() {
         <link rel="apple-touch-icon" href="/images/192x192.png" />
         <link rel="manifest" href="/manifest.json" />
 
-        <title>GLC Events</title>
+        <title>GLC Events | Submit</title>
       </Head>
 
       <main style={{ margin: "1rem auto", textAlign: "center" }}>
