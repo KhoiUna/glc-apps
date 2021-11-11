@@ -17,7 +17,7 @@ import { forwardRef, useState } from "react";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-export default function FormDialog({ handleClose, open }) {
+export default function FormDialog({ toggleFormDialog, open }) {
   const [value, setValue] = useState({
     eventName: "",
     eventTime: new Date(),
@@ -49,7 +49,7 @@ export default function FormDialog({ handleClose, open }) {
     <Dialog
       fullScreen
       open={open}
-      onClose={handleClose}
+      onClose={toggleFormDialog}
       TransitionComponent={Transition}
     >
       <AppBar sx={{ ...appBarTheme, position: "relative" }}>
@@ -57,7 +57,7 @@ export default function FormDialog({ handleClose, open }) {
           <IconButton
             edge="start"
             color="inherit"
-            onClick={handleClose}
+            onClick={toggleFormDialog}
             aria-label="close"
           >
             <CloseIcon />
