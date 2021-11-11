@@ -53,13 +53,15 @@ export default function SubmissionsTab({}) {
           </Typography>
           <b>{firstName + " " + lastName}</b> - L#{lNumber} -{" "}
           <i>{new Date(submitted_date).toLocaleString()}</i>
-          <Image
-            src={blobToBase64(imgBlob)}
-            height="200"
-            alt={`${firstName + " " + lastName}'s submission image'`}
-            width={150}
-            height={150}
-          />
+          <div style={{ margin: "1.5rem auto", textAlign: "center" }}>
+            <Image
+              src={blobToBase64(imgBlob)}
+              height="200"
+              alt={`${firstName + " " + lastName}'s submission image'`}
+              width={150}
+              height={150}
+            />
+          </div>
         </Paper>
       );
     }
