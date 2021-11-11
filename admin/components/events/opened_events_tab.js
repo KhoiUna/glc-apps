@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Paper from "@mui/material/Paper";
+import EventsPaper from "./events_paper";
 
 export default function OpenedEventsTab({ open }) {
   const [localStorageEvents, setLocalStorageEvents] = useState([]);
@@ -11,19 +11,6 @@ export default function OpenedEventsTab({ open }) {
   }, [open]);
 
   return localStorageEvents.map((i, index) => (
-    <Paper
-      key={index}
-      elevation={3}
-      sx={{
-        padding: "0.5rem",
-        margin: "1.25rem 0.7rem",
-      }}
-    >
-      Name: {i.eventName}
-      <br />
-      Event time: {new Date(i.eventTime).toLocaleString()}
-      <br />
-      <br />
-    </Paper>
+    <EventsPaper key={index} eventData={i} />
   ));
 }

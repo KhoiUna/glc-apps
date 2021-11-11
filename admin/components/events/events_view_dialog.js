@@ -11,8 +11,6 @@ export default function EventsViewDialog({
   openEventView,
   eventName,
 }) {
-  console.log(eventName);
-
   return (
     <Dialog fullScreen open={openEventView} onClose={toggleOpenEventView}>
       <AppBar sx={{ ...appBarTheme, position: "relative" }}>
