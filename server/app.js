@@ -50,15 +50,19 @@ app.use("/api/time", timeRoute);
 io.on("connection", (socket) => {
   console.log("------User connected------");
 
-  socket.on("submit", ({ eventName, firstName, lastName, lNumber }) => {
-    io.emit("submit", {
-      eventName,
-      firstName,
-      lastName,
-      lNumber,
-      submitted_date: new Date().toUTCString(),
-    });
-  });
+  socket.on(
+    "submit",
+    ({ eventName, firstName, lastName, lNumber, imgBlob }) => {
+      io.emit("submit", {
+        eventName,
+        firstName,
+        lastName,
+        lNumber,
+        imgBlob,
+        submitted_date: new Date().toUTCString(),
+      });
+    }
+  );
 
   //Listen when users disconnect
   socket.on("disconnect", () => {
