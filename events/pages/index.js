@@ -70,7 +70,6 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      console.log(imgBlob);
       socket.emit("submit", { eventName, ...formValue, imgBlob });
 
       setFormValue({
@@ -78,6 +77,8 @@ export default function Home() {
         lastName: "",
         lNumber: "",
       });
+      setImgSrc("");
+      e.target.reset();
     } catch (error) {
       console.error(error);
     }
