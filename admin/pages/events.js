@@ -19,11 +19,8 @@ function a11yProps(index) {
 
 export default function Events({}) {
   const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
+  const toggleFormDialog = () => {
+    setOpen(!open);
   };
 
   const [value, setValue] = useState(0);
@@ -53,7 +50,7 @@ export default function Events({}) {
 
       {value === 0 && (
         <Fab
-          onClick={handleClickOpen}
+          onClick={toggleFormDialog}
           color="primary"
           aria-label="Create event"
           sx={{ ...buttonTheme, position: "fixed", bottom: 0, right: 9 }}
@@ -62,7 +59,7 @@ export default function Events({}) {
         </Fab>
       )}
 
-      {open && <FormDialog handleClose={handleClose} open={open} />}
+      {open && <FormDialog toggleFormDialog={toggleFormDialog} open={open} />}
     </Layout>
   );
 }
