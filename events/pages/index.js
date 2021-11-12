@@ -43,8 +43,8 @@ export default function Home() {
   const uploadImage = () => {
     const displayOnCanvas = (imgObj) => {
       const canvas = document.querySelector("canvas");
-      const maxWidth = 500;
-      const maxHeight = 500;
+      const maxWidth = 400;
+      const maxHeight = 400;
 
       const width = imgObj.width;
       const height = imgObj.height;
@@ -111,6 +111,8 @@ export default function Home() {
       const canvas = document.querySelector("canvas");
       const context = canvas.getContext("2d");
       context.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.width = 0;
+      canvas.height = 0;
     } catch (error) {
       console.error(error);
     }
@@ -215,7 +217,7 @@ export default function Home() {
           </Stack>
 
           <div style={{ margin: "1rem" }}>
-            <canvas></canvas>
+            <canvas width={0} height={0}></canvas>
           </div>
 
           <Button variant="contained" type="submit">
