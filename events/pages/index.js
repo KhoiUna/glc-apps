@@ -88,13 +88,14 @@ export default function Home() {
         image.src = blobURL;
         image.addEventListener(
           "load",
-          () => {
-            const base64String = displayOnCanvas(image);
-            fetch(base64String)
-              .then((res) => res.blob())
-              .then((blob) => {
-                setImgBlob({ blob, type: base64String.split(",")[0] });
-              });
+          async () => {
+            try {
+              const base64String = displayOnCanvas(image);
+              const blob = await (await fetch(base64String)).blob();
+              setImgBlob({ blob, type: base64String.split(",")[0] });
+            } catch (error) {
+              console.error("Error uploading img");
+            }
           },
           false
         );
