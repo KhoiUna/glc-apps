@@ -43,8 +43,8 @@ export default function Home() {
   const uploadImage = () => {
     const displayOnCanvas = (imgObj) => {
       const canvas = document.querySelector("canvas");
-      const maxWidth = 400;
-      const maxHeight = 400;
+      const maxWidth = 300;
+      const maxHeight = 300;
 
       const width = imgObj.width;
       const height = imgObj.height;
