@@ -62,7 +62,6 @@ export default function SubmissionsTab({}) {
           <Image
             layout="responsive"
             src={blobToBase64(imgBlob)}
-            height="200"
             alt={`${firstName + " " + lastName}'s submission image'`}
             width={150}
             height={150}
