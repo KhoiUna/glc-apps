@@ -39,13 +39,12 @@ export default function Home() {
     }));
   };
 
-  const [imgBlob, setImgBlob] = useState({});
   const [imgBase64, setImgBase64] = useState("");
   const uploadImage = () => {
     const displayOnCanvas = (imgObj) => {
       const canvas = document.querySelector("canvas");
-      const maxWidth = 200;
-      const maxHeight = 200;
+      const maxWidth = 500;
+      const maxHeight = 500;
 
       const width = imgObj.width;
       const height = imgObj.height;
@@ -98,13 +97,14 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      socket.emit("submit", { eventName, ...formValue, imgBlob, imgBase64 });
+      socket.emit("submit", { eventName, ...formValue, imgBase64 });
       setFormValue({
         firstName: "",
         lastName: "",
         lNumber: "",
         imgUploadPath: "",
       });
+      setImgBase64("");
       e.target.reset();
 
       // Clear canvas
