@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import io from "socket.io-client";
 import { origin } from "../config/config";
-import Image from "next/image";
 
 let socket;
 export default function Home() {
@@ -31,6 +30,7 @@ export default function Home() {
     firstName: "",
     lastName: "",
     lNumber: "",
+    imgUploadPath: "",
   });
   const handleChange = ({ target }) => {
     setFormValue((prev) => ({
@@ -39,30 +39,70 @@ export default function Home() {
     }));
   };
 
-  const [imgSrc, setImgSrc] = useState("");
   const [imgBlob, setImgBlob] = useState({});
-
   const uploadImage = () => {
+    const displayOnCanvas = (imgObj) => {
+      const canvas = document.querySelector("canvas");
+      const maxWidth = 200;
+      const maxHeight = 200;
+
+      const width = imgObj.width;
+      const height = imgObj.height;
+
+      // Resize to display on Canvas
+      if (width > height) {
+        if (width > maxWidth) {
+          height = Math.round((height *= maxWidth / width));
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width = Math.round((width *= maxHeight / height));
+          height = maxHeight;
+        }
+      }
+
+      // resize the canvas and draw the image data into it
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(imgObj, 0, 0, width, height);
+
+      return canvas.toDataURL("image/png", 0.7); // base64 string
+    };
+
     const file = document.querySelector("input[type=file]").files[0];
     const reader = new FileReader();
 
     reader.addEventListener(
       "load",
       () => {
-        const base64String = reader.result;
-        fetch(base64String)
-          .then((res) => res.blob())
-          .then((blob) => {
-            setImgBlob({ blob, type: base64String.split(",")[0] });
-          });
+        const arrayBuffer = reader.result;
+        const blob = new Blob([arrayBuffer]);
+        const blobURL = URL.createObjectURL(blob);
 
-        setImgSrc(reader.result);
+        // Create an image object with blob
+        const image = new Image();
+        image.src = blobURL;
+        image.addEventListener(
+          "load",
+          () => {
+            const base64String = displayOnCanvas(image);
+
+            fetch(base64String)
+              .then((res) => res.blob())
+              .then((blob) => {
+                setImgBlob({ blob, type: base64String.split(",")[0] });
+              });
+          },
+          false
+        );
       },
       false
     );
 
     if (file) {
-      reader.readAsDataURL(file);
+      reader.readAsArrayBuffer(file);
     }
   };
 
@@ -71,14 +111,19 @@ export default function Home() {
 
     try {
       socket.emit("submit", { eventName, ...formValue, imgBlob });
-
+      console.log({ eventName, ...formValue, imgBlob });
       setFormValue({
         firstName: "",
         lastName: "",
         lNumber: "",
+        imgUploadPath: "",
       });
-      setImgSrc("");
       e.target.reset();
+
+      // Clear canvas
+      const canvas = document.querySelector("canvas");
+      const context = canvas.getContext("2d");
+      context.clearRect(0, 0, canvas.width, canvas.height);
     } catch (error) {
       console.error(error);
     }
@@ -171,19 +216,20 @@ export default function Home() {
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
               Upload image:
             </Typography>
-            <input type="file" onChange={uploadImage} required />
+            <input
+              type="file"
+              onChange={uploadImage}
+              data-maxwidth="500"
+              data-maxheight="500"
+              name="imgUploadPath"
+              value={formValue.imgUploadPath}
+              required
+            />
           </Stack>
-          {imgSrc && (
-            <div style={{ margin: "1rem" }}>
-              <Image
-                src={imgSrc}
-                height="200"
-                alt="Image preview..."
-                width={150}
-                height={150}
-              />
-            </div>
-          )}
+
+          <div style={{ margin: "1rem" }}>
+            <canvas></canvas>
+          </div>
 
           <Button variant="contained" type="submit">
             Submit
