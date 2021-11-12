@@ -76,40 +76,46 @@ export default function Home() {
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
 
-    reader.addEventListener("load", () => {
-      const arrayBuffer = reader.result;
-      const blob = new Blob([arrayBuffer]);
-      const blobURL = URL.createObjectURL(blob);
+    reader.addEventListener(
+      "load",
+      () => {
+        const arrayBuffer = reader.result;
+        const blob = new Blob([arrayBuffer]);
+        const blobURL = URL.createObjectURL(blob);
 
-      // Create an image object with blob
-      const image = new Image();
-      image.src = blobURL;
-      image.addEventListener("load", () => {
-        const base64String = displayOnCanvas(image);
-        fetch(base64String)
-          .then((res) => res.blob())
-          .then((blob) => {
-            setImgBlob({ blob, type: base64String.split(",")[0] });
-          });
-      });
-    });
+        // Create an image object with blob
+        const image = new Image();
+        image.src = blobURL;
+        image.addEventListener(
+          "load",
+          () => {
+            const base64String = displayOnCanvas(image);
+            fetch(base64String)
+              .then((res) => res.blob())
+              .then((blob) => {
+                setImgBlob({ blob, type: base64String.split(",")[0] });
+              });
+          },
+          false
+        );
+      },
+      false
+    );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      setTimeout(() => {
-        socket.emit("submit", { eventName, ...formValue, imgBlob });
-        setFormValue({
-          firstName: "",
-          lastName: "",
-          lNumber: "",
-          imgUploadPath: "",
-        });
-        setImgBlob({ blob: {}, type: "" });
-        e.target.reset();
-      }, 1000);
+      socket.emit("submit", { eventName, ...formValue, imgBlob });
+      setFormValue({
+        firstName: "",
+        lastName: "",
+        lNumber: "",
+        imgUploadPath: "",
+      });
+      setImgBlob({ blob: {}, type: "" });
+      e.target.reset();
 
       // Clear canvas
       const canvas = document.querySelector("canvas");
