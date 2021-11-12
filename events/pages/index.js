@@ -40,7 +40,7 @@ export default function Home() {
   };
 
   const [imgBlob, setImgBlob] = useState({
-    blob: "",
+    blob: {},
     type: "",
   });
   const uploadImage = () => {
@@ -90,9 +90,9 @@ export default function Home() {
 
         fetch(base64String)
           .then((res) => res.blob())
-          .then((blob) =>
-            setImgBlob({ blob, type: base64String.split(",")[0] })
-          );
+          .then((blob) => {
+            setImgBlob({ blob, type: base64String.split(",")[0] });
+          });
       });
     });
 
@@ -112,7 +112,7 @@ export default function Home() {
         lNumber: "",
         imgUploadPath: "",
       });
-      setImgBlob({});
+      setImgBlob({ blob: {}, type: "" });
       e.target.reset();
 
       // Clear canvas
