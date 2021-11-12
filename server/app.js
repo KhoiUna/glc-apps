@@ -52,15 +52,15 @@ io.on("connection", (socket) => {
 
   socket.on(
     "submit",
-    ({ eventName, firstName, lastName, lNumber, imgBase64 }) => {
-      //TODO: decode imgBase64 to store in db
+    ({ eventName, firstName, lastName, lNumber, imgBlob }) => {
+      //TODO: decode imgBlob  to store in db
 
       io.emit("submit", {
         eventName,
         firstName,
         lastName,
         lNumber,
-        imgBase64,
+        imgBlob,
         submitted_date: new Date().toUTCString(),
       });
     }
