@@ -43,6 +43,7 @@ export default function SubmissionsTab({}) {
           style={{
             margin: "1.5rem auto",
             textAlign: "center",
+            width: "25%",
           }}
         >
           <img
