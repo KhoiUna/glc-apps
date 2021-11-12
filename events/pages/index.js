@@ -111,7 +111,6 @@ export default function Home() {
 
     try {
       socket.emit("submit", { eventName, ...formValue, imgBlob });
-      console.log({ eventName, ...formValue, imgBlob });
       setFormValue({
         firstName: "",
         lastName: "",
