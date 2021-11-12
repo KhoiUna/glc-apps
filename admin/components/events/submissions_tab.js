@@ -3,6 +3,7 @@ import { origin } from "../../config/config";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
+import Image from "next/image";
 
 let socket;
 export default function SubmissionsTab({}) {
@@ -21,9 +22,21 @@ export default function SubmissionsTab({}) {
     };
   }, []);
 
+  const blobToBase64 = (imgBlob) => {
+    const { blob, type } = imgBlob;
+
+    const TYPED_ARRAY = new Uint8Array(blob);
+    const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
+      return data + String.fromCharCode(byte);
+    }, "");
+    const base64String = type + "," + btoa(STRING_CHAR);
+
+    return base64String;
+  };
+
   return submissions.map(
     (
-      { eventName, firstName, lastName, lNumber, imgBase64, submitted_date },
+      { eventName, firstName, lastName, lNumber, imgBlob, submitted_date },
       index
     ) => (
       <Paper
@@ -46,10 +59,13 @@ export default function SubmissionsTab({}) {
             width: "25%",
           }}
         >
-          <img
-            src={imgBase64}
+          <Image
+            layout="responsive"
+            src={blobToBase64(imgBlob)}
             height="200"
             alt={`${firstName + " " + lastName}'s submission image'`}
+            width={150}
+            height={150}
           />
         </div>
       </Paper>
