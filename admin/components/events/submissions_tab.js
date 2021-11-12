@@ -24,54 +24,40 @@ export default function SubmissionsTab({}) {
 
   return submissions.map(
     (
-      { eventName, firstName, lastName, lNumber, imgBlob, submitted_date },
+      { eventName, firstName, lastName, lNumber, imgBase64, submitted_date },
       index
-    ) => {
-      function blobToBase64(imgBlob) {
-        const { blob, type } = imgBlob;
-
-        const TYPED_ARRAY = new Uint8Array(blob);
-        const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
-          return data + String.fromCharCode(byte);
-        }, "");
-        const base64String = type + "," + btoa(STRING_CHAR);
-
-        return base64String;
-      }
-
-      return (
-        <Paper
-          key={index}
-          elevation={3}
-          sx={{
-            padding: "0.5rem",
-            margin: "1.25rem 0.7rem",
+    ) => (
+      <Paper
+        key={index}
+        elevation={3}
+        sx={{
+          padding: "0.5rem",
+          margin: "1.25rem 0.7rem",
+        }}
+      >
+        <Typography>
+          <b>Event name:</b> {eventName}
+        </Typography>
+        <b>{firstName + " " + lastName}</b> - L#{lNumber} -{" "}
+        <i>{new Date(submitted_date).toLocaleString()}</i>
+        <div
+          style={{
+            margin: "1.5rem auto",
+            textAlign: "center",
+            width: "25%",
+            border: "5px solid #000",
           }}
         >
-          <Typography>
-            <b>Event name:</b> {eventName}
-          </Typography>
-          <b>{firstName + " " + lastName}</b> - L#{lNumber} -{" "}
-          <i>{new Date(submitted_date).toLocaleString()}</i>
-          <div
-            style={{
-              margin: "1.5rem auto",
-              textAlign: "center",
-              width: "25%",
-              border: "5px solid #000",
-            }}
-          >
-            <Image
-              layout="responsive"
-              src={blobToBase64(imgBlob)}
-              height="200"
-              alt={`${firstName + " " + lastName}'s submission image'`}
-              width={200}
-              height={200}
-            />
-          </div>
-        </Paper>
-      );
-    }
+          <Image
+            layout="responsive"
+            src={imgBase64}
+            height="200"
+            alt={`${firstName + " " + lastName}'s submission image'`}
+            width={200}
+            height={200}
+          />
+        </div>
+      </Paper>
+    )
   );
 }
