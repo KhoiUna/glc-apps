@@ -71,11 +71,20 @@ export default function Home() {
       var ctx = canvas.getContext("2d");
       ctx.drawImage(imgObj, 0, 0, width, height);
 
-      return canvas.toDataURL("image/png", 0.7); // base64 string
+      const base64String = canvas.toDataURL("image/png", 0.7);
+
+      fetch(base64String)
+        .then((res) => res.blob())
+        .then((blob) => {
+          setImgBlob({ blob, type: base64String.split(",")[0] });
+        });
+
+      return base64String; // base64 string
     };
 
     const file = document.querySelector("input[type=file]").files[0];
     const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
 
     reader.addEventListener("load", () => {
       const arrayBuffer = reader.result;
@@ -86,19 +95,9 @@ export default function Home() {
       const image = new Image();
       image.src = blobURL;
       image.addEventListener("load", () => {
-        const base64String = displayOnCanvas(image);
-
-        fetch(base64String)
-          .then((res) => res.blob())
-          .then((blob) => {
-            setImgBlob({ blob, type: base64String.split(",")[0] });
-          });
+        displayOnCanvas(image);
       });
     });
-
-    if (file) {
-      reader.readAsArrayBuffer(file);
-    }
   };
 
   const handleSubmit = async (e) => {
