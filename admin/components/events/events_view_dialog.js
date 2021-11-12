@@ -36,7 +36,7 @@ export default function EventsViewDialog({
         />
       </div>
 
-      <div style={{ textAlign: "center", margin: "1rem auto" }}>
+      <div style={{ textAlign: "center", margin: "1rem" }}>
         <a
           href={`https://glc-events.vercel.app?eventName=${eventName}`}
           target="_blank"
