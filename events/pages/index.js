@@ -40,6 +40,7 @@ export default function Home() {
   };
 
   const [imgBlob, setImgBlob] = useState({});
+  const [imgBase64, setImgBase64] = useState("");
   const uploadImage = () => {
     const displayOnCanvas = (imgObj) => {
       const canvas = document.querySelector("canvas");
@@ -74,32 +75,19 @@ export default function Home() {
     const file = document.querySelector("input[type=file]").files[0];
     const reader = new FileReader();
 
-    reader.addEventListener(
-      "load",
-      () => {
-        const arrayBuffer = reader.result;
-        const blob = new Blob([arrayBuffer]);
-        const blobURL = URL.createObjectURL(blob);
+    reader.addEventListener("load", () => {
+      const arrayBuffer = reader.result;
+      const blob = new Blob([arrayBuffer]);
+      const blobURL = URL.createObjectURL(blob);
 
-        // Create an image object with blob
-        const image = new Image();
-        image.src = blobURL;
-        image.addEventListener(
-          "load",
-          () => {
-            const base64String = displayOnCanvas(image);
-
-            fetch(base64String)
-              .then((res) => res.blob())
-              .then((blob) => {
-                setImgBlob({ blob, type: base64String.split(",")[0] });
-              });
-          },
-          false
-        );
-      },
-      false
-    );
+      // Create an image object with blob
+      const image = new Image();
+      image.src = blobURL;
+      image.addEventListener("load", () => {
+        const base64String = displayOnCanvas(image);
+        setImgBase64(base64String);
+      });
+    });
 
     if (file) {
       reader.readAsArrayBuffer(file);
@@ -110,7 +98,7 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      socket.emit("submit", { eventName, ...formValue, imgBlob });
+      socket.emit("submit", { eventName, ...formValue, imgBlob, imgBase64 });
       setFormValue({
         firstName: "",
         lastName: "",
