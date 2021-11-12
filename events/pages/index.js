@@ -39,10 +39,7 @@ export default function Home() {
     }));
   };
 
-  const [imgBlob, setImgBlob] = useState({
-    blob: {},
-    type: "",
-  });
+  const [imgBlob, setImgBlob] = useState({});
   const uploadImage = () => {
     const displayOnCanvas = (imgObj) => {
       const canvas = document.querySelector("canvas");
@@ -111,7 +108,6 @@ export default function Home() {
         lNumber: "",
         imgUploadPath: "",
       });
-      setImgBlob({ blob: {}, type: "" });
       e.target.reset();
 
       // Clear canvas
