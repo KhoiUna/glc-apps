@@ -39,7 +39,10 @@ export default function Home() {
     }));
   };
 
-  const [imgBase64, setImgBase64] = useState("");
+  const [imgBlob, setImgBlob] = useState({
+    blob: "",
+    type: "",
+  });
   const uploadImage = () => {
     const displayOnCanvas = (imgObj) => {
       const canvas = document.querySelector("canvas");
@@ -84,7 +87,12 @@ export default function Home() {
       image.src = blobURL;
       image.addEventListener("load", () => {
         const base64String = displayOnCanvas(image);
-        setImgBase64(base64String);
+
+        fetch(base64String)
+          .then((res) => res.blob())
+          .then((blob) =>
+            setImgBlob({ blob, type: base64String.split(",")[0] })
+          );
       });
     });
 
@@ -97,14 +105,14 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      socket.emit("submit", { eventName, ...formValue, imgBase64 });
+      socket.emit("submit", { eventName, ...formValue, imgBlob });
       setFormValue({
         firstName: "",
         lastName: "",
         lNumber: "",
         imgUploadPath: "",
       });
-      setImgBase64("");
+      setImgBlob({});
       e.target.reset();
 
       // Clear canvas
