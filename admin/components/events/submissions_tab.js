@@ -29,7 +29,7 @@ export default function SubmissionsTab({}) {
       return data + String.fromCharCode(byte);
     }, "");
     const base64String = type + "," + btoa(STRING_CHAR);
-
+    console.log(base64String);
     return base64String;
   };
 
