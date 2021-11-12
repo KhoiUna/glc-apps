@@ -3,7 +3,6 @@ import { origin } from "../../config/config";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
-import Image from "next/image";
 
 let socket;
 export default function SubmissionsTab({}) {
@@ -56,15 +55,11 @@ export default function SubmissionsTab({}) {
           style={{
             margin: "1.5rem auto",
             textAlign: "center",
-            width: "25%",
           }}
         >
-          <Image
-            layout="responsive"
+          <img
             src={blobToBase64(imgBlob)}
             alt={`${firstName + " " + lastName}'s submission image'`}
-            width={150}
-            height={150}
           />
         </div>
       </Paper>
