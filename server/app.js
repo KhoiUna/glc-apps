@@ -52,13 +52,15 @@ io.on("connection", (socket) => {
 
   socket.on(
     "submit",
-    ({ eventName, firstName, lastName, lNumber, imgBlob }) => {
+    ({ eventName, firstName, lastName, lNumber, imgBase64 }) => {
+      const decodedBase64 = atob(imgBase64.split(",")[1]);
+
       io.emit("submit", {
         eventName,
         firstName,
         lastName,
         lNumber,
-        imgBlob,
+        imgBase64,
         submitted_date: new Date().toUTCString(),
       });
     }
