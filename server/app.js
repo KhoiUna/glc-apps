@@ -54,7 +54,6 @@ io.on("connection", (socket) => {
     "submit",
     ({ eventName, firstName, lastName, lNumber, imgBlob }) => {
       //TODO: decode imgBlob  to store in db
-      console.log(imgBlob);
 
       io.emit("submit", {
         eventName,
