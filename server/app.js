@@ -53,8 +53,7 @@ io.on("connection", (socket) => {
   socket.on(
     "submit",
     ({ eventName, firstName, lastName, lNumber, imgBase64 }) => {
-      const buff = Buffer.from(imgBase64, "base64");
-      const decodedBase64 = buff.toString("utf-8");
+      //TODO: decode imgBase64 to store in db
 
       io.emit("submit", {
         eventName,
