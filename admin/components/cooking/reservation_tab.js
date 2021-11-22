@@ -29,6 +29,26 @@ export default function ReservationTab({ value, index }) {
     return setDateIndex((prev) => prev + 1);
   };
 
+  const makeCsv = async () => {
+    try {
+      const blob = await (
+        await fetch(`${origin}/api/reserve/csv?dateIndex=${dateIndex}`)
+      ).blob();
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "reservations.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading csv file");
+    }
+  };
+
   const deleteReservation = async (id) => {
     try {
       const confirmed = confirm("Are you sure?");
@@ -114,6 +134,10 @@ export default function ReservationTab({ value, index }) {
             onClick={() => handleClick("right")}
           >
             Forward
+          </Button>
+
+          <Button sx={buttonTheme} variant="contained" onClick={makeCsv}>
+            CSV
           </Button>
         </div>
 
