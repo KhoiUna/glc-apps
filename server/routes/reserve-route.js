@@ -42,6 +42,10 @@ router.get("/csv", async (req, res) => {
     const csvData = parse(reservations);
 
     res.setHeader("Content-Type", "text/csv");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=reservations.csv"
+    );
     res.status(200).end(csvData);
   } catch (e) {
     console.error("Error getting reservations...");
