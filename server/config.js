@@ -6,5 +6,5 @@ module.exports = {
           "https://glc-cooking.vercel.app",
           "https://glc-events.vercel.app",
         ]
-      : ["http://localhost:3000", "http://localhost:3001"],
+      : /(http:\/\/localhost:300)\d{1}$/,
 };
