@@ -4,6 +4,7 @@ const saveReservation = require("../utils/saveReservation");
 const validateData = require("../helpers/validateData");
 const getDateReservations = require("../utils/getDateReservations.js");
 const deleteReservation = require("../utils/deleteReservation.js");
+const { parse } = require("json2csv");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -14,6 +15,37 @@ router.get("/", async (req, res, next) => {
     console.error("Error getting data...");
     console.error(e);
     next(e);
+  }
+});
+
+router.get("/csv", async (req, res) => {
+  try {
+    const dateIndex = req.query.dateIndex;
+    let reservations = await getDateReservations(dateIndex);
+    reservations = reservations.map(
+      ({
+        id,
+        first_name,
+        last_name,
+        number_of_people,
+        selected_date,
+        time_slot,
+      }) => ({
+        id,
+        first_name: first_name.trim(),
+        last_name: last_name.trim(),
+        number_of_people,
+        selected_date,
+        time_slot,
+      })
+    );
+    const csvData = parse(reservations);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.status(200).end(csvData);
+  } catch (e) {
+    console.error("Error getting reservations...");
+    console.error(e);
   }
 });
 
