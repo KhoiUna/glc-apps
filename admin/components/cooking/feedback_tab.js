@@ -1,22 +1,13 @@
 import { useEffect, useState } from "react";
-import { origin } from "../../config/config";
 import Typography from "@mui/material/Typography";
 
 export default function FeedbackTab({ value, index }) {
   const [feedback, setFeedback] = useState([]);
   useEffect(() => {
-    const fetchFeedback = async () => {
-      try {
-        const res = await (await fetch(`${origin}/api/feedback`)).json();
-        return res;
-      } catch (err) {
-        console.error("Error fetching feedback");
-      }
-    };
-
-    fetchFeedback()
+    fetch("/api/cooking/feedback")
+      .then((r) => r.json())
       .then((r) => setFeedback(r))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Error fetching feedback"));
   }, []);
 
   if (feedback.length === 0)
@@ -40,8 +31,8 @@ export default function FeedbackTab({ value, index }) {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
     >
-      {feedback.map((item) => (
-        <Typography>
+      {feedback.map((item, index) => (
+        <Typography key={index}>
           <b>{item.subject}</b>(<i>{item.submitted_date}</i>): {item.feedback}
         </Typography>
       ))}
