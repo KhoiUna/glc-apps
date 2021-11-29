@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import ReservationTab from "../components/cooking/reservation_tab";
 import FeedbackTab from "../components/cooking/feedback_tab";
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
@@ -15,7 +15,7 @@ function a11yProps(index) {
 
 export default function Index() {
   const [value, setValue] = useState(0);
-  const handleChange = (event, newValue) => {
+  const handleChange = (event, newValue: number): void => {
     setValue(newValue);
   };
 
