@@ -24,6 +24,7 @@ export default function Home() {
     createdAt: "",
     status: "",
   });
+  const [isLoading, setIsLoading] = useState(true);
   const [err, setErr] = useState(false);
   useEffect(() => {
     const url = new URL(window.location);
@@ -36,10 +37,12 @@ export default function Home() {
           createdAt: r.created_at,
           status: r.status,
         });
+        setIsLoading(false);
       })
       .catch((err) => {
         console.error("Error getting single event");
         setErr(true);
+        setIsLoading(false);
       });
   }, []);
 
@@ -65,6 +68,15 @@ export default function Home() {
   const createSubmissionDetails = (e) => {
     setLength((prev) => prev + 1);
   };
+
+  if (isLoading)
+    return (
+      <Layout>
+        <div style={{ margin: "1rem 0 1rem 2rem" }}>
+          <h2 style={{ textAlign: "center" }}>Loading form...</h2>
+        </div>
+      </Layout>
+    );
 
   if (err)
     return (
