@@ -25,6 +25,9 @@ export default function EventsPaper({ eventData }) {
         }}
       >
         <Typography>
+          <b>#{eventData.id}</b>
+        </Typography>
+        <Typography>
           <b>Created on:</b>{" "}
           {new Date(eventData.created_at).toLocaleDateString()}
         </Typography>
