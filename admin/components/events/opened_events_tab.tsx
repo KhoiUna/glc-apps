@@ -25,6 +25,8 @@ export default function OpenedEventsTab({}) {
           body: JSON.stringify({ date: new Date().toUTCString() }),
         })
       ).json();
+
+      setEvents((prev) => [res, ...prev]);
     } catch (error) {
       console.error("Error creating event");
     }
