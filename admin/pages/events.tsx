@@ -6,9 +6,9 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { buttonTheme } from "../themes/themes";
-import FormDialog from "../components/events/form_dialog";
 import OpenedEventsTab from "../components/events/opened_events_tab";
 import SubmissionsTab from "../components/events/submissions_tab";
+import { origin } from "../config/config";
 
 function a11yProps(index) {
   return {
@@ -18,14 +18,6 @@ function a11yProps(index) {
 }
 
 export default function Events({}) {
-  const createEvent = async () => {
-    try {
-      //TODO: fetch post create event
-    } catch (error) {
-      console.error("Error creating event");
-    }
-  };
-
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -50,19 +42,6 @@ export default function Events({}) {
         {value === 1 && <SubmissionsTab value={value} index={1} />}
         {/* {value === 2 && <SignatureTab value={value} index={2} />}  */}
       </Box>
-
-      {value === 0 && (
-        <Fab
-          onClick={createEvent}
-          color="primary"
-          aria-label="Create event"
-          sx={{ ...buttonTheme, position: "fixed", bottom: 0, right: 9 }}
-        >
-          <AddIcon />
-        </Fab>
-      )}
-
-      {/* {open && <FormDialog toggleFormDialog={toggleFormDialog} open={open} />} */}
     </Layout>
   );
 }
