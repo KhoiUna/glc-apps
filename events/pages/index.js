@@ -24,6 +24,7 @@ export default function Home() {
     createdAt: "",
     status: "",
   });
+  const [err, setErr] = useState(false);
   useEffect(() => {
     const url = new URL(window.location);
     const eventId = url.searchParams.get("id");
@@ -36,7 +37,10 @@ export default function Home() {
           status: r.status,
         });
       })
-      .catch((err) => console.error("Error getting single event"));
+      .catch((err) => {
+        console.error("Error getting single event");
+        setErr(true);
+      });
   }, []);
 
   const [formValue, setFormValue] = useState({
@@ -61,6 +65,17 @@ export default function Home() {
   const createSubmissionDetails = (e) => {
     setLength((prev) => prev + 1);
   };
+
+  if (err)
+    return (
+      <Layout>
+        <div style={{ margin: "1rem 0 1rem 2rem" }}>
+          <h2 style={{ textAlign: "center", color: "red" }}>
+            Invalid or expired link
+          </h2>
+        </div>
+      </Layout>
+    );
 
   return (
     <Layout>
