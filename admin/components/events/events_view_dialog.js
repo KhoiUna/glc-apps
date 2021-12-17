@@ -5,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { appBarTheme } from "../../themes/themes";
+import { submissionOrigin } from "../../config/config";
 
 export default function EventsViewDialog({
   toggleOpenEventView,
@@ -32,18 +33,18 @@ export default function EventsViewDialog({
       <div style={{ textAlign: "center", marginTop: "4rem" }}>
         <img
           width={150}
-          src={`https://api.qrserver.com/v1/create-qr-code/?data=https://glc-events.vercel.app?eventName=${eventName}`}
+          src={`https://api.qrserver.com/v1/create-qr-code/?data=${submissionOrigin}?id=${eventName}`}
         />
       </div>
 
       <div style={{ textAlign: "center", margin: "1rem" }}>
         <a
-          href={`https://glc-events.vercel.app?eventName=${eventName}`}
+          href={`${submissionOrigin}?id=${eventName}`}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Typography variant="h6" component="div">
-            {`https://glc-events.vercel.app?eventName=${eventName}`}
+            {`${submissionOrigin}?id=${eventName}`}
           </Typography>
         </a>
       </div>

@@ -8,7 +8,10 @@ import { origin } from "../../config/config";
 export default function OpenedEventsTab({}) {
   const [events, setEvents] = useState([]);
   useEffect(() => {
-    console.log("hi");
+    fetch(`${origin}/api/event`)
+      .then((r) => r.json())
+      .then((r) => setEvents(r))
+      .catch((err) => console.error("Error getting events"));
   }, []);
 
   const createEvent = async () => {
