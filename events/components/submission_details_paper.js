@@ -4,15 +4,16 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { origin } from "../config/config";
 
-export default function SubmissionDetailsPaper() {
+export default function SubmissionDetailsPaper({ createSubmissionDetails }) {
   const onError = (err) => {
     console.error("Error uploading image");
   };
 
   const onSuccess = async (res) => {
     if (res.fileType === "image") {
-      const avatarPath = res.filePath;
+      const imagePath = res.filePath;
       //TODO: fetch post to server
     }
   };
@@ -70,9 +71,12 @@ export default function SubmissionDetailsPaper() {
         }}
       >
         <Button
-          // onClick={createEvent}
+          onClick={(e) => {
+            e.target.remove();
+            createSubmissionDetails();
+          }}
           variant="contained"
-          aria-label="Create event"
+          aria-label="Add event"
         >
           + Add event
         </Button>

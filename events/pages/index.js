@@ -21,13 +21,22 @@ export default function Home() {
   }, []);
 
   const [eventData, setEventData] = useState({
-    createdDate: "",
+    createdAt: "",
     status: "",
   });
   useEffect(() => {
     const url = new URL(window.location);
     const eventId = url.searchParams.get("id");
-    //TODO: fetch get status
+
+    fetch(`${origin}/api/event/${eventId}`)
+      .then((r) => r.json())
+      .then((r) => {
+        setEventData({
+          createdAt: r.created_at,
+          status: r.status,
+        });
+      })
+      .catch((err) => console.error("Error getting single event"));
   }, []);
 
   const [formValue, setFormValue] = useState({
@@ -48,11 +57,16 @@ export default function Home() {
     }
   };
 
+  const [length, setLength] = useState(1);
+  const createSubmissionDetails = (e) => {
+    setLength((prev) => prev + 1);
+  };
+
   return (
     <Layout>
       <div style={{ margin: "1rem 0 1rem 2rem" }}>
         <Typography variant="body1">
-          <b>Date:</b> {eventData.createdDate}
+          <b>Date:</b> {new Date(eventData.createdAt).toLocaleDateString()}
         </Typography>
         <Typography variant="body1">
           <b>Link status:</b> {eventData.status}
@@ -79,11 +93,14 @@ export default function Home() {
           />
         </Stack>
 
-        {new Array(2).fill({}).map((i) => (
-          <SubmissionDetailsPaper />
+        {new Array(length).fill({}).map((i, index) => (
+          <SubmissionDetailsPaper
+            key={index}
+            createSubmissionDetails={createSubmissionDetails}
+          />
         ))}
 
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", margin: "1rem 0 1.5rem 0" }}>
           <Button variant="contained" type="submit">
             Submit
           </Button>
