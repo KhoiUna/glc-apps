@@ -36,9 +36,7 @@ export default function Layout({ children }) {
         </Box>
       </header>
 
-      <main style={{ margin: "1rem auto", textAlign: "center" }}>
-        {children}
-      </main>
+      <main>{children}</main>
     </>
   );
 }
