@@ -30,12 +30,7 @@ export default function SubmissionDetailsPaper({ createSubmissionDetails }) {
         <Typography variant="body1" sx={{ fontWeight: "bold" }}>
           Event name:
         </Typography>
-        <TextField
-          name="eventName"
-          label="Event name"
-          variant="filled"
-          required
-        />
+        <TextField name="eventName" label="Event name" variant="filled" />
       </Stack>
 
       <Stack
@@ -58,7 +53,6 @@ export default function SubmissionDetailsPaper({ createSubmissionDetails }) {
             onError={onError}
             onSuccess={onSuccess}
             folder={"/glc_upload"}
-            required
             // onChange={() => showProgressBar(true)}
           />
         </IKContext>
