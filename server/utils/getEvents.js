@@ -3,7 +3,7 @@ const Events = require("../db/Events");
 module.exports = async () => {
   try {
     const res = await Events.findAll({
-      order: ["created_at"],
+      order: [["id", "DESC"]],
     });
 
     const events = res.map((i) => i.dataValues);
