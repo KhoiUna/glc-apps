@@ -56,4 +56,19 @@ router.get("/uploadImage/auth", (req, res, next) => {
   next();
 });
 
+router.post("/uploadImage", (req, res, next) => {
+  try {
+    const imageURL = req.body.imagePath;
+
+    //TODO: save img path
+    // if (!(await UsersUtil.updateAvatarURL(req.user.id, avatarURL)))
+    //   return res.status(400).send("Sorry, something is wrong");
+
+    res.status(200).send("ok");
+  } catch (err) {
+    console.error("Error uploading image");
+    next(err);
+  }
+});
+
 module.exports = router;
