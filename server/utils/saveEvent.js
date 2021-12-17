@@ -9,7 +9,7 @@ module.exports = async ({ date }) => {
     await sequelize.transaction(async (t) => {
       const res = await Events.create(
         {
-          created_at: new Date(new Date(date).toUTCString()),
+          created_at: new Date(date).toUTCString(),
           status: "opened",
         },
         { transaction: t }

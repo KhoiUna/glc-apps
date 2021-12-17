@@ -6,7 +6,7 @@ class Events extends Model {}
 Events.init(
   {
     created_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     status: {
