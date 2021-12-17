@@ -18,9 +18,12 @@ function a11yProps(index) {
 }
 
 export default function Events({}) {
-  const [open, setOpen] = useState(false);
-  const toggleFormDialog = () => {
-    setOpen(!open);
+  const createEvent = async () => {
+    try {
+      //TODO: fetch post create event
+    } catch (error) {
+      console.error("Error creating event");
+    }
   };
 
   const [value, setValue] = useState(0);
@@ -50,7 +53,7 @@ export default function Events({}) {
 
       {value === 0 && (
         <Fab
-          onClick={toggleFormDialog}
+          onClick={createEvent}
           color="primary"
           aria-label="Create event"
           sx={{ ...buttonTheme, position: "fixed", bottom: 0, right: 9 }}
@@ -59,7 +62,7 @@ export default function Events({}) {
         </Fab>
       )}
 
-      {open && <FormDialog toggleFormDialog={toggleFormDialog} open={open} />}
+      {/* {open && <FormDialog toggleFormDialog={toggleFormDialog} open={open} />} */}
     </Layout>
   );
 }

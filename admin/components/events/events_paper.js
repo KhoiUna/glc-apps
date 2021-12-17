@@ -21,7 +21,7 @@ export default function EventsPaper({ eventData }) {
       >
         Name: {eventData.eventName}
         <br />
-        Event time: {new Date(eventData.eventTime).toLocaleString()}
+        Created on: {new Date(eventData.eventTime).toLocaleString()}
       </Paper>
 
       {openEventView && (
