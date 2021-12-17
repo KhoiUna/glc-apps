@@ -58,6 +58,7 @@ export default function ReservationList({
                         <th className="reservation-time">
                           <p>
                             {item.first_name.toUpperCase() +
+                              " " +
                               item.last_name.toUpperCase()}
                           </p>
                         </th>
