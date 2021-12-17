@@ -89,71 +89,75 @@ export default function SubmissionsTab({}) {
     };
   }, [submissions]);
 
-  return submissions.map(
-    (
-      { eventName, firstName, lastName, lNumber, imgBlob, submitted_date },
-      index
-    ) => {
-      const blobToBase64 = (imgBlob) => {
-        const { blob, type } = imgBlob;
+  return (
+    <>
+      {submissions.map(
+        (
+          { eventName, firstName, lastName, lNumber, imgBlob, submitted_date },
+          index
+        ) => {
+          const blobToBase64 = (imgBlob) => {
+            const { blob, type } = imgBlob;
 
-        const TYPED_ARRAY = new Uint8Array(blob);
-        const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
-          return data + String.fromCharCode(byte);
-        }, "");
+            const TYPED_ARRAY = new Uint8Array(blob);
+            const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
+              return data + String.fromCharCode(byte);
+            }, "");
 
-        const base64String = type + "," + btoa(STRING_CHAR);
-        return base64String;
-      };
+            const base64String = type + "," + btoa(STRING_CHAR);
+            return base64String;
+          };
 
-      return (
-        <Paper
-          key={index}
-          elevation={3}
-          sx={{
-            padding: "0.5rem",
-            margin: "1.25rem 0.7rem",
-          }}
-        >
-          <Typography>
-            <b>Event name:</b> {eventName}
-          </Typography>
-          <Typography>
-            <b>From:</b> {firstName + " " + lastName}
-          </Typography>
-          <Typography>
-            <b>Submitted on:</b>{" "}
-            <i>{new Date(submitted_date).toLocaleString()}</i>
-          </Typography>
+          return (
+            <Paper
+              key={index}
+              elevation={3}
+              sx={{
+                padding: "0.5rem",
+                margin: "1.25rem 0.7rem",
+              }}
+            >
+              <Typography>
+                <b>Event name:</b> {eventName}
+              </Typography>
+              <Typography>
+                <b>From:</b> {firstName + " " + lastName}
+              </Typography>
+              <Typography>
+                <b>Submitted on:</b>{" "}
+                <i>{new Date(submitted_date).toLocaleString()}</i>
+              </Typography>
 
-          <div
-            style={{
-              margin: "1.5rem auto",
-            }}
-          >
-            <img
-              width="220rem"
-              src={blobToBase64(imgBlob)}
-              alt={`${firstName + " " + lastName}'s submission image`}
-            />
-          </div>
+              <div
+                style={{
+                  margin: "1.5rem auto",
+                }}
+              >
+                <img
+                  width="220rem"
+                  src={blobToBase64(imgBlob)}
+                  alt={`${firstName + " " + lastName}'s submission image`}
+                />
+              </div>
 
-          <div
-            style={{
-              margin: "1.5rem auto",
-              textAlign: "right",
-            }}
-          >
-            <IconButton aria-label="delete">
-              <CancelIcon />
-            </IconButton>
+              <div
+                style={{
+                  margin: "1.5rem auto",
+                  textAlign: "right",
+                }}
+              >
+                <IconButton aria-label="delete">
+                  <CancelIcon />
+                </IconButton>
 
-            <IconButton aria-label="delete">
-              <CheckIcon />
-            </IconButton>
-          </div>
-        </Paper>
-      );
-    }
+                <IconButton aria-label="delete">
+                  <CheckIcon />
+                </IconButton>
+              </div>
+            </Paper>
+          );
+        }
+      )}
+    </>
   );
 }

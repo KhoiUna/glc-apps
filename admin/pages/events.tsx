@@ -3,12 +3,8 @@ import Layout from "../containers/layout";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import { buttonTheme } from "../themes/themes";
 import OpenedEventsTab from "../components/events/opened_events_tab";
 import SubmissionsTab from "../components/events/submissions_tab";
-import { origin } from "../config/config";
 
 function a11yProps(index) {
   return {
@@ -38,9 +34,9 @@ export default function Events({}) {
           margin: "0.5rem 0 4.5rem 0.5rem",
         }}
       >
-        {value === 0 && <OpenedEventsTab value={value} index={0} />}
-        {value === 1 && <SubmissionsTab value={value} index={1} />}
-        {/* {value === 2 && <SignatureTab value={value} index={2} />}  */}
+        {value === 0 && <OpenedEventsTab />}
+        {value === 1 && <SubmissionsTab />}
+        {/* {value === 2 && <SignatureTab />}  */}
       </Box>
     </Layout>
   );
