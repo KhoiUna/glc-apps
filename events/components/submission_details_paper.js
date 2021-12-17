@@ -42,7 +42,6 @@ export default function SubmissionDetailsPaper({ createSubmissionDetails }) {
   const onSuccess = async (res) => {
     if (res.fileType === "image") {
       const imagePath = res.filePath;
-      console.log(imagePath);
       if (await SubmissionUtil.uploadImage({ imagePath })) {
         setImageURL(imagePath);
         showProgressBar("success");
