@@ -1,5 +1,7 @@
 const getEvents = require("../utils/getEvents");
+const getSingleEvent = require("../utils/getSingleEvent");
 const saveEvent = require("../utils/saveEvent");
+const ImageKit = require("imagekit");
 
 const router = require("express").Router();
 
@@ -27,6 +29,31 @@ router.post("/", async (req, res, next) => {
     console.error("Error saving event");
     next(e);
   }
+});
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const event = await getSingleEvent({ id: req.params.id });
+    if (!event)
+      return res.status(406).send("* Sorry, there is something wrong");
+
+    res.status(200).json(event);
+  } catch (err) {
+    console.error("Error getting event");
+  }
+});
+
+router.get("/uploadImage/auth", (req, res, next) => {
+  const imagekit = new ImageKit({
+    urlEndpoint: process.env.IMGKIT_URL_ENDPOINT,
+    publicKey: process.env.IMGKIT_PUBLIC_KEY,
+    privateKey: process.env.IMGKIT_PRIVATE_KEY,
+  });
+
+  const result = imagekit.getAuthenticationParameters();
+
+  res.send(result);
+  next();
 });
 
 module.exports = router;
