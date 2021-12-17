@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import io from "socket.io-client";
 import { origin } from "../config/config";
+import { IKContext, IKUpload } from "imagekitio-react";
+import Layout from "../containers/layout";
 
 let socket;
 export default function Home() {
@@ -110,8 +112,7 @@ export default function Home() {
     try {
       socket.emit("submit", { eventName, ...formValue, imgBlob });
       setFormValue({
-        firstName: "",
-        lastName: "",
+        fullName: "",
         lNumber: "",
         imgUploadPath: "",
       });
@@ -129,94 +130,77 @@ export default function Home() {
     }
   };
 
+  const onError = (err) => {
+    console.error("Error uploading image");
+  };
+
+  const onSuccess = async (res) => {
+    if (res.fileType === "image") {
+      const avatarPath = res.filePath;
+      //TODO: fetch post to server
+    }
+  };
+
   return (
-    <>
-      <Head>
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#46166b" />
-        <meta name="description" content="GLC Events app" />
-        <link rel="apple-touch-icon" href="/images/192x192.png" />
-        <link rel="manifest" href="/manifest.json" />
+    <Layout>
+      <Typography variant="body1">
+        <b>Event name:</b> {eventName}
+      </Typography>
 
-        <title>GLC Events | Submit</title>
-      </Head>
+      <form onChange={handleChange} onSubmit={handleSubmit}>
+        <Stack
+          sx={{ margin: "1.5rem 1rem" }}
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          spacing={2}
+        >
+          <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+            Full name:
+          </Typography>
+          <TextField
+            name="fullName"
+            label="Full name"
+            variant="filled"
+            required
+            value={formValue.fullName}
+          />
+        </Stack>
 
-      <main style={{ margin: "1rem auto", textAlign: "center" }}>
-        <Typography variant="body1">
-          <b>Event name:</b> {eventName}
-        </Typography>
-
-        <form onChange={handleChange} onSubmit={handleSubmit}>
-          <Stack
-            sx={{ margin: "1.5rem 1rem" }}
-            direction="row"
-            justifyContent="space-evenly"
-            alignItems="center"
-            spacing={2}
+        <Stack
+          sx={{ margin: "1.5rem 1rem" }}
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          spacing={2}
+        >
+          <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+            Upload image:
+          </Typography>
+          <IKContext
+            publicKey={process.env.NEXT_PUBLIC_IMGKIT_PUBLIC_KEY}
+            urlEndpoint={process.env.NEXT_PUBLIC_IMGKIT_IMGKIT_URL_ENDPOINT}
+            authenticationEndpoint={`${origin}/api/event/uploadImage/auth`}
           >
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              First name:
-            </Typography>
-            <TextField
-              name="firstName"
-              label="First name"
-              variant="filled"
+            <IKUpload
+              fileName="user_avatar.png"
+              onError={onError}
+              onSuccess={onSuccess}
+              folder={"/glc_upload"}
               required
-              value={formValue.firstName}
+              // onChange={() => showProgressBar(true)}
             />
-          </Stack>
+          </IKContext>
+        </Stack>
 
-          <Stack
-            sx={{ margin: "1.5rem 1rem" }}
-            direction="row"
-            justifyContent="space-evenly"
-            alignItems="center"
-            spacing={2}
-          >
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              Last name:
-            </Typography>
-            <TextField
-              name="lastName"
-              label="Last name"
-              variant="filled"
-              required
-              value={formValue.lastName}
-            />
-          </Stack>
+        <div style={{ margin: "1rem" }}>
+          <canvas width={0} height={0}></canvas>
+        </div>
 
-          <Stack
-            sx={{ margin: "1.5rem 1rem" }}
-            direction="row"
-            justifyContent="space-evenly"
-            alignItems="center"
-            spacing={2}
-          >
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              Upload image:
-            </Typography>
-            <input
-              type="file"
-              onChange={uploadImage}
-              data-maxwidth="500"
-              data-maxheight="500"
-              name="imgUploadPath"
-              value={formValue.imgUploadPath}
-              required
-            />
-          </Stack>
-
-          <div style={{ margin: "1rem" }}>
-            <canvas width={0} height={0}></canvas>
-          </div>
-
-          <Button variant="contained" type="submit">
-            Submit
-          </Button>
-        </form>
-      </main>
-    </>
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
+      </form>
+    </Layout>
   );
 }
