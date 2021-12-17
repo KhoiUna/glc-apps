@@ -5,6 +5,7 @@ const { eventSubmissionOrigin } = require("../config");
 
 module.exports = async ({ date }) => {
   try {
+    let eventId;
     await sequelize.transaction(async (t) => {
       const res = await Events.create(
         {
@@ -14,14 +15,14 @@ module.exports = async ({ date }) => {
         { transaction: t }
       );
 
-      const eventId = res.dataValues.id;
+      eventId = res.dataValues.id;
       if (process.env.NODE_ENV === "production")
         createDiscordEvent({
           message: `${eventSubmissionOrigin}?id=${eventId}`,
         });
     });
 
-    return true;
+    return eventId;
   } catch (err) {
     console.error("Error saving event");
     return;
