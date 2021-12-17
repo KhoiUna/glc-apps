@@ -46,7 +46,7 @@ export default function Events({}) {
           margin: "0.5rem 0 4.5rem 0.5rem",
         }}
       >
-        {value === 0 && <OpenedEventsTab value={value} index={0} open={open} />}
+        {value === 0 && <OpenedEventsTab value={value} index={0} />}
         {value === 1 && <SubmissionsTab value={value} index={1} />}
         {/* {value === 2 && <SignatureTab value={value} index={2} />}  */}
       </Box>
