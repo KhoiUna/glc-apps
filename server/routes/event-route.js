@@ -1,12 +1,17 @@
+const getEvents = require("../utils/getEvents");
 const saveEvent = require("../utils/saveEvent");
 
 const router = require("express").Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    res.status(200).json({});
+    const events = await getEvents();
+    if (!events)
+      return res.status(406).send("* Sorry, there is something wrong");
+
+    res.status(200).json(events);
   } catch (e) {
-    console.error("Error getting time list");
+    console.error("Error getting events");
     next(e);
   }
 });
