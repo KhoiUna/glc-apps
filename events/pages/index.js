@@ -195,25 +195,6 @@ export default function Home() {
             spacing={2}
           >
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-              L number:
-            </Typography>
-            <TextField
-              name="lNumber"
-              label="L number"
-              variant="filled"
-              required
-              value={formValue.lNumber}
-            />
-          </Stack>
-
-          <Stack
-            sx={{ margin: "1.5rem 1rem" }}
-            direction="row"
-            justifyContent="space-evenly"
-            alignItems="center"
-            spacing={2}
-          >
-            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
               Upload image:
             </Typography>
             <input
