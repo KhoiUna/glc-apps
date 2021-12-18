@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import Layout from "../containers/layout";
 import { origin } from "../config/config";
 import SubmissionDetailsPaper from "../components/submission_details_paper";
+import SubmissionUtil from "../utils/SubmissionUtil";
 
 let socket;
 export default function Home() {
@@ -46,27 +47,70 @@ export default function Home() {
       });
   }, []);
 
-  const [formValue, setFormValue] = useState({
-    fullName: "",
-    submissionDetails: [],
-  });
-  const handleChange = ({ target }) => {
-    setFormValue((prev) => ({
+  const [fullName, setFullName] = useState("");
+  const [submissionDetails, setSubmissionDetails] = useState([
+    {
+      eventName: "",
+      imagePath: "",
+    },
+  ]);
+
+  const createSubmissionDetails = (e) => {
+    setSubmissionDetails((prev) => [
       ...prev,
-      [target.name]: target.value,
-    }));
+      {
+        eventName: "",
+        imagePath: "",
+      },
+    ]);
   };
-  const handleSubmit = () => {
+
+  const handleChangeSubmissionDetails = ({
+    index,
+    type,
+    eventName = "",
+    imagePath = "",
+  }) => {
+    if (type === "eventName")
+      setSubmissionDetails((prev) => {
+        const newSubmissionDetails = prev;
+        newSubmissionDetails[index].eventName = eventName;
+        return newSubmissionDetails;
+      });
+
+    if (type === "imagePath")
+      setSubmissionDetails((prev) => {
+        const newSubmissionDetails = prev;
+        newSubmissionDetails[index].imagePath = imagePath;
+        return newSubmissionDetails;
+      });
+  };
+
+  const [success, setSuccess] = useState(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      //
+      const sanitizedSubmissionDetails = submissionDetails.filter(
+        (i) => i.eventName && i.imagePath
+      );
+      const submitObject = {
+        fullName,
+        sanitizedSubmissionDetails,
+      };
+
+      if (await SubmissionUtil.submitForm(submitObject)) {
+        setSuccess(true);
+        setFullName("");
+        setSubmissionDetails([
+          {
+            eventName: "",
+            imagePath: "",
+          },
+        ]);
+      }
     } catch (err) {
       console.error("Error submitting form");
     }
-  };
-
-  const [length, setLength] = useState(1);
-  const createSubmissionDetails = (e) => {
-    setLength((prev) => prev + 1);
   };
 
   if (isLoading)
@@ -100,7 +144,7 @@ export default function Home() {
         </Typography>
       </div>
 
-      <form onChange={handleChange} onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <Stack
           sx={{ margin: "1.5rem 1rem" }}
           direction="row"
@@ -116,14 +160,18 @@ export default function Home() {
             label="Full name"
             variant="filled"
             required
-            value={formValue.fullName}
+            value={fullName}
+            onChange={({ target }) => setFullName(target.value)}
           />
         </Stack>
 
-        {new Array(length).fill({}).map((i, index) => (
+        {submissionDetails.map((i, index) => (
           <SubmissionDetailsPaper
             key={index}
+            index={index}
+            submissionDetail={i}
             createSubmissionDetails={createSubmissionDetails}
+            handleChangeSubmissionDetails={handleChangeSubmissionDetails}
           />
         ))}
 
@@ -133,6 +181,12 @@ export default function Home() {
           </Button>
         </div>
       </form>
+
+      {success && (
+        <h3 style={{ textAlign: "center", color: "#1da51d" }}>
+          Successsfully submitted!
+        </h3>
+      )}
     </Layout>
   );
 }
