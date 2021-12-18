@@ -8,6 +8,7 @@ import Layout from "../containers/layout";
 import { origin } from "../config/config";
 import SubmissionDetailsPaper from "../components/submission_details_paper";
 import SubmissionUtil from "../utils/SubmissionUtil";
+import dateDifference from "../helpers/dateDifference";
 
 let socket;
 export default function Home() {
@@ -34,10 +35,14 @@ export default function Home() {
     fetch(`${origin}/api/event/${eventId}`)
       .then((r) => r.json())
       .then((r) => {
-        setEventData({
-          createdAt: r.created_at,
-          status: r.status,
-        });
+        if (dateDifference(r.created_at, new Date()) > 3) {
+          setErr(true);
+        } else {
+          setEventData({
+            createdAt: r.created_at,
+            status: r.status,
+          });
+        }
         setIsLoading(false);
       })
       .catch((err) => {
