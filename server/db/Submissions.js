@@ -19,7 +19,7 @@ Submissions.init(
     },
     status: {
       type: DataTypes.CHAR(8),
-      allowNull: false,
+      defaultValue: "pending",
     },
   },
   {
