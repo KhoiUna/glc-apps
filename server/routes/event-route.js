@@ -5,14 +5,14 @@ const ImageKit = require("imagekit");
 const saveStudent = require("../utils/saveStudent");
 const saveSubmission = require("../utils/saveSubmission");
 const saveSubmissionDetails = require("../utils/saveSubmissionDetails");
+const getSubmissions = require("../utils/getSubmissions");
 
 const router = require("express").Router();
 
 router.get("/", async (req, res, next) => {
   try {
     const events = await getEvents();
-    if (!events)
-      return res.status(406).send("* Sorry, there is something wrong");
+    if (!events) return res.status(406).send("Sorry, there is something wrong");
 
     res.status(200).json(events);
   } catch (e) {
@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
   try {
     const eventId = await saveEvent({ date: req.body.date });
     if (!eventId)
-      return res.status(406).send("* Sorry, there is something wrong");
+      return res.status(406).send("Sorry, there is something wrong");
 
     res.status(200).json(eventId);
   } catch (e) {
@@ -37,8 +37,7 @@ router.post("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const event = await getSingleEvent({ id: req.params.id });
-    if (!event)
-      return res.status(406).send("* Sorry, there is something wrong");
+    if (!event) return res.status(406).send("Sorry, there is something wrong");
 
     res.status(200).json(event);
   } catch (err) {
@@ -59,11 +58,14 @@ router.get("/uploadImage/auth", (req, res, next) => {
   next();
 });
 
-router.get("/submissions", async (req, res, next) => {
+router.get("/submissions/all", async (req, res, next) => {
   try {
-    res.status(200).send("ok");
+    const submissions = await getSubmissions();
+    if (!submissions) return res.status(400).send("Sorry, something is wrong");
+
+    res.status(200).json(submissions);
   } catch (err) {
-    console.error("Error saving submission");
+    console.error("Error getting submissions");
     next(err);
   }
 });
