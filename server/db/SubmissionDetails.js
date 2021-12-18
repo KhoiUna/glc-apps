@@ -9,11 +9,11 @@ SubmissionDetails.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    eventName: {
+    event_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    image_url: {
+    img_url: {
       type: DataTypes.STRING,
       allowNull: false,
     },
