@@ -11,7 +11,11 @@ import SubmissionUtil from "../utils/SubmissionUtil";
 import Image from "next/image";
 import imageLoader from "../helpers/imageLoader";
 
-export default function SubmissionDetailsPaper({ createSubmissionDetails }) {
+export default function SubmissionDetailsPaper({
+  index,
+  createSubmissionDetails,
+  handleChangeSubmissionDetails,
+}) {
   const [showProgress, setShowProgress] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
   const showProgressBar = (status) => {
@@ -40,12 +44,21 @@ export default function SubmissionDetailsPaper({ createSubmissionDetails }) {
 
   const [imageURL, setImageURL] = useState("");
   const onSuccess = async (res) => {
-    if (res.fileType === "image") {
-      const imagePath = res.filePath;
-      if (await SubmissionUtil.uploadImage({ imagePath })) {
-        setImageURL(imagePath);
-        showProgressBar("success");
+    try {
+      if (res.fileType === "image") {
+        const imagePath = res.filePath;
+        if (await SubmissionUtil.uploadImage({ imagePath })) {
+          setImageURL(imagePath);
+          handleChangeSubmissionDetails({
+            index,
+            type: "imagePath",
+            imagePath,
+          });
+          showProgressBar("success");
+        }
       }
+    } catch (err) {
+      console.error("Error uploading image");
     }
   };
 
@@ -61,7 +74,18 @@ export default function SubmissionDetailsPaper({ createSubmissionDetails }) {
         <Typography variant="body1" sx={{ fontWeight: "bold" }}>
           Event name:
         </Typography>
-        <TextField name="eventName" label="Event name" variant="filled" />
+        <TextField
+          name="eventName"
+          label="Event name"
+          variant="filled"
+          onChange={({ target }) =>
+            handleChangeSubmissionDetails({
+              index,
+              type: "eventName",
+              eventName: target.value,
+            })
+          }
+        />
       </Stack>
 
       {showProgress && <ProgressBar progressValue={progressValue} />}
