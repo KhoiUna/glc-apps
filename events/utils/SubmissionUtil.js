@@ -1,21 +1,21 @@
 import { origin } from "../config/config";
 
 export default class SubmissionUtil {
-  static async uploadImage({ imagePath }) {
+  static async submitForm({ submitObject }) {
     try {
-      const res = await fetch(`${origin}/api/event/uploadImage`, {
+      const res = await fetch(`${origin}/api/event/submission`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ imagePath }),
+        body: JSON.stringify(submitObject),
       });
 
       if (res.ok === true) return true;
 
       return false;
     } catch (err) {
-      console.error("Error uploading image");
+      console.error("Error submitting form");
       return;
     }
   }
