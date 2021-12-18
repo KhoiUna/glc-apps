@@ -98,7 +98,7 @@ export default function Home() {
         sanitizedSubmissionDetails,
       };
 
-      if (await SubmissionUtil.submitForm(submitObject)) {
+      if (await SubmissionUtil.submitForm({ submitObject })) {
         setSuccess(true);
         setFullName("");
         setSubmissionDetails([
