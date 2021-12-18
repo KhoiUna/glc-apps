@@ -2,6 +2,9 @@ const getEvents = require("../utils/getEvents");
 const getSingleEvent = require("../utils/getSingleEvent");
 const saveEvent = require("../utils/saveEvent");
 const ImageKit = require("imagekit");
+const saveStudent = require("../utils/saveStudent");
+const saveSubmission = require("../utils/saveSubmission");
+const saveSubmissionDetails = require("../utils/saveSubmissionDetails");
 
 const router = require("express").Router();
 
@@ -56,17 +59,32 @@ router.get("/uploadImage/auth", (req, res, next) => {
   next();
 });
 
-router.post("/uploadImage", (req, res, next) => {
+router.get("/submissions", async (req, res, next) => {
   try {
-    const imageURL = req.body.imagePath;
+    res.status(200).send("ok");
+  } catch (err) {
+    console.error("Error saving submission");
+    next(err);
+  }
+});
 
-    //TODO: save img path
-    // if (!(await UsersUtil.updateAvatarURL(req.user.id, avatarURL)))
-    //   return res.status(400).send("Sorry, something is wrong");
+router.post("/submission", async (req, res, next) => {
+  try {
+    const { fullName, eventId, sanitizedSubmissionDetails } = req.body;
+
+    const studentId = await saveStudent({ fullName });
+    if (!studentId) return res.status(400).send("Sorry, something is wrong");
+
+    const submissionId = await saveSubmission({ studentId, eventId });
+    if (!submissionId) return res.status(400).send("Sorry, something is wrong");
+
+    sanitizedSubmissionDetails.forEach(({ eventName, imagePath }) => {
+      saveSubmissionDetails({ submissionId, eventName, imagePath });
+    });
 
     res.status(200).send("ok");
   } catch (err) {
-    console.error("Error uploading image");
+    console.error("Error saving submission");
     next(err);
   }
 });
