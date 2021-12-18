@@ -117,6 +117,11 @@ export default function Home() {
           },
         ]);
       }
+
+      //Reload page
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
     } catch (err) {
       console.error("Error submitting form");
     }
@@ -185,7 +190,7 @@ export default function Home() {
         ))}
 
         <div style={{ textAlign: "center", margin: "1rem 0 1.5rem 0" }}>
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" disabled={success}>
             Submit
           </Button>
         </div>
