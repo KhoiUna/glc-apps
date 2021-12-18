@@ -1,4 +1,3 @@
-import { origin } from "../../config/config";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
@@ -10,12 +9,20 @@ import Image from "next/image";
 import imageLoader from "../../helpers/imageLoader";
 
 export default function SubmissionsTab({}) {
+  const [isLoading, setIsLoading] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   useEffect(() => {
+    setIsLoading(true);
+
     SubmissionUtil.getSubmissions()
-      .then((r) => setSubmissions(r))
+      .then((r) => {
+        setSubmissions(r);
+        setIsLoading(false);
+      })
       .catch((err) => console.error("Error getting submissions"));
   }, []);
+
+  if (isLoading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
 
   return submissions.map(
     ({ submitted_at, students, submission_details }, index) => {
@@ -27,7 +34,7 @@ export default function SubmissionsTab({}) {
             key={index}
             elevation={3}
             sx={{
-              padding: "0.5rem",
+              padding: "1rem 1.2rem",
               margin: "1.25rem 0.7rem",
             }}
           >
@@ -45,15 +52,17 @@ export default function SubmissionsTab({}) {
 
             <div
               style={{
-                margin: "1.5rem auto",
+                margin: "2rem auto",
+                textAlign: "center",
+                width: "100%",
               }}
             >
               <Image
                 priority
                 loader={imageLoader}
                 src={img_url}
-                height={300}
-                width={300}
+                height={450}
+                width={450}
                 alt={`${fullName}'s submission image`}
               />
             </div>
