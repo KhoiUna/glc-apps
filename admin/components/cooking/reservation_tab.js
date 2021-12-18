@@ -3,11 +3,16 @@ import { origin } from "../../config/config";
 import ReservationBox from "./reservation_box";
 import Button from "@mui/material/Button";
 import { buttonTheme } from "../../themes/themes";
+import Typography from "@mui/material/Typography";
 
 export default function ReservationTab({ value, index }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [reservations, setReservations] = useState([]);
   const [dateIndex, setDateIndex] = useState(0);
   useEffect(() => {
+    setIsLoading(true);
+
     const fetchReservations = async () => {
       try {
         const res = await (
@@ -20,8 +25,11 @@ export default function ReservationTab({ value, index }) {
     };
 
     fetchReservations()
-      .then((r) => setReservations(r))
-      .catch((err) => console.error(err));
+      .then((r) => {
+        setReservations(r);
+        setIsLoading(false);
+      })
+      .catch((err) => console.error("Error getting reservations"));
   }, [dateIndex]);
 
   const handleClick = (direction) => {
@@ -71,6 +79,19 @@ export default function ReservationTab({ value, index }) {
       console.error("Error downloading csv file");
     }
   };
+
+  if (isLoading)
+    return (
+      <div
+        style={{ margin: "0.5rem" }}
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+      >
+        <Typography>Loading...</Typography>
+      </div>
+    );
 
   if (reservations.length === 0)
     return (
