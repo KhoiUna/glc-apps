@@ -90,11 +90,15 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const url = new URL(window.location);
+      const eventId = url.searchParams.get("id");
+
       const sanitizedSubmissionDetails = submissionDetails.filter(
         (i) => i.eventName && i.imagePath
       );
       const submitObject = {
         fullName,
+        eventId,
         sanitizedSubmissionDetails,
       };
 
