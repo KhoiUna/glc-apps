@@ -47,15 +47,13 @@ export default function SubmissionDetailsPaper({
     try {
       if (res.fileType === "image") {
         const imagePath = res.filePath;
-        if (await SubmissionUtil.uploadImage({ imagePath })) {
-          setImageURL(imagePath);
-          handleChangeSubmissionDetails({
-            index,
-            type: "imagePath",
-            imagePath,
-          });
-          showProgressBar("success");
-        }
+        setImageURL(imagePath);
+        handleChangeSubmissionDetails({
+          index,
+          type: "imagePath",
+          imagePath,
+        });
+        showProgressBar("success");
       }
     } catch (err) {
       console.error("Error uploading image");
