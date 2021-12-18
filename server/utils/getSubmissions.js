@@ -15,6 +15,9 @@ module.exports = async () => {
           attributes: ["event_name", "img_url"],
         },
       ],
+      where: {
+        status: "pending",
+      },
     });
 
     const submissions = res.map((i) => i.dataValues);
