@@ -3,6 +3,9 @@ const Events = require("../db/Events");
 module.exports = async () => {
   try {
     const res = await Events.findAll({
+      where: {
+        status: "opened",
+      },
       order: [["id", "DESC"]],
     });
 

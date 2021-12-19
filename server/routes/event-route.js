@@ -6,6 +6,7 @@ const saveStudent = require("../utils/saveStudent");
 const saveSubmission = require("../utils/saveSubmission");
 const saveSubmissionDetails = require("../utils/saveSubmissionDetails");
 const getSubmissions = require("../utils/getSubmissions");
+const deleteEvent = require("../utils/deleteEvent");
 
 const router = require("express").Router();
 
@@ -42,6 +43,17 @@ router.get("/:id", async (req, res, next) => {
     res.status(200).json(event);
   } catch (err) {
     console.error("Error getting event");
+  }
+});
+
+router.delete("/:id", async (req, res, next) => {
+  try {
+    if (!(await deleteEvent({ id: req.params.id })))
+      return res.status(406).send("Sorry, there is something wrong");
+
+    res.status(200).json("ok");
+  } catch (err) {
+    console.error("Error deleting event");
   }
 });
 
