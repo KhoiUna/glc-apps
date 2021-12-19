@@ -1,5 +1,10 @@
 folder=$1
-port=$2
+
+if [[ "$folder" == "admin" ]]; then
+    port=3000
+else
+    port=3001
+fi
 
 cd ./$folder
 npx next dev -p $port
