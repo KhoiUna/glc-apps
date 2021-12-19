@@ -35,7 +35,10 @@ export default function Home() {
     fetch(`${origin}/api/event/${eventId}`)
       .then((r) => r.json())
       .then((r) => {
-        if (dateDifference(r.created_at, new Date()) > 3) {
+        if (
+          dateDifference(r.created_at, new Date()) > 3 ||
+          r.status === "closed"
+        ) {
           setErr(true);
         } else {
           setEventData({
