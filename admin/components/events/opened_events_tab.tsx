@@ -32,10 +32,28 @@ export default function OpenedEventsTab({}) {
     }
   };
 
+  const deleteEvent = async ({ id }) => {
+    try {
+      const res = await (
+        await fetch(`${origin}/api/event/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+      ).json();
+
+      if (res === "ok") setEvents((prev) => prev.filter((i) => i.id !== id));
+    } catch (err) {
+      console.error("Error deleting event");
+      console.error(err);
+    }
+  };
+
   return (
     <>
       {events.map((i, index) => (
-        <EventsPaper key={index} eventData={i} />
+        <EventsPaper key={index} eventData={i} deleteEvent={deleteEvent} />
       ))}
 
       <Fab

@@ -5,14 +5,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function EventsPaper({ eventData }) {
+export default function EventsPaper({ eventData, deleteEvent }) {
   const [openEventView, setOpenEventView] = useState(false);
   const toggleOpenEventView = () => {
     setOpenEventView(!openEventView);
-  };
-
-  const deleteEvent = () => {
-    //
   };
 
   return (
@@ -37,7 +33,7 @@ export default function EventsPaper({ eventData }) {
 
         <div style={{ textAlign: "right" }}>
           <Button
-            onClick={deleteEvent}
+            onClick={() => deleteEvent({ id: eventData.id })}
             variant="contained"
             type="submit"
             sx={{ margin: "0.5rem 1rem 0 0" }}
