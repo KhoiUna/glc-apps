@@ -135,66 +135,60 @@ export default function SubmissionsTab({}) {
       </Stack>
 
       {submissions.map(
-        ({ submitted_at, students, submission_details }, index) => {
-          return submission_details.map(({ event_name, img_url }) => {
-            const fullName = students[0].full_name;
+        ({ event_name, full_name, img_url, submitted_at }, index) => (
+          <Paper
+            key={index}
+            elevation={3}
+            sx={{
+              padding: "1rem 1.2rem",
+              margin: "1.25rem 0.7rem",
+            }}
+          >
+            <Typography>
+              <b>Student name:</b> {full_name}
+            </Typography>
+            <Typography>
+              <b>Event name:</b> {event_name}
+            </Typography>
 
-            return (
-              <Paper
-                key={index}
-                elevation={3}
-                sx={{
-                  padding: "1rem 1.2rem",
-                  margin: "1.25rem 0.7rem",
-                }}
-              >
-                <Typography>
-                  <b>Student name:</b> {fullName}
-                </Typography>
-                <Typography>
-                  <b>Event name:</b> {event_name}
-                </Typography>
+            <Typography>
+              <b>Submitted on:</b>{" "}
+              <i>{new Date(submitted_at).toLocaleString()}</i>
+            </Typography>
 
-                <Typography>
-                  <b>Submitted on:</b>{" "}
-                  <i>{new Date(submitted_at).toLocaleString()}</i>
-                </Typography>
+            <div
+              style={{
+                margin: "2rem auto",
+                textAlign: "center",
+                width: "100%",
+              }}
+            >
+              <Image
+                priority
+                loader={imageLoader}
+                src={img_url}
+                height={450}
+                width={450}
+                alt={`${full_name}'s submission image`}
+              />
+            </div>
 
-                <div
-                  style={{
-                    margin: "2rem auto",
-                    textAlign: "center",
-                    width: "100%",
-                  }}
-                >
-                  <Image
-                    priority
-                    loader={imageLoader}
-                    src={img_url}
-                    height={450}
-                    width={450}
-                    alt={`${fullName}'s submission image`}
-                  />
-                </div>
+            <div
+              style={{
+                margin: "1.5rem auto",
+                textAlign: "right",
+              }}
+            >
+              <IconButton aria-label="delete">
+                <CancelIcon />
+              </IconButton>
 
-                <div
-                  style={{
-                    margin: "1.5rem auto",
-                    textAlign: "right",
-                  }}
-                >
-                  <IconButton aria-label="delete">
-                    <CancelIcon />
-                  </IconButton>
-
-                  <IconButton aria-label="delete">
-                    <CheckIcon />
-                  </IconButton>
-                </div>
-              </Paper>
-            );
-          });
-        }
+              <IconButton aria-label="delete">
+                <CheckIcon />
+              </IconButton>
+            </div>
+          </Paper>
+        )
       )}
     </>
   );
