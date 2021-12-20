@@ -63,7 +63,7 @@ export default function Home() {
     },
   ]);
 
-  const createSubmissionDetails = (e) => {
+  const createSubmissionDetails = () =>
     setSubmissionDetails((prev) => [
       ...prev,
       {
@@ -71,7 +71,8 @@ export default function Home() {
         imagePath: "",
       },
     ]);
-  };
+  const removeSubmissionDetails = ({ index }) =>
+    setSubmissionDetails((prev) => prev.filter((item, i) => i !== index));
 
   const handleChangeSubmissionDetails = ({
     index,
@@ -95,19 +96,18 @@ export default function Home() {
   };
 
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setError(false);
+
       const url = new URL(window.location);
       const eventId = url.searchParams.get("id");
-
-      const sanitizedSubmissionDetails = submissionDetails.filter(
-        (i) => i.eventName && i.imagePath
-      );
       const submitObject = {
         fullName,
         eventId,
-        sanitizedSubmissionDetails,
+        submissionDetails,
       };
 
       if (await SubmissionUtil.submitForm({ submitObject })) {
@@ -119,14 +119,17 @@ export default function Home() {
             imagePath: "",
           },
         ]);
+
+        //Reload page
+        return setTimeout(() => {
+          location.reload();
+        }, 1000);
       }
 
-      //Reload page
-      setTimeout(() => {
-        location.reload();
-      }, 1000);
+      return setError(true);
     } catch (err) {
       console.error("Error submitting form");
+      return setError(true);
     }
   };
 
@@ -187,8 +190,10 @@ export default function Home() {
           <SubmissionDetailsPaper
             key={index}
             index={index}
+            submissionDetailsLength={submissionDetails.length}
             submissionDetail={i}
             createSubmissionDetails={createSubmissionDetails}
+            removeSubmissionDetails={removeSubmissionDetails}
             handleChangeSubmissionDetails={handleChangeSubmissionDetails}
           />
         ))}
@@ -202,7 +207,12 @@ export default function Home() {
 
       {success && (
         <h3 style={{ textAlign: "center", color: "#1da51d" }}>
-          Successsfully submitted!
+          Successsfully submitted! Page reloads in 1 second!
+        </h3>
+      )}
+      {error && (
+        <h3 style={{ textAlign: "center", color: "red" }}>
+          Invalid! Check again maybe you miss something!
         </h3>
       )}
     </Layout>

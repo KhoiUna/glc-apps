@@ -7,13 +7,16 @@ import Typography from "@mui/material/Typography";
 import { origin } from "../config/config";
 import ProgressBar from "./progress_bar";
 import { useState } from "react";
-import SubmissionUtil from "../utils/SubmissionUtil";
 import Image from "next/image";
 import imageLoader from "../helpers/imageLoader";
+import CancelIcon from "@mui/icons-material/Cancel";
+import IconButton from "@mui/material/IconButton";
 
 export default function SubmissionDetailsPaper({
   index,
+  submissionDetailsLength,
   createSubmissionDetails,
+  removeSubmissionDetails,
   handleChangeSubmissionDetails,
 }) {
   const [showProgress, setShowProgress] = useState(false);
@@ -62,6 +65,12 @@ export default function SubmissionDetailsPaper({
 
   return (
     <Paper elevation={9} sx={{ margin: "2rem 1rem", padding: "0.5rem" }}>
+      {index !== 0 && index + 1 === submissionDetailsLength && (
+        <IconButton onClick={() => removeSubmissionDetails({ index })}>
+          <CancelIcon sx={{ color: "#dd0707" }} />
+        </IconButton>
+      )}
+
       <Stack
         sx={{ margin: "1.5rem 1rem" }}
         direction="row"
@@ -73,6 +82,7 @@ export default function SubmissionDetailsPaper({
           Event name:
         </Typography>
         <TextField
+          required
           name="eventName"
           label="Event name"
           variant="filled"
@@ -129,23 +139,22 @@ export default function SubmissionDetailsPaper({
         </div>
       )}
 
-      <div
-        style={{
-          textAlign: "center",
-          margin: "1rem 0",
-        }}
-      >
-        <Button
-          onClick={(e) => {
-            e.target.remove();
-            createSubmissionDetails();
+      {index + 1 === submissionDetailsLength && (
+        <div
+          style={{
+            textAlign: "center",
+            margin: "1rem 0",
           }}
-          variant="contained"
-          aria-label="Add event"
         >
-          + Add event
-        </Button>
-      </div>
+          <Button
+            onClick={() => createSubmissionDetails()}
+            variant="contained"
+            aria-label="Add event"
+          >
+            + Add event
+          </Button>
+        </div>
+      )}
     </Paper>
   );
 }
