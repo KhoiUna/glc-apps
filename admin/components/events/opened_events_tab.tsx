@@ -6,11 +6,17 @@ import { buttonTheme } from "../../themes/themes";
 import { origin } from "../../config/config";
 
 export default function OpenedEventsTab({}) {
+  const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState([]);
   useEffect(() => {
+    setIsLoading(true);
+
     fetch(`${origin}/api/event`)
       .then((r) => r.json())
-      .then((r) => setEvents(r))
+      .then((r) => {
+        setEvents(r);
+        setIsLoading(false);
+      })
       .catch((err) => console.error("Error getting events"));
   }, []);
 
@@ -49,6 +55,22 @@ export default function OpenedEventsTab({}) {
       console.error(err);
     }
   };
+
+  if (isLoading)
+    return (
+      <>
+        <h2 style={{ textAlign: "center" }}>Loading...</h2>
+
+        <Fab
+          onClick={createEvent}
+          color="primary"
+          aria-label="Create event"
+          sx={{ ...buttonTheme, position: "fixed", bottom: 0, right: 9 }}
+        >
+          <AddIcon />
+        </Fab>
+      </>
+    );
 
   return (
     <>
