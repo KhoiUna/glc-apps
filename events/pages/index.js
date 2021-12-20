@@ -154,7 +154,8 @@ export default function Home() {
     <Layout>
       <div style={{ margin: "1rem 0 1rem 2rem" }}>
         <Typography variant="body1">
-          <b>Date:</b> {new Date(eventData.createdAt).toLocaleDateString()}
+          <b>Event date:</b>{" "}
+          {new Date(eventData.createdAt).toLocaleDateString()}
         </Typography>
         <Typography variant="body1">
           <b>Link status:</b> {eventData.status}
