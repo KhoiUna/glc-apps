@@ -36,7 +36,7 @@ export default function Home() {
       .then((r) => r.json())
       .then((r) => {
         if (
-          dateDifference(r.created_at, new Date()) > 3 ||
+          dateDifference(r.created_at, new Date()) >= 3 ||
           r.status === "closed"
         ) {
           setErr(true);
