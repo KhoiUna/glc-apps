@@ -2,6 +2,7 @@ const sequelize = require("./connection");
 const { DataTypes, Model } = require("sequelize");
 const Students = require("./Students");
 const SubmissionDetails = require("./SubmissionDetails");
+const Events = require("./Events");
 
 class Submissions extends Model {}
 
@@ -32,6 +33,7 @@ Submissions.init(
   }
 );
 
+Submissions.hasMany(Events, { foreignKey: "id" });
 Submissions.hasMany(Students, { foreignKey: "id" });
 Submissions.hasMany(SubmissionDetails, { foreignKey: "submission_id" });
 
