@@ -86,7 +86,19 @@ router.get("/submissions/:dateIndex", async (req, res, next) => {
 
 router.post("/submission", async (req, res, next) => {
   try {
-    const { fullName, eventId, sanitizedSubmissionDetails } = req.body;
+    const { fullName, eventId, submissionDetails } = req.body;
+
+    if (!(fullName.trim() && eventId))
+      return res.status(400).send("Sorry, something is wrong");
+
+    const invalid = submissionDetails.every(
+      ({ eventName, imagePath }) =>
+        !Object.values({
+          eventName: eventName.trim(),
+          imagePath: imagePath.trim(),
+        }).includes("")
+    );
+    if (!invalid) return res.status(400).send("Sorry, something is wrong");
 
     const studentId = await saveStudent({ fullName });
     if (!studentId) return res.status(400).send("Sorry, something is wrong");
@@ -94,7 +106,7 @@ router.post("/submission", async (req, res, next) => {
     const submissionId = await saveSubmission({ studentId, eventId });
     if (!submissionId) return res.status(400).send("Sorry, something is wrong");
 
-    sanitizedSubmissionDetails.forEach(({ eventName, imagePath }) => {
+    submissionDetails.forEach(({ eventName, imagePath }) => {
       saveSubmissionDetails({ submissionId, eventName, imagePath });
     });
 
