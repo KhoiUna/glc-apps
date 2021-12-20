@@ -24,8 +24,7 @@ export default function EventsPaper({ eventData, deleteEvent }) {
           <b>#{eventData.id}</b>
         </Typography>
         <Typography>
-          <b>Created on:</b>{" "}
-          {new Date(eventData.created_at).toLocaleDateString()}
+          <b>Created on:</b> {new Date(eventData.created_at).toLocaleString()}
         </Typography>
         <Typography>
           <b>Status:</b> {eventData.status}
