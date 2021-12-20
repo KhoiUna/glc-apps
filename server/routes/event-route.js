@@ -70,9 +70,11 @@ router.get("/uploadImage/auth", (req, res, next) => {
   next();
 });
 
-router.get("/submissions/all", async (req, res, next) => {
+router.get("/submissions/:dateIndex", async (req, res, next) => {
   try {
-    const submissions = await getSubmissions();
+    const submissions = await getSubmissions({
+      dateIndex: req.params.dateIndex,
+    });
     if (!submissions) return res.status(400).send("Sorry, something is wrong");
 
     res.status(200).json(submissions);

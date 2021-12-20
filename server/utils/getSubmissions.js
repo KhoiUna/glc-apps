@@ -1,9 +1,16 @@
 const Submissions = require("../db/Submissions");
 const Students = require("../db/Students");
 const SubmissionDetails = require("../db/SubmissionDetails");
+const { Op } = require("sequelize");
 
-module.exports = async () => {
+module.exports = async ({ dateIndex }) => {
   try {
+    const timeStamp = new Date().getTime();
+    const date = new Date(
+      timeStamp + 24 * 60 * 60 * 1000 * dateIndex
+    ).toUTCString();
+    const sqlLikeDate = date.slice(0, 16);
+
     const res = await Submissions.findAll({
       include: [
         {
@@ -17,6 +24,9 @@ module.exports = async () => {
       ],
       where: {
         status: "pending",
+        submitted_at: {
+          [Op.like]: `${sqlLikeDate}%`,
+        },
       },
     });
 
