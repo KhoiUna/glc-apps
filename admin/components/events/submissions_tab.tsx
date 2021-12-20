@@ -51,7 +51,8 @@ export default function SubmissionsTab({}) {
           </Button>
 
           <Typography>
-            <b>Date:</b> {calculateDate({ dateIndex }).toLocaleDateString()}
+            <b>Event date:</b>{" "}
+            {calculateDate({ dateIndex }).toLocaleDateString()}
           </Typography>
 
           <Button
@@ -86,7 +87,8 @@ export default function SubmissionsTab({}) {
           </Button>
 
           <Typography>
-            <b>Date:</b> {calculateDate({ dateIndex }).toLocaleDateString()}
+            <b>Event date:</b>{" "}
+            {calculateDate({ dateIndex }).toLocaleDateString()}
           </Typography>
 
           <Button
@@ -120,7 +122,7 @@ export default function SubmissionsTab({}) {
         </Button>
 
         <Typography>
-          <b>Date:</b> {calculateDate({ dateIndex }).toLocaleDateString()}
+          <b>Event date:</b> {calculateDate({ dateIndex }).toLocaleDateString()}
         </Typography>
 
         <Button
