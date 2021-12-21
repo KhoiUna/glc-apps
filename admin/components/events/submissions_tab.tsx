@@ -1,18 +1,13 @@
-import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckIcon from "@mui/icons-material/Check";
 import SubmissionUtil from "../../utils/SubmissionUtil";
-import Image from "next/image";
-import imageLoader from "../../helpers/imageLoader";
+import calculateDate from "../../helpers/calculateDate";
 import Stack from "@mui/material/Stack";
 import { buttonTheme } from "../../themes/themes";
-import calculateDate from "../../helpers/calculateDate";
+import SubmissionPaper from "./SubmissionPaper";
 
-export default function SubmissionsTab({}) {
+export default function SubmissionsTab() {
   const [isLoading, setIsLoading] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const [dateIndex, setDateIndex] = useState(0);
@@ -30,6 +25,20 @@ export default function SubmissionsTab({}) {
   const backAndForwardDate = (direction: "left" | "right") => {
     if (direction === "left") return setDateIndex((prev) => prev - 1);
     if (direction === "right") return setDateIndex((prev) => prev + 1);
+  };
+
+  const approveOrRejectSubmission = async (
+    action: "approve" | "reject",
+    id: number
+  ): Promise<boolean> => {
+    try {
+      console.log(action, id);
+
+      //TODO: fetch UPDATE
+    } catch (err) {
+      console.error(`Error ${action} submission`);
+      return false;
+    }
   };
 
   if (isLoading)
@@ -134,62 +143,13 @@ export default function SubmissionsTab({}) {
         </Button>
       </Stack>
 
-      {submissions.map(
-        ({ event_name, full_name, img_url, submitted_at }, index) => (
-          <Paper
-            key={index}
-            elevation={3}
-            sx={{
-              padding: "1rem 1.2rem",
-              margin: "1.25rem 0.7rem",
-            }}
-          >
-            <Typography>
-              <b>Student name:</b> {full_name}
-            </Typography>
-            <Typography>
-              <b>Event name:</b> {event_name}
-            </Typography>
-
-            <Typography>
-              <b>Submitted on:</b>{" "}
-              <i>{new Date(submitted_at).toLocaleString()}</i>
-            </Typography>
-
-            <div
-              style={{
-                margin: "2rem auto",
-                textAlign: "center",
-                width: "100%",
-              }}
-            >
-              <Image
-                priority
-                loader={imageLoader}
-                src={img_url}
-                height={450}
-                width={450}
-                alt={`${full_name}'s submission image`}
-              />
-            </div>
-
-            <div
-              style={{
-                margin: "1.5rem auto",
-                textAlign: "right",
-              }}
-            >
-              <IconButton aria-label="delete">
-                <CancelIcon />
-              </IconButton>
-
-              <IconButton aria-label="delete">
-                <CheckIcon />
-              </IconButton>
-            </div>
-          </Paper>
-        )
-      )}
+      {submissions.map((item, index) => (
+        <SubmissionPaper
+          key={index}
+          submissionDetail={item}
+          approveOrRejectSubmission={approveOrRejectSubmission}
+        />
+      ))}
     </>
   );
 }
