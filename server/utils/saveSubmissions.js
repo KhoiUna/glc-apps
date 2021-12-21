@@ -1,23 +1,22 @@
 const Submissions = require("../db/Submissions");
 const sequelize = require("../db/connection");
 
-module.exports = async ({ studentId, eventId }) => {
+module.exports = async ({ studentId, eventId, eventName, imagePath }) => {
   try {
-    let submissionId;
     await sequelize.transaction(async (t) => {
-      const res = await Submissions.create(
+      await Submissions.create(
         {
           submitted_at: new Date().toUTCString(),
-          student_id: studentId,
+          event_name: eventName,
+          img_url: imagePath,
           event_id: eventId,
+          student_id: studentId,
         },
         { transaction: t }
       );
-
-      submissionId = res.dataValues.id;
     });
 
-    return submissionId;
+    return true;
   } catch (e) {
     console.error("Error saving submission");
     return;

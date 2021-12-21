@@ -3,8 +3,7 @@ const getSingleEvent = require("../utils/getSingleEvent");
 const saveEvent = require("../utils/saveEvent");
 const ImageKit = require("imagekit");
 const saveStudent = require("../utils/saveStudent");
-const saveSubmission = require("../utils/saveSubmission");
-const saveSubmissionDetails = require("../utils/saveSubmissionDetails");
+const saveSubmissions = require("../utils/saveSubmissions");
 const getSubmissions = require("../utils/getSubmissions");
 const deleteEvent = require("../utils/deleteEvent");
 
@@ -103,11 +102,8 @@ router.post("/submission", async (req, res, next) => {
     const studentId = await saveStudent({ fullName });
     if (!studentId) return res.status(400).send("Sorry, something is wrong");
 
-    const submissionId = await saveSubmission({ studentId, eventId });
-    if (!submissionId) return res.status(400).send("Sorry, something is wrong");
-
     submissionDetails.forEach(({ eventName, imagePath }) => {
-      saveSubmissionDetails({ submissionId, eventName, imagePath });
+      saveSubmissions({ studentId, eventId, eventName, imagePath });
     });
 
     res.status(200).send("ok");
