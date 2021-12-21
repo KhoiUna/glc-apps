@@ -1,7 +1,6 @@
 const sequelize = require("./connection");
 const { DataTypes, Model } = require("sequelize");
 const Students = require("./Students");
-const SubmissionDetails = require("./SubmissionDetails");
 const Events = require("./Events");
 
 class Submissions extends Model {}
@@ -12,6 +11,18 @@ Submissions.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    event_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    img_url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    status: {
+      type: DataTypes.CHAR(8),
+      defaultValue: "pending",
+    },
     student_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -19,10 +30,6 @@ Submissions.init(
     event_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    },
-    status: {
-      type: DataTypes.CHAR(8),
-      defaultValue: "pending",
     },
   },
   {
@@ -35,6 +42,5 @@ Submissions.init(
 
 Submissions.hasMany(Events, { foreignKey: "id" });
 Submissions.hasMany(Students, { foreignKey: "id" });
-Submissions.hasMany(SubmissionDetails, { foreignKey: "submission_id" });
 
 module.exports = Submissions;
