@@ -1,5 +1,5 @@
-const { Op } = require("sequelize");
-const Students = require("../db/Students");
+const { QueryTypes } = require("sequelize");
+const connection = require("../db/connection");
 const Submissions = require("../db/Submissions");
 
 module.exports = async ({ dateIndex }) => {
@@ -10,20 +10,15 @@ module.exports = async ({ dateIndex }) => {
     ).toUTCString();
     const sqlLikeDate = date.slice(0, 16);
 
-    const res = await Submissions.findAll({
-      where: {
-        status: "pending",
-        submitted_at: {
-          [Op.like]: `${sqlLikeDate}%`,
-        },
-      },
-      include: {
-        model: Students,
-        attributes: ["full_name"],
-      },
-    });
+    const submissions = await connection.query(
+      "SELECT submissions.id, submitted_at, event_name, img_url, status, full_name FROM submissions JOIN students ON student_id = students.id WHERE submitted_at LIKE :date;",
+      {
+        replacements: { date: `${sqlLikeDate}%` },
+        model: Submissions,
+        type: QueryTypes.SELECT,
+      }
+    );
 
-    const submissions = res.map((i) => i.dataValues);
     return submissions;
   } catch (err) {
     console.error("Error getting submissions");
