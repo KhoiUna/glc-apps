@@ -22,7 +22,6 @@ module.exports = async ({ dateIndex }) => {
     return submissions;
   } catch (err) {
     console.error("Error getting submissions");
-    console.error(err);
     return;
   }
 };
