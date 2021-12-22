@@ -34,6 +34,20 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.get("/submissions", async (req, res, next) => {
+  try {
+    const submissions = await getSubmissions({
+      sqlLikeDate: req.query.date,
+    });
+    if (!submissions) return res.status(400).send("Sorry, something is wrong");
+
+    res.status(200).json(submissions);
+  } catch (err) {
+    console.error("Error getting submissions");
+    next(err);
+  }
+});
+
 router.get("/:id", async (req, res, next) => {
   try {
     const event = await getSingleEvent({ id: req.params.id });
@@ -67,20 +81,6 @@ router.get("/uploadImage/auth", (req, res, next) => {
 
   res.send(result);
   next();
-});
-
-router.get("/submissions/:dateIndex", async (req, res, next) => {
-  try {
-    const submissions = await getSubmissions({
-      dateIndex: req.params.dateIndex,
-    });
-    if (!submissions) return res.status(400).send("Sorry, something is wrong");
-
-    res.status(200).json(submissions);
-  } catch (err) {
-    console.error("Error getting submissions");
-    next(err);
-  }
 });
 
 router.post("/submission", async (req, res, next) => {
