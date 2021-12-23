@@ -1,0 +1,19 @@
+const { QueryTypes } = require("sequelize");
+const connection = require("../db/connection");
+const Submissions = require("../db/Submissions");
+
+module.exports = async ({ studentId }) => {
+  try {
+    const sql =
+      "SELECT submitted_at, event_name, img_url FROM submissions JOIN students ON student_id = students.id WHERE status = :status AND student_id = :studentId;";
+    const submissions = await connection.query(sql, {
+      replacements: { status: "approved", studentId },
+      model: Submissions,
+      type: QueryTypes.SELECT,
+    });
+    return submissions;
+  } catch (err) {
+    console.error("Error getting student approved submissions -util");
+    return;
+  }
+};
