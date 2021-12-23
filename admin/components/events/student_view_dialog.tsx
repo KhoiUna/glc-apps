@@ -58,7 +58,7 @@ export default function StudentViewDialog({
         </Toolbar>
       </AppBar>
 
-      <div style={{ textAlign: "center", margin: "0.5rem 0 0 0" }}>
+      <div style={{ textAlign: "center", margin: "1rem 0 0 0" }}>
         <Typography variant="h4" component="div">
           {studentName}
         </Typography>
@@ -68,37 +68,39 @@ export default function StudentViewDialog({
         </Typography>
       </div>
 
-      {submissionDetails.map((item) => (
-        <Paper elevation={5} sx={{ margin: "1rem", padding: "1rem" }}>
-          <Typography>
-            <b>Event name:</b> {item.event_name}
-          </Typography>
-          <Typography>
-            <b>Date participated:</b>{" "}
-            {new Date(item.submitted_at).toLocaleDateString()}
-          </Typography>
-          <Typography>
-            <b>Submission image:</b>
-          </Typography>
+      {isLoading && <h2 style={{ margin: "1rem auto" }}>Loading...</h2>}
+      {!isLoading &&
+        submissionDetails.map((item) => (
+          <Paper elevation={5} sx={{ margin: "1rem", padding: "1rem" }}>
+            <Typography>
+              <b>Event name:</b> {item.event_name}
+            </Typography>
+            <Typography>
+              <b>Date participated:</b>{" "}
+              {new Date(item.submitted_at).toLocaleDateString()}
+            </Typography>
+            <Typography>
+              <b>Submission image:</b>
+            </Typography>
 
-          <div
-            style={{
-              margin: "0.5rem auto",
-              width: "100%",
-              textAlign: "center",
-            }}
-          >
-            <Image
-              priority
-              loader={imageLoader}
-              src={item.img_url}
-              height={450}
-              width={450}
-              alt={`${studentName}'s submission image: ${item.event_name}`}
-            />
-          </div>
-        </Paper>
-      ))}
+            <div
+              style={{
+                margin: "0.5rem auto",
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              <Image
+                priority
+                loader={imageLoader}
+                src={item.img_url}
+                height={450}
+                width={450}
+                alt={`${studentName}'s submission image: ${item.event_name}`}
+              />
+            </div>
+          </Paper>
+        ))}
     </Dialog>
   );
 }
