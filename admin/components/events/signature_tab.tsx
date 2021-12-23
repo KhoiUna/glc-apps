@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import StudentViewDialog from "./student_view_dialog";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
@@ -34,7 +34,7 @@ export default function SignatureTab({}) {
   return (
     <>
       {students.map((item, index) => (
-        <>
+        <Fragment key={index}>
           <Paper
             elevation={3}
             sx={{
@@ -65,7 +65,7 @@ export default function SignatureTab({}) {
               signatureCount={item.signature_count}
             />
           )}
-        </>
+        </Fragment>
       ))}
     </>
   );
