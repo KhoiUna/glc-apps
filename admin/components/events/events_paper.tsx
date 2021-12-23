@@ -36,7 +36,7 @@ export default function EventsPaper({ eventData, deleteEvent }) {
             onClick={() => deleteEvent({ id: eventData.id })}
             variant="contained"
             type="submit"
-            sx={{ margin: "0.5rem 1rem 0 0" }}
+            sx={{ margin: "0.5rem 1rem 0 0", backgroundColor: "#db0505" }}
           >
             <DeleteIcon />
           </Button>
