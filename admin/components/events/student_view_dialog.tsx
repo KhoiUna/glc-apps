@@ -7,6 +7,9 @@ import Typography from "@mui/material/Typography";
 import { appBarTheme } from "../../themes/themes";
 import { useEffect, useState } from "react";
 import StudentUtil from "../../utils/StudentUtil";
+import Paper from "@mui/material/Paper";
+import Image from "next/image";
+import imageLoader from "../../helpers/imageLoader";
 
 interface StudentViewDialog {
   toggleOpenDialog: () => any;
@@ -55,7 +58,7 @@ export default function StudentViewDialog({
         </Toolbar>
       </AppBar>
 
-      <div style={{ textAlign: "center", margin: "1rem" }}>
+      <div style={{ textAlign: "center", margin: "0.5rem 0 0 0" }}>
         <Typography variant="h4" component="div">
           {studentName}
         </Typography>
@@ -64,6 +67,38 @@ export default function StudentViewDialog({
           Signature count: {signatureCount} / 8
         </Typography>
       </div>
+
+      {submissionDetails.map((item) => (
+        <Paper elevation={5} sx={{ margin: "1rem", padding: "1rem" }}>
+          <Typography>
+            <b>Event name:</b> {item.event_name}
+          </Typography>
+          <Typography>
+            <b>Date participated:</b>{" "}
+            {new Date(item.submitted_at).toLocaleDateString()}
+          </Typography>
+          <Typography>
+            <b>Submission image:</b>
+          </Typography>
+
+          <div
+            style={{
+              margin: "0.5rem auto",
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            <Image
+              priority
+              loader={imageLoader}
+              src={item.img_url}
+              height={450}
+              width={450}
+              alt={`${studentName}'s submission image: ${item.event_name}`}
+            />
+          </div>
+        </Paper>
+      ))}
     </Dialog>
   );
 }
