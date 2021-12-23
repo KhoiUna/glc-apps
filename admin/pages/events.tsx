@@ -5,8 +5,9 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import OpenedEventsTab from "../components/events/opened_events_tab";
 import SubmissionsTab from "../components/events/submissions_tab";
+import SignatureTab from "../components/events/signature_tab";
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
@@ -36,7 +37,7 @@ export default function Events({}) {
       >
         {value === 0 && <OpenedEventsTab />}
         {value === 1 && <SubmissionsTab />}
-        {/* {value === 2 && <SignatureTab />}  */}
+        {value === 2 && <SignatureTab />}
       </Box>
     </Layout>
   );
