@@ -5,11 +5,15 @@ const { eventSubmissionOrigin } = require("../config");
 
 module.exports = async ({ date }) => {
   try {
+    const d = new Date(date);
+
     let event;
     await sequelize.transaction(async (t) => {
       const res = await Events.create(
         {
-          created_at: new Date(date).toUTCString(),
+          created_at: new Date(
+            new Date(d.getFullYear(), d.getMonth(), d.getDate())
+          ).toUTCString(),
           status: "opened",
         },
         { transaction: t }
