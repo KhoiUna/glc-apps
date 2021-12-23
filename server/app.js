@@ -49,6 +49,8 @@ app.use("/api/time", timeRoute);
 const eventRoute = require("./routes/event-route.js");
 app.use("/api/event", eventRoute);
 
+app.use("/api/student", require("./routes/student-route"));
+
 //Socket
 io.on("connection", (socket) => {
   console.log("------User connected------");
