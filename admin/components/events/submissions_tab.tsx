@@ -113,7 +113,7 @@ export default function SubmissionsTab() {
           </Button>
         </Stack>
 
-        <h2 style={{ textAlign: "center" }}>No submissions</h2>
+        <h2 style={{ textAlign: "center" }}>No pending submissions</h2>
       </>
     );
 
