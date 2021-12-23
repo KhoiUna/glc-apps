@@ -3,32 +3,24 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import io from "socket.io-client";
 import Layout from "../containers/layout";
 import { origin } from "../config/config";
 import SubmissionDetailsPaper from "../components/submission_details_paper";
 import SubmissionUtil from "../utils/SubmissionUtil";
 import dateDifference from "../helpers/dateDifference";
+import Autocomplete from "@mui/material/Autocomplete";
 
-let socket;
 export default function Home() {
-  useEffect(() => {
-    socket = io(origin, {
-      withCredentials: true,
-    });
-
-    return () => {
-      socket.removeAllListeners();
-    };
-  }, []);
-
   const [eventData, setEventData] = useState({
     createdAt: "",
     status: "",
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [options, setOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
+
     const url = new URL(window.location);
     const eventId = url.searchParams.get("id");
 
@@ -46,10 +38,25 @@ export default function Home() {
             status: r.status,
           });
         }
-        setIsLoading(false);
       })
       .catch((err) => {
         console.error("Error getting single event");
+        setErr(true);
+        setIsLoading(false);
+      });
+
+    SubmissionUtil.fetchStudentNames()
+      .then((r) => {
+        setOptions(
+          r.map((item) => ({
+            label: item.full_name,
+            studentId: item.id,
+          }))
+        );
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error getting student names");
         setErr(true);
         setIsLoading(false);
       });
@@ -133,6 +140,8 @@ export default function Home() {
     }
   };
 
+  const [value, setValue] = useState(options[0]);
+
   if (isLoading)
     return (
       <Layout>
@@ -176,13 +185,24 @@ export default function Home() {
           <Typography variant="body1" sx={{ fontWeight: "bold" }}>
             Full name:
           </Typography>
-          <TextField
-            name="fullName"
-            label="Full name"
-            variant="filled"
-            required
-            value={fullName}
-            onChange={({ target }) => setFullName(target.value)}
+
+          <Autocomplete
+            freeSolo
+            id="fullName"
+            onChange={(event, newValue) => setValue(newValue)}
+            inputValue={fullName}
+            onInputChange={(event, newInputValue) => setFullName(newInputValue)}
+            options={options}
+            sx={{ width: 200 }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                name="fullName"
+                label="Full name"
+                variant="filled"
+                required
+              />
+            )}
           />
         </Stack>
 
