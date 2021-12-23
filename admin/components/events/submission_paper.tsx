@@ -13,14 +13,25 @@ interface SubmissionPaperProps {
     full_name: string;
     img_url: string;
     submitted_at: string;
+    student_id: number;
   };
-  approveOrRejectSubmission: (action: "approve" | "reject", id: number) => void;
+  approveOrRejectSubmission: ({
+    action,
+    id,
+    student_id,
+  }: {
+    action: "approve" | "reject";
+    id: number;
+    student_id: number;
+  }) => Promise<any>;
 }
 
-export default function SubmissionPaper(props: SubmissionPaperProps) {
-  const { id, event_name, full_name, img_url, submitted_at } =
-    props.submissionDetail;
-  const approveOrRejectSubmission = props.approveOrRejectSubmission;
+export default function SubmissionPaper({
+  submissionDetail,
+  approveOrRejectSubmission,
+}: SubmissionPaperProps) {
+  const { id, event_name, full_name, img_url, submitted_at, student_id } =
+    submissionDetail;
 
   return (
     <Paper
@@ -66,14 +77,18 @@ export default function SubmissionPaper(props: SubmissionPaperProps) {
       >
         <IconButton
           aria-label="Reject submission"
-          onClick={() => approveOrRejectSubmission("reject", id)}
+          onClick={() =>
+            approveOrRejectSubmission({ action: "reject", id, student_id })
+          }
         >
           <CancelIcon />
         </IconButton>
 
         <IconButton
           aria-label="Approve submission"
-          onClick={() => approveOrRejectSubmission("approve", id)}
+          onClick={() =>
+            approveOrRejectSubmission({ action: "approve", id, student_id })
+          }
         >
           <CheckIcon />
         </IconButton>

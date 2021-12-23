@@ -5,7 +5,7 @@ import SubmissionUtil from "../../utils/SubmissionUtil";
 import calculateDate from "../../helpers/calculateDate";
 import Stack from "@mui/material/Stack";
 import { buttonTheme } from "../../themes/themes";
-import SubmissionPaper from "./SubmissionPaper";
+import SubmissionPaper from "./submission_paper";
 
 export default function SubmissionsTab() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,17 +27,21 @@ export default function SubmissionsTab() {
     if (direction === "right") return setDateIndex((prev) => prev + 1);
   };
 
-  const approveOrRejectSubmission = async (
-    action: "approve" | "reject",
-    id: number
-  ): Promise<boolean> => {
+  const approveOrRejectSubmission = async ({
+    action,
+    id,
+    student_id,
+  }: {
+    action: "approve" | "reject";
+    id: number;
+    student_id: number;
+  }): Promise<any> => {
     try {
-      console.log(action, id);
-
-      //TODO: fetch UPDATE
+      if (await SubmissionUtil.updateSubmission({ action, student_id, id }))
+        return setSubmissions((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
       console.error(`Error ${action} submission`);
-      return false;
+      return;
     }
   };
 
