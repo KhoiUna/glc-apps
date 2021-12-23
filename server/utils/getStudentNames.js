@@ -4,6 +4,7 @@ module.exports = async () => {
   try {
     const res = await Students.findAll({
       attributes: ["id", "full_name"],
+      order: [["full_name"]],
     });
 
     const studentNames = res.map((i) => i.dataValues);
