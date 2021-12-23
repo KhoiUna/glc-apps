@@ -5,9 +5,9 @@ const Submissions = require("../db/Submissions");
 module.exports = async ({ sqlLikeDate }) => {
   try {
     const submissions = await connection.query(
-      "SELECT submissions.id, submitted_at, event_name, img_url, status, full_name, students.id as student_id FROM submissions JOIN students ON student_id = students.id WHERE submitted_at LIKE :date;",
+      "SELECT submissions.id, submitted_at, event_name, img_url, status, full_name, students.id as student_id FROM submissions JOIN students ON student_id = students.id WHERE status = :status AND submitted_at LIKE :date;",
       {
-        replacements: { date: `${sqlLikeDate}%` },
+        replacements: { status: "pending", date: `${sqlLikeDate}%` },
         model: Submissions,
         type: QueryTypes.SELECT,
       }
@@ -15,6 +15,7 @@ module.exports = async ({ sqlLikeDate }) => {
     return submissions;
   } catch (err) {
     console.error("Error getting submissions -util");
+    console.error(err);
     return;
   }
 };
