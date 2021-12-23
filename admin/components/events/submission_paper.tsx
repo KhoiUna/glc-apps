@@ -49,7 +49,8 @@ export default function SubmissionPaper({
       </Typography>
 
       <Typography>
-        <b>Submitted on:</b> <i>{new Date(submitted_at).toLocaleString()}</i>
+        <b>Submitted on:</b>{" "}
+        <i>{new Date(submitted_at).toLocaleDateString()}</i>
       </Typography>
 
       <div
