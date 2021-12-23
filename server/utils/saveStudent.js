@@ -16,7 +16,7 @@ module.exports = async ({ fullName }) => {
     });
 
     return studentId;
-  } catch (e) {
+  } catch (err) {
     console.error("Error saving student");
     return;
   }
