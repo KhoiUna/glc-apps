@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 import { buttonTheme } from "../../themes/themes";
 import SubmissionPaper from "./submission_paper";
 
-export default function SubmissionsTab() {
+export default function SubmissionsTab({}) {
   const [isLoading, setIsLoading] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const [dateIndex, setDateIndex] = useState(0);
