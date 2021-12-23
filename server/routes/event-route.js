@@ -8,6 +8,7 @@ const getSubmissions = require("../utils/getSubmissions");
 const deleteEvent = require("../utils/deleteEvent");
 const updateSubmission = require("../utils/updateSubmission");
 const updateStudent = require("../utils/updateStudent");
+const checkStudentName = require("../helpers/checkStudentName");
 
 const router = require("express").Router();
 
@@ -101,8 +102,11 @@ router.post("/submission", async (req, res, next) => {
     );
     if (!invalid) return res.status(400).send("Sorry, something is wrong");
 
-    const studentId = await saveStudent({ fullName });
-    if (!studentId) return res.status(400).send("Sorry, something is wrong");
+    let studentId = await checkStudentName({ fullName });
+    if (!studentId) {
+      studentId = await saveStudent({ fullName });
+      if (!studentId) return res.status(400).send("Sorry, something is wrong");
+    }
 
     submissionDetails.forEach(({ eventName, imagePath }) => {
       saveSubmissions({ studentId, eventId, eventName, imagePath });
