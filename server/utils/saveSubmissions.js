@@ -4,9 +4,13 @@ const sequelize = require("../db/connection");
 module.exports = async ({ studentId, eventId, eventName, imagePath }) => {
   try {
     await sequelize.transaction(async (t) => {
+      const d = new Date();
+
       await Submissions.create(
         {
-          submitted_at: new Date().toUTCString(),
+          submitted_at: new Date(
+            new Date(d.getFullYear(), d.getMonth(), d.getDate())
+          ).toUTCString(),
           event_name: eventName,
           img_url: imagePath,
           event_id: eventId,
