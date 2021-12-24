@@ -56,21 +56,7 @@ export default function OpenedEventsTab({}) {
     }
   };
 
-  if (isLoading)
-    return (
-      <>
-        <h2 style={{ textAlign: "center" }}>Loading...</h2>
-
-        <Fab
-          onClick={createEvent}
-          color="primary"
-          aria-label="Create event"
-          sx={{ ...buttonTheme, position: "fixed", bottom: 0, right: 9 }}
-        >
-          <AddIcon />
-        </Fab>
-      </>
-    );
+  if (isLoading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
 
   return (
     <>
@@ -82,7 +68,11 @@ export default function OpenedEventsTab({}) {
         onClick={createEvent}
         color="primary"
         aria-label="Create event"
-        sx={{ ...buttonTheme, position: "fixed", bottom: 0, right: 9 }}
+        sx={{ ...buttonTheme, position: "fixed", bottom: 5, right: 9 }}
+        disabled={
+          new Date(events[0]?.created_at).toLocaleDateString() ===
+          new Date().toLocaleDateString()
+        }
       >
         <AddIcon />
       </Fab>
