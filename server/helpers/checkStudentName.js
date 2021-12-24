@@ -7,7 +7,7 @@ module.exports = async ({ fullName }) => {
         full_name: fullName,
       },
     });
-    return res.dataValues.id;
+    return res?.dataValues.id;
   } catch (err) {
     console.error("Error checking student name -helper");
     return;
