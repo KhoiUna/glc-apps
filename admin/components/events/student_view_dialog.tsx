@@ -76,7 +76,7 @@ export default function StudentViewDialog({
               <b>Event name:</b> {item.event_name}
             </Typography>
             <Typography>
-              <b>Date participated:</b>{" "}
+              <b>Date submitted:</b>{" "}
               {new Date(item.submitted_at).toLocaleDateString()}
             </Typography>
             <Typography>
