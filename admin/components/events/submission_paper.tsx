@@ -81,6 +81,7 @@ export default function SubmissionPaper({
           onClick={() =>
             approveOrRejectSubmission({ action: "reject", id, student_id })
           }
+          sx={{ backgroundColor: "#db0505", color: "#fff", margin: "0 1.5rem" }}
         >
           <CancelIcon />
         </IconButton>
@@ -90,6 +91,7 @@ export default function SubmissionPaper({
           onClick={() =>
             approveOrRejectSubmission({ action: "approve", id, student_id })
           }
+          sx={{ backgroundColor: "#009d00", color: "#fff" }}
         >
           <CheckIcon />
         </IconButton>
