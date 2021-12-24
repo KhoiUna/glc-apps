@@ -1,3 +1,5 @@
+const { parse } = require("json2csv");
+const getAllStudentApprovedSubmissions = require("../utils/getAllStudentApprovedSubmissions");
 const getStudentApprovedSubmissions = require("../utils/getStudentApprovedSubmissions");
 const getStudentNames = require("../utils/getStudentNames");
 const getStudents = require("../utils/getStudents");
@@ -25,6 +27,29 @@ router.get("/all", async (req, res, next) => {
     res.status(200).json(students);
   } catch (err) {
     console.error("Error getting students");
+    next(err);
+  }
+});
+
+router.get("/csv", async (req, res, next) => {
+  try {
+    let submissions = await getAllStudentApprovedSubmissions();
+    submissions = submissions.map((item) => ({
+      student_database_id: item.student_id,
+      full_name: item.full_name.trim(),
+      event_name: item.event_name.trim(),
+      date_participated: new Date(item.created_at).toLocaleDateString(),
+    }));
+    const csvData = parse(submissions);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=student_signatures.csv"
+    );
+    res.status(200).end(csvData);
+  } catch (err) {
+    console.error("Error getting student signatures csv");
     next(err);
   }
 });
