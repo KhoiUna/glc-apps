@@ -11,7 +11,7 @@ import Paper from "@mui/material/Paper";
 import Image from "next/image";
 import imageLoader from "../../helpers/imageLoader";
 
-interface StudentViewDialog {
+interface StudentViewDialogProps {
   toggleOpenDialog: () => any;
   openDialog: boolean;
   studentId: number;
@@ -24,7 +24,7 @@ export default function StudentViewDialog({
   studentId,
   studentName,
   signatureCount,
-}: StudentViewDialog) {
+}: StudentViewDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [submissionDetails, setSubmissionDetails] = useState([]);
   useEffect(() => {
