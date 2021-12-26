@@ -1,19 +1,20 @@
+const connection = require("../db/connection");
 const Reservations = require("../db/Reservations");
+const { QueryTypes } = require("sequelize");
 
 module.exports = async (selectedDate, timeSlot) => {
   try {
-    const res = await Reservations.findAll({
-      attributes: ["first_name", "last_name", "number_of_people"],
-      where: {
-        selected_date: new Date(selectedDate),
-        time_slot: timeSlot,
-      },
+    const sql =
+      "SELECT full_name, number_of_people, selected_date, time_slot FROM reservations_test JOIN students ON students.id = student_id WHERE selected_date = :selectedDate AND time_slot = :timeSlot;";
+    const reservations = await connection.query(sql, {
+      replacements: { selectedDate, timeSlot },
+      model: Reservations,
+      type: QueryTypes.SELECT,
     });
-
-    const reservationsList = res.map((i) => i.dataValues);
-    return reservationsList;
+    return reservations;
   } catch (e) {
     console.error("Error getting reservations list");
     console.error(e);
+    return;
   }
 };
