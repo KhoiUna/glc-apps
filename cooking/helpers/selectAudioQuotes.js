@@ -1,18 +1,17 @@
 export default function selectAudioQuotes(fromForm, index) {
-  const quotes = {
-    0: [{ speech: "thanks for reserving!", lang: "en-US" }],
-    1: [{ speech: "you look great today!", lang: "en-US" }],
-    2: [{ speech: "you are making Rice Hall better!", lang: "en-US" }],
-    3: [{ speech: "You will be forever remembered", lang: "en-US" }],
-    4: [{ speech: "We will fight covid together", lang: "en-US" }],
-    5: [{ speech: "Ms. Cayla is thankful for you", lang: "en-US" }],
-    6: [{ speech: "Gracias", lang: "es-ES" }],
-    7: [{ speech: "谢谢", lang: "zh-CN" }],
-    8: [{ speech: "ありがとう", lang: "ja-JP" }],
-    9: [{ speech: "धन्यवाद", lang: "hi-IN" }],
-    10: [{ speech: "감사 해요", lang: "ko-KR" }],
-    11: [{ speech: "Cam on", lang: "en-US" }],
-  };
+  const quotes = [
+    [{ speech: "thanks for reserving!", lang: "en-US" }],
+    [{ speech: "you look great today!", lang: "en-US" }],
+    [{ speech: "you are making Rice Hall better!", lang: "en-US" }],
+    [{ speech: "You will be forever remembered", lang: "en-US" }],
+    [{ speech: "Ms. Cayla is thankful for you", lang: "en-US" }],
+    [{ speech: "Gracias", lang: "es-ES" }],
+    [{ speech: "谢谢", lang: "zh-CN" }],
+    [{ speech: "ありがとう", lang: "ja-JP" }],
+    [{ speech: "धन्यवाद", lang: "hi-IN" }],
+    [{ speech: "감사 해요", lang: "ko-KR" }],
+    [{ speech: "Cam on", lang: "en-US" }],
+  ];
 
   const synth = window.speechSynthesis;
 
