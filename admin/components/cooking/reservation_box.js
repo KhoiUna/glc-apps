@@ -1,7 +1,6 @@
 export default function ReservationBox({
   id,
-  firstName,
-  lastName,
+  fullName,
   selectedDate,
   timeSlot,
   numberOfPeople,
@@ -19,9 +18,7 @@ export default function ReservationBox({
         <span>
           <b>ID:</b> {id}
         </span>{" "}
-        <span>
-          {firstName} {lastName}
-        </span>{" "}
+        <span>{fullName}</span>{" "}
         <span>
           <b>Date: </b>
           {selectedDate}

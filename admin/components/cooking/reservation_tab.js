@@ -174,8 +174,7 @@ export default function ReservationTab({ value, index }) {
             <ReservationBox
               key={item.id}
               id={item.id}
-              firstName={item.first_name}
-              lastName={item.last_name}
+              fullName={item.full_name}
               selectedDate={item.selected_date}
               timeSlot={item.time_slot}
               numberOfPeople={item.number_of_people}
