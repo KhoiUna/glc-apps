@@ -56,11 +56,7 @@ export default function ReservationList({
                     return (
                       <tr key={index}>
                         <th className="reservation-time">
-                          <p>
-                            {item.first_name.toUpperCase() +
-                              " " +
-                              item.last_name.toUpperCase()}
-                          </p>
+                          <p>{item.full_name}</p>
                         </th>
                         <th key={index}>
                           <p>{item.number_of_people || 8}</p>
