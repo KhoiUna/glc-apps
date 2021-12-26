@@ -2,6 +2,7 @@ import Grid from "@material-ui/core/Grid";
 import Popup from "../components/Popup/Popup";
 import { makeStyles } from "@material-ui/core/styles";
 import FormatTime from "../helpers/FormatTime";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   Container,
   Paper,
@@ -22,6 +23,7 @@ import { useEffect, useState } from "react";
 import { origin } from "../config/config";
 import Layout from "../containers/layout";
 import Script from "next/script";
+import SubmissionUtil from "../utils/SubmissionUtil";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -36,6 +38,22 @@ const useStyles = makeStyles((theme) => ({
 export default function Reserve() {
   const classes = useStyles();
 
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    SubmissionUtil.fetchStudentNames()
+      .then((r) => {
+        setOptions(
+          r.map((item) => ({
+            label: item.full_name,
+            studentId: item.id,
+          }))
+        );
+      })
+      .catch((err) => {
+        console.error("Error getting student names");
+      });
+  }, []);
+
   const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
   const handleDateChange = (date) => {
     setSelectedDate(new Date(date));
@@ -47,17 +65,9 @@ export default function Reserve() {
   };
 
   const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     numberOfPeople: "",
   });
-  useEffect(() => {
-    setData({
-      firstName: localStorage.getItem("firstName") || "",
-      lastName: localStorage.getItem("lastName") || "",
-      numberOfPeople: "",
-    });
-  }, []);
 
   const [warn, setWarn] = useState("");
   const [success, setSuccess] = useState(null);
@@ -99,12 +109,8 @@ export default function Reserve() {
         });
 
         if (res.ok === true) {
-          localStorage.setItem("firstName", dataObj.firstName);
-          localStorage.setItem("lastName", dataObj.lastName);
-
           setData({
-            firstName: "",
-            lastName: "",
+            fullName: "",
             numberOfPeople: "",
           });
           setTimeSlot("");
@@ -123,12 +129,12 @@ export default function Reserve() {
       }
     } catch (e) {
       console.error("Error posting data...");
-      console.error(e);
-
       setSubmitting(false);
       setSuccess(false);
     }
   };
+
+  const [value, setValue] = useState(options[0]);
 
   return (
     <Layout componentName="Reserve">
@@ -155,28 +161,27 @@ export default function Reserve() {
               </h3>
 
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  id="firstName"
-                  name="firstName"
-                  label="First name"
-                  fullWidth
-                  autoComplete="off"
-                  value={data.firstName}
-                  variant="filled"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  id="lastName"
-                  name="lastName"
-                  label="Last name"
-                  fullWidth
-                  autoComplete="off"
-                  value={data.lastName}
-                  variant="filled"
+                <Autocomplete
+                  freeSolo
+                  id="fullName"
+                  value={value}
+                  onChange={(event, newValue) => setValue(newValue)}
+                  inputValue={data.fullName}
+                  onInputChange={(event, newInputValue) =>
+                    setData((prev) => ({ ...prev, fullName: newInputValue }))
+                  }
+                  options={options}
+                  getOptionLabel={(option) => option.label}
+                  style={{ width: "14rem" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      name="fullName"
+                      label="Full name"
+                      variant="filled"
+                      required
+                    />
+                  )}
                 />
               </Grid>
 
