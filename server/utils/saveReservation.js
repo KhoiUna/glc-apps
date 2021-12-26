@@ -2,8 +2,7 @@ const Reservations = require("../db/Reservations");
 const sequelize = require("../db/connection");
 
 module.exports = async ({
-  firstName,
-  lastName,
+  studentId,
   numberOfPeople,
   selectedDate,
   timeSlot,
@@ -12,8 +11,7 @@ module.exports = async ({
     await sequelize.transaction(async (t) => {
       await Reservations.create(
         {
-          first_name: firstName,
-          last_name: lastName,
+          student_id: studentId,
           number_of_people: numberOfPeople,
           selected_date: selectedDate,
           time_slot: timeSlot,
@@ -21,8 +19,10 @@ module.exports = async ({
         { transaction: t }
       );
     });
+
+    return true;
   } catch (e) {
-    console.error("Error saving reservation");
-    console.error(e);
+    console.error("Error saving reservation -util");
+    return;
   }
 };

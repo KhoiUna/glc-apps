@@ -1,12 +1,5 @@
-module.exports = ({
-  firstName,
-  lastName,
-  numberOfPeople,
-  selectedDate,
-  timeSlot,
-}) =>
-  firstName &&
-  lastName &&
+module.exports = ({ fullName, numberOfPeople, selectedDate, timeSlot }) =>
+  fullName &&
   numberOfPeople > 0 &&
   numberOfPeople <= 8 &&
   new Date(selectedDate.toLocaleDateString()) >=

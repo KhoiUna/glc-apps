@@ -5,6 +5,8 @@ const validateData = require("../helpers/validateData");
 const getDateReservations = require("../utils/getDateReservations.js");
 const deleteReservation = require("../utils/deleteReservation.js");
 const { parse } = require("json2csv");
+const checkStudentName = require("../helpers/checkStudentName");
+const saveStudent = require("../utils/saveStudent");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -72,22 +74,27 @@ router.post("/", async (req, res, next) => {
       new Date(req.body.selectedDate).toLocaleDateString()
     );
 
-    if (!validateData(req.body)) {
-      return res.status(406).send("* Invalid data");
-    }
+    if (!validateData(req.body)) return res.status(406).send("* Invalid data");
 
     const availablility = await checkAvailability(
       req.body.selectedDate,
       req.body.timeSlot,
       req.body.numberOfPeople
     );
-    if (!availablility) {
-      res.status(406).send("* Not enough spots, sorry!");
-    } else {
-      saveReservation(req.body);
-      res.sendStatus(200);
+    if (!availablility)
+      return res.status(406).send("* Not enough spots, sorry!");
+
+    let studentId = await checkStudentName({ fullName: req.body.fullName });
+    if (!studentId) {
+      studentId = await saveStudent({ fullName });
+      if (!studentId) return res.status(400).send("Sorry, something is wrong");
     }
-    next();
+
+    req.body.studentId = studentId;
+    if (!(await saveReservation(req.body)))
+      return res.status(400).send("Sorry, something is wrong");
+
+    res.sendStatus(200);
   } catch (e) {
     console.error("Error posting data...");
     console.error(e);
