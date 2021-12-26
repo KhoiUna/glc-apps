@@ -1,32 +1,22 @@
 const Reservations = require("../db/Reservations");
-const { Op } = require("sequelize");
+const { QueryTypes } = require("sequelize");
+const connection = require("../db/connection");
 
 module.exports = async (dateIndex) => {
   try {
-    const currentDate = new Date(
+    const selectedDate = new Date(
       new Date(Date.now() + 10 ** 8 * dateIndex).toDateString()
     );
-
-    const reservations = await Reservations.findAll({
-      attributes: [
-        "id",
-        "first_name",
-        "last_name",
-        "time_slot",
-        "selected_date",
-        "number_of_people",
-      ],
-      where: {
-        selected_date: {
-          [Op.eq]: currentDate,
-        },
-      },
-      order: ["time_slot"],
+    const sql =
+      "SELECT reservations.id, full_name, number_of_people, selected_date, time_slot FROM reservations JOIN students ON students.id = student_id WHERE selected_date = :selectedDate ORDER BY time_slot;";
+    const reservations = await connection.query(sql, {
+      replacements: { selectedDate },
+      model: Reservations,
+      type: QueryTypes.SELECT,
     });
-
     return reservations;
   } catch (e) {
-    console.error("Error getting data");
-    console.error(e);
+    console.error("Error getting data -util");
+    return;
   }
 };
