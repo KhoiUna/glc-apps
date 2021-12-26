@@ -86,7 +86,7 @@ router.post("/", async (req, res, next) => {
 
     let studentId = await checkStudentName({ fullName: req.body.fullName });
     if (!studentId) {
-      studentId = await saveStudent({ fullName });
+      studentId = await saveStudent({ fullName: req.body.fullName });
       if (!studentId) return res.status(400).send("Sorry, something is wrong");
     }
 
