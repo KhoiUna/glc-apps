@@ -8,6 +8,7 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Fab from "@mui/material/Fab";
 import { buttonTheme } from "../../themes/themes";
 import { origin } from "../../config/config";
+import TextField from "@mui/material/TextField";
 
 const StudentPaper = ({ item }) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -51,12 +52,14 @@ const StudentPaper = ({ item }) => {
 export default function SignatureTab({}) {
   const [isLoading, setIsLoading] = useState(false);
   const [students, setStudents] = useState([]);
+  const [searchedStudents, setSearchedStudent] = useState([]);
   useEffect(() => {
     setIsLoading(true);
 
     StudentUtil.fetchAllStudents()
       .then((r) => {
         setStudents(r);
+        setSearchedStudent(r);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -83,6 +86,17 @@ export default function SignatureTab({}) {
     }
   };
 
+  const handleChange = ({ target }) => {
+    setSearchedStudent(students);
+
+    return setSearchedStudent((prev) =>
+      prev.filter(
+        (item) =>
+          item.full_name.toLowerCase().indexOf(target.value.toLowerCase()) > -1
+      )
+    );
+  };
+
   if (isLoading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
   if (students.length === 0)
     return (
@@ -91,7 +105,16 @@ export default function SignatureTab({}) {
 
   return (
     <>
-      {students.map((item, index) => (
+      <div style={{ margin: "0.6rem" }}>
+        <TextField
+          label="Search student"
+          variant="filled"
+          onChange={handleChange}
+          sx={{ width: "100%" }}
+        />
+      </div>
+
+      {searchedStudents.map((item, index) => (
         <StudentPaper key={index} item={item} />
       ))}
 
