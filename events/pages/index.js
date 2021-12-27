@@ -174,56 +174,60 @@ export default function Home() {
         </Typography>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        <Stack
-          sx={{ margin: "1.5rem 1rem" }}
-          direction="row"
-          justifyContent="space-evenly"
-          alignItems="center"
-          spacing={2}
-        >
-          <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-            Full name:
-          </Typography>
+      {!success && (
+        <form onSubmit={handleSubmit}>
+          <Stack
+            sx={{ margin: "1.5rem 1rem" }}
+            direction="row"
+            justifyContent="space-evenly"
+            alignItems="center"
+            spacing={2}
+          >
+            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+              Full name:
+            </Typography>
 
-          <Autocomplete
-            freeSolo
-            id="fullName"
-            onChange={(event, newValue) => setValue(newValue)}
-            inputValue={fullName}
-            onInputChange={(event, newInputValue) => setFullName(newInputValue)}
-            options={options}
-            sx={{ width: 200 }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                name="fullName"
-                label="Full name"
-                variant="filled"
-                required
-              />
-            )}
-          />
-        </Stack>
+            <Autocomplete
+              freeSolo
+              id="fullName"
+              onChange={(event, newValue) => setValue(newValue)}
+              inputValue={fullName}
+              onInputChange={(event, newInputValue) =>
+                setFullName(newInputValue)
+              }
+              options={options}
+              sx={{ width: 200 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="fullName"
+                  label="Full name"
+                  variant="filled"
+                  required
+                />
+              )}
+            />
+          </Stack>
 
-        {submissionDetails.map((i, index) => (
-          <SubmissionDetailsPaper
-            key={index}
-            index={index}
-            submissionDetailsLength={submissionDetails.length}
-            submissionDetail={i}
-            createSubmissionDetails={createSubmissionDetails}
-            removeSubmissionDetails={removeSubmissionDetails}
-            handleChangeSubmissionDetails={handleChangeSubmissionDetails}
-          />
-        ))}
+          {submissionDetails.map((i, index) => (
+            <SubmissionDetailsPaper
+              key={index}
+              index={index}
+              submissionDetailsLength={submissionDetails.length}
+              submissionDetail={i}
+              createSubmissionDetails={createSubmissionDetails}
+              removeSubmissionDetails={removeSubmissionDetails}
+              handleChangeSubmissionDetails={handleChangeSubmissionDetails}
+            />
+          ))}
 
-        <div style={{ textAlign: "center", margin: "1rem 0 1.5rem 0" }}>
-          <Button variant="contained" type="submit" disabled={success}>
-            Submit
-          </Button>
-        </div>
-      </form>
+          <div style={{ textAlign: "center", margin: "1rem 0 1.5rem 0" }}>
+            <Button variant="contained" type="submit" disabled={success}>
+              Submit
+            </Button>
+          </div>
+        </form>
+      )}
 
       {success && (
         <h3 style={{ textAlign: "center", color: "#1da51d" }}>
