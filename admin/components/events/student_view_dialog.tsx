@@ -70,8 +70,12 @@ export default function StudentViewDialog({
 
       {isLoading && <h2 style={{ margin: "1rem auto" }}>Loading...</h2>}
       {!isLoading &&
-        submissionDetails.map((item) => (
-          <Paper elevation={5} sx={{ margin: "1rem", padding: "1rem" }}>
+        submissionDetails.map((item, index) => (
+          <Paper
+            elevation={5}
+            sx={{ margin: "1rem", padding: "1rem" }}
+            key={index}
+          >
             <Typography>
               <b>Event name:</b> {item.event_name}
             </Typography>
