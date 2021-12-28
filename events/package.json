@@ -10,7 +10,7 @@
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.2.4",
-    "@mui/material": "^5.2.2",
+    "@mui/material": "^5.2.3",
     "imagekitio-react": "^1.1.0",
     "next": "^12.0.7",
     "react": "17.0.2",
