@@ -10,6 +10,11 @@ module.exports = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/time",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
 };
