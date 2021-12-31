@@ -4,8 +4,17 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { appBarTheme } from "../themes/themes";
+import { ReactNode } from "react";
 
-export default function Layout({ children }) {
+interface LayoutProps {
+  children: ReactNode;
+  title?: string;
+}
+
+export default function Layout({
+  children,
+  title = "GLC Event Submission",
+}: LayoutProps) {
   return (
     <>
       <Head>
@@ -29,7 +38,7 @@ export default function Layout({ children }) {
                 component="div"
                 sx={{ flexGrow: 1, textAlign: "center" }}
               >
-                GLC Event Submission
+                {title}
               </Typography>
             </Toolbar>
           </AppBar>
