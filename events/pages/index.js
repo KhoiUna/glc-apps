@@ -9,6 +9,7 @@ import SubmissionDetailsPaper from "../components/submission_details_paper";
 import SubmissionUtil from "../utils/SubmissionUtil";
 import dateDifference from "../helpers/dateDifference";
 import Autocomplete from "@mui/material/Autocomplete";
+import Link from "next/link";
 
 export default function Home() {
   const [eventData, setEventData] = useState({
@@ -120,17 +121,12 @@ export default function Home() {
       if (await SubmissionUtil.submitForm({ submitObject })) {
         setSuccess(true);
         setFullName("");
-        setSubmissionDetails([
+        return setSubmissionDetails([
           {
             eventName: "",
             imagePath: "",
           },
         ]);
-
-        //Reload page
-        return setTimeout(() => {
-          location.reload();
-        }, 1000);
       }
 
       return setError(true);
@@ -230,9 +226,24 @@ export default function Home() {
       )}
 
       {success && (
-        <h3 style={{ textAlign: "center", color: "#1da51d" }}>
-          Successsfully submitted! Page reloads in 1 second!
-        </h3>
+        <div style={{ margin: "5rem 1rem" }}>
+          <h3 style={{ textAlign: "center", color: "#1da51d" }}>
+            Successsfully submitted! <br />
+            Please wait to be reviewed by navigators! Click{" "}
+            <Link href="/students">
+              <span
+                style={{
+                  color: "#0000ff",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+              >
+                here
+              </span>
+            </Link>{" "}
+            to check your signatures
+          </h3>
+        </div>
       )}
       {error && (
         <h3 style={{ textAlign: "center", color: "red" }}>
