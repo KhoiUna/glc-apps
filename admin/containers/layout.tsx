@@ -7,7 +7,7 @@ export default function Layout({
   children,
   componentName,
 }: {
-  children: ReactChild[];
+  children: ReactChild | ReactChild[];
   componentName: string;
 }) {
   const { data } = useAuth();
