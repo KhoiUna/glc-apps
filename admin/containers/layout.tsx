@@ -1,10 +1,16 @@
 import Head from "next/head";
-import { useEffect } from "react";
+import { ReactChild } from "react";
 import Header from "../components/header";
-import useLogin from "../lib/useLogin";
+import useAuth from "../lib/useAuth";
 
-export default function Layout({ children, componentName }) {
-  useEffect(() => {}, []);
+export default function Layout({
+  children,
+  componentName,
+}: {
+  children: ReactChild;
+  componentName: string;
+}) {
+  const { user } = useAuth();
 
   return (
     <>
@@ -21,7 +27,7 @@ export default function Layout({ children, componentName }) {
       </Head>
 
       <header>
-        <Header headerText={componentName} />
+        <Header headerText={componentName} username={user?.username} />
       </header>
 
       <main>{children}</main>

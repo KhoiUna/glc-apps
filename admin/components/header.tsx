@@ -14,8 +14,27 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { appBarTheme } from "../themes/themes";
 import Link from "next/link";
+import LogoutIcon from "@mui/icons-material/Logout";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
-export default function Header({ headerText }) {
+export default function Header({
+  headerText,
+  username,
+}: {
+  headerText: string;
+  username: string;
+}) {
+  const menuArray = [
+    {
+      title: `Logged in as ${username}`,
+      icon: <ArrowRightAltIcon />,
+      href: "",
+    },
+    { title: "Cooking", icon: <FoodBankOutlinedIcon />, href: "/" },
+    { title: "Events", icon: <EventOutlinedIcon />, href: "/events" },
+    { title: "Log out", icon: <LogoutIcon />, href: "" },
+  ];
+
   const [state, setState] = useState({
     top: false,
   });
@@ -39,18 +58,12 @@ export default function Header({ headerText }) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Cooking", "Events"].map((text, index) => (
-          <Link href={`/${index === 0 ? "" : text.toLowerCase()}`} key={text}>
+        {menuArray.map((item, index) => (
+          <Link href={item.href} key={index}>
             <ListItem button>
-              <ListItemIcon>
-                {index % 2 === 0 ? (
-                  <FoodBankOutlinedIcon />
-                ) : (
-                  <EventOutlinedIcon />
-                )}
-              </ListItemIcon>
+              <ListItemIcon>{item.icon}</ListItemIcon>
 
-              <ListItemText primary={text} />
+              <ListItemText primary={item.title} />
             </ListItem>
           </Link>
         ))}
@@ -62,24 +75,28 @@ export default function Header({ headerText }) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar sx={appBarTheme}>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
+          {headerText !== "Login" && (
+            <>
+              <Drawer
+                anchor={anchor}
+                open={state[anchor]}
+                onClose={toggleDrawer(anchor, false)}
+              >
+                {list(anchor)}
+              </Drawer>
 
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={toggleDrawer(anchor, true)}
-          >
-            <MenuIcon />
-          </IconButton>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={toggleDrawer(anchor, true)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </>
+          )}
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {headerText}
