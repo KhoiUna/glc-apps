@@ -32,7 +32,7 @@ export default function Header({
     },
     { title: "Cooking", icon: <FoodBankOutlinedIcon />, href: "/" },
     { title: "Events", icon: <EventOutlinedIcon />, href: "/events" },
-    { title: "Log out", icon: <LogoutIcon />, href: "" },
+    { title: "Log out", icon: <LogoutIcon />, href: "/api/logout" },
   ];
 
   const [state, setState] = useState({
