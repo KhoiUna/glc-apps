@@ -10,7 +10,7 @@ export default function Layout({
   children: ReactChild;
   componentName: string;
 }) {
-  const { user } = useAuth();
+  const { data } = useAuth();
 
   return (
     <>
@@ -27,7 +27,7 @@ export default function Layout({
       </Head>
 
       <header>
-        <Header headerText={componentName} username={user?.username} />
+        <Header headerText={componentName} username={data?.user.username} />
       </header>
 
       <main>{children}</main>
