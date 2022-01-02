@@ -3,12 +3,15 @@ import { sessionOptions } from "../../lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export type User = {
-  isAuthenticated: boolean;
-  username: string;
+  user: {
+    isAuthenticated: boolean;
+    username: string;
+  };
 };
 
-async function userRoute(req: NextApiRequest, res: NextApiResponse) {
-  res.json(req.session.user);
+async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
+  const user = req.session.user;
+  res.json(user);
 }
 
 export default withIronSessionApiRoute(userRoute, sessionOptions);

@@ -2,8 +2,9 @@ import client from "../../db/connection";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "../../lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
+import type { User } from "./user";
 
-async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
+async function loginRoute(req: NextApiRequest, res: NextApiResponse<User>) {
   const { username, password } = req.body;
 
   const { rows } = await client.query(
@@ -13,12 +14,12 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
 
   //TODO: compare hash
   if (rows.length === 0 || password !== rows[0].password) {
-    const user = { isAuthenticated: false };
+    const user = { isAuthenticated: false, username: "" };
     return res.json({ user });
   }
 
   const user = { username: rows[0].username, isAuthenticated: true };
-  req.session.user = user;
+  req.session.user = { user };
   await req.session.save();
 
   res.json({ user });
