@@ -1,7 +1,14 @@
 import Head from "next/head";
+import { useEffect } from "react";
 import Header from "../components/header";
 
 export default function Layout({ children, componentName }) {
+  useEffect(() => {
+    fetch("/api/login")
+      .then((r) => r.json())
+      .then(console.log);
+  }, []);
+
   return (
     <>
       <Head>
