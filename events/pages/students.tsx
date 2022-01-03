@@ -104,7 +104,9 @@ export default function SignatureTab({}) {
   if (students.length === 0)
     return (
       <Layout title="GLC Student View">
-        <h2 style={{ textAlign: "center" }}>No students have submitted yet</h2>
+        <h2 style={{ textAlign: "center" }}>
+          No submissions have been approved yet
+        </h2>
       </Layout>
     );
 
