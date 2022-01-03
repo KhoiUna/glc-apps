@@ -7,7 +7,6 @@ const saveSubmissions = require("../utils/saveSubmissions");
 const getSubmissions = require("../utils/getSubmissions");
 const deleteEvent = require("../utils/deleteEvent");
 const updateSubmission = require("../utils/updateSubmission");
-const updateStudent = require("../utils/updateStudent");
 const checkStudentName = require("../helpers/checkStudentName");
 
 const router = require("express").Router();
@@ -121,13 +120,8 @@ router.post("/submission", async (req, res, next) => {
 
 router.put("/submission/:submissionId", async (req, res, next) => {
   try {
-    const { action, student_id } = req.body;
+    const { action } = req.body;
     const { submissionId } = req.params;
-
-    if (action === "approve") {
-      if (!(await updateStudent({ student_id })))
-        return res.status(400).send("Sorry, something is wrong");
-    }
 
     if (!(await updateSubmission({ submissionId, action })))
       return res.status(400).send("Sorry, something is wrong");

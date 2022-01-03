@@ -9,10 +9,6 @@ Students.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    signature_count: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-    },
   },
   {
     sequelize,
