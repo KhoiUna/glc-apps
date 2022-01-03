@@ -100,7 +100,9 @@ export default function SignatureTab({}) {
   if (isLoading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
   if (students.length === 0)
     return (
-      <h2 style={{ textAlign: "center" }}>No students have submitted yet</h2>
+      <h2 style={{ textAlign: "center" }}>
+        No submissions have been approved yet
+      </h2>
     );
 
   return (

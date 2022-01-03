@@ -24,7 +24,7 @@ export default function Events({}) {
     <Layout componentName="Events">
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange} aria-label="Events tabs">
-          <Tab label="Opened Events" {...a11yProps(0)} />
+          <Tab label="Created Events" {...a11yProps(0)} />
           <Tab label="Submissions" {...a11yProps(1)} />
           <Tab label="Signature" {...a11yProps(2)} />
         </Tabs>
