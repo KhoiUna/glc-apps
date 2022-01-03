@@ -3,6 +3,7 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "../../lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
 import type { User } from "./user";
+import PasswordHelper from "../../lib/PasswordHelper";
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse<User>) {
   const { username, password } = req.body;
@@ -12,8 +13,10 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse<User>) {
     [username]
   );
 
-  //TODO: compare hash
-  if (rows.length === 0 || password !== rows[0].password) {
+  if (
+    rows.length === 0 ||
+    !(await PasswordHelper.comparePassword(password, rows[0].password))
+  ) {
     const user = { isAuthenticated: false, username: "" };
     return res.json({ user });
   }
