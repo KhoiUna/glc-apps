@@ -58,6 +58,26 @@ export default function OpenedEventsTab({}) {
 
   if (isLoading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
 
+  if (events.length === 0)
+    return (
+      <>
+        <h2 style={{ textAlign: "center" }}>No events have been created!</h2>
+
+        <Fab
+          onClick={createEvent}
+          color="primary"
+          aria-label="Create event"
+          sx={{ ...buttonTheme, position: "fixed", bottom: 5, right: 9 }}
+          disabled={
+            new Date(events[0]?.created_at).toLocaleDateString() ===
+            new Date().toLocaleDateString()
+          }
+        >
+          <AddIcon />
+        </Fab>
+      </>
+    );
+
   return (
     <>
       {events.map((i, index) => (
