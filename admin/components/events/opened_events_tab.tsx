@@ -50,6 +50,12 @@ export default function OpenedEventsTab({}) {
       <>
         <h2 style={{ textAlign: "center" }}>No events have been created!</h2>
 
+        <FormDialog
+          toggleFormDialog={toggleFormDialog}
+          open={open}
+          handleCreate={() => setCreated(!created)}
+        />
+
         <Fab
           onClick={toggleFormDialog}
           color="primary"
