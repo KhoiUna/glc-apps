@@ -4,10 +4,12 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { buttonTheme } from "../../themes/themes";
 import { origin } from "../../config/config";
+import FormDialog from "./form_dialog";
 
 export default function OpenedEventsTab({}) {
   const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState([]);
+  const [created, setCreated] = useState(false);
   useEffect(() => {
     setIsLoading(true);
 
@@ -18,25 +20,7 @@ export default function OpenedEventsTab({}) {
         setIsLoading(false);
       })
       .catch((err) => console.error("Error getting events"));
-  }, []);
-
-  const createEvent = async () => {
-    try {
-      const res = await (
-        await fetch(`${origin}/api/event`, {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-          body: JSON.stringify({ date: new Date().toUTCString() }),
-        })
-      ).json();
-
-      setEvents((prev) => [res, ...prev]);
-    } catch (error) {
-      console.error("Error creating event");
-    }
-  };
+  }, [created]);
 
   const deleteEvent = async ({ id }) => {
     try {
@@ -56,6 +40,9 @@ export default function OpenedEventsTab({}) {
     }
   };
 
+  const [open, setOpen] = useState(false);
+  const toggleFormDialog = () => setOpen(!open);
+
   if (isLoading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
 
   if (events.length === 0)
@@ -64,7 +51,7 @@ export default function OpenedEventsTab({}) {
         <h2 style={{ textAlign: "center" }}>No events have been created!</h2>
 
         <Fab
-          onClick={createEvent}
+          onClick={toggleFormDialog}
           color="primary"
           aria-label="Create event"
           sx={{ ...buttonTheme, position: "fixed", bottom: 5, right: 9 }}
@@ -84,15 +71,17 @@ export default function OpenedEventsTab({}) {
         <EventsPaper key={index} eventData={i} deleteEvent={deleteEvent} />
       ))}
 
+      <FormDialog
+        toggleFormDialog={toggleFormDialog}
+        open={open}
+        handleCreate={() => setCreated(!created)}
+      />
+
       <Fab
-        onClick={createEvent}
+        onClick={toggleFormDialog}
         color="primary"
         aria-label="Create event"
         sx={{ ...buttonTheme, position: "fixed", bottom: 5, right: 9 }}
-        disabled={
-          new Date(events[0]?.created_at).toLocaleDateString() ===
-          new Date().toLocaleDateString()
-        }
       >
         <AddIcon />
       </Fab>
