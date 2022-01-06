@@ -30,7 +30,8 @@ export default function Home() {
       .then((r) => {
         if (
           dateDifference(r.created_at, new Date()) >= 3 ||
-          r.status === "closed"
+          r.status === "closed" ||
+          r.status === "pending"
         ) {
           setErr(true);
         } else {
