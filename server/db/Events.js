@@ -10,7 +10,7 @@ Events.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.CHAR(6),
+      type: DataTypes.CHAR(7),
       allowNull: false,
     },
   },
