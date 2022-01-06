@@ -89,7 +89,7 @@ router.post("/submission", async (req, res, next) => {
   try {
     const { fullName, eventId, submissionDetails } = req.body;
 
-    if (!(fullName.trim() && eventId))
+    if (!fullName.trim() || !isNaN(fullName.trim()) || !eventId)
       return res.status(400).send("Sorry, something is wrong");
 
     const invalid = submissionDetails.every(

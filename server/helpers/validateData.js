@@ -1,4 +1,5 @@
 module.exports = ({ fullName, numberOfPeople, selectedDate, timeSlot }) =>
+  fullName.trim() &&
   isNaN(fullName.trim()) &&
   numberOfPeople > 0 &&
   numberOfPeople <= 8 &&
