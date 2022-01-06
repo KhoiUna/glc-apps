@@ -32,7 +32,12 @@ export default function EventsPaper({ eventData, deleteEvent }) {
           <b>Status:</b>{" "}
           <span
             style={{
-              color: eventData.status === "closed" ? "#db0505" : "#009d00",
+              color:
+                eventData.status === "closed"
+                  ? "#db0505"
+                  : eventData.status === "pending"
+                  ? "#c0c0c0"
+                  : "#009d00",
               fontWeight: "bold",
             }}
           >
