@@ -22,7 +22,10 @@ module.exports = async ({ date }) => {
       );
 
       event = res.dataValues;
-      if (process.env.NODE_ENV === "production")
+      if (
+        process.env.NODE_ENV === "production" &&
+        dateDifference(createdDate) === 0
+      )
         createDiscordEvent({
           message: `${eventSubmissionOrigin}?id=${event.id}`,
         });
