@@ -46,14 +46,14 @@ export default function EventsPaper({ eventData, deleteEvent }) {
         </Typography>
 
         <div style={{ textAlign: "right" }}>
-          {/* <Button
+          <Button
             onClick={() => deleteEvent({ id: eventData.id })}
             variant="contained"
             type="submit"
             sx={{ margin: "0.5rem 1rem 0 0", backgroundColor: "#db0505" }}
           >
             <DeleteIcon />
-          </Button> */}
+          </Button>
 
           <Button
             onClick={toggleOpenEventView}
