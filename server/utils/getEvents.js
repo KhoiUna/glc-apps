@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const Events = require("../db/Events");
 const closeEvent = require("../helpers/closeEvent");
 const dateDifference = require("../helpers/dateDifference");
@@ -5,6 +6,9 @@ const dateDifference = require("../helpers/dateDifference");
 module.exports = async () => {
   try {
     const res = await Events.findAll({
+      where: {
+        [Op.or]: [{ status: "opened" }, { status: "pending" }],
+      },
       order: [["id", "DESC"]],
     });
 
