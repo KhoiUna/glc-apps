@@ -25,7 +25,7 @@ export default function OpenedEventsTab({}) {
   const deleteEvent = async ({ id }) => {
     try {
       const confirmed = confirm(
-        "Are you sure to close submission and delete this event link?"
+        "Are you sure you want to close submission and delete this event link?"
       );
       if (!confirmed) return;
 
