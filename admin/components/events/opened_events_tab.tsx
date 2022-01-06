@@ -24,6 +24,11 @@ export default function OpenedEventsTab({}) {
 
   const deleteEvent = async ({ id }) => {
     try {
+      const confirmed = confirm(
+        "Are you sure to close submission and delete this event link?"
+      );
+      if (!confirmed) return;
+
       const res = await (
         await fetch(`${origin}/api/event/${id}`, {
           method: "DELETE",
