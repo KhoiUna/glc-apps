@@ -1,7 +1,7 @@
 import { origin } from "../config/config";
 
 export default class EventUtil {
-  static async createEvent(createdDate: Date): Promise<boolean> {
+  static async createEvent(createdDate: Date) {
     try {
       const res = await fetch(`${origin}/api/event`, {
         method: "POST",
@@ -11,12 +11,10 @@ export default class EventUtil {
         body: JSON.stringify({ date: new Date(createdDate).toUTCString() }),
       });
 
-      if (res) return true;
-
-      return false;
+      return res;
     } catch (error) {
       console.error("Error creating event");
-      return false;
+      return;
     }
   }
 }
