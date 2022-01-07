@@ -73,7 +73,10 @@ export default function FormDialog({
               label="Date mobile"
               inputFormat="MM/dd/yyyy"
               value={createdDate}
-              onChange={(newValue) => setCreatedDate(newValue)}
+              onChange={(newValue) => {
+                setCreatedDate(newValue);
+                setError("");
+              }}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
