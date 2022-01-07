@@ -13,6 +13,7 @@ import { useState } from "react";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import EventUtil from "../../utils/EventUtil";
 import CircularProgress from "@mui/material/CircularProgress";
+import { setDefaultResultOrder } from "dns/promises";
 
 interface FormDialogProps {
   toggleFormDialog: () => void;
@@ -27,14 +28,20 @@ export default function FormDialog({
 }: FormDialogProps) {
   const [createdDate, setCreatedDate] = useState(new Date());
   const [inProgress, setInProgress] = useState(false);
+  const [error, setError] = useState("");
   const handleClick = async () => {
     setInProgress(true);
 
-    if (await EventUtil.createEvent(createdDate)) {
-      setInProgress(false);
+    const res = await EventUtil.createEvent(createdDate);
+    if (res.ok) {
       handleCreate();
       toggleFormDialog();
+      return;
     }
+
+    setInProgress(false);
+    setError(await res.text());
+    return;
   };
 
   return (
@@ -78,19 +85,26 @@ export default function FormDialog({
           variant="contained"
           onClick={handleClick}
           sx={{ ...buttonTheme }}
+          disabled={inProgress}
         >
           {inProgress ? (
             <CircularProgress
               sx={{
                 width: "0.5rem",
                 height: "0.5rem",
-                color: "#fff",
               }}
             />
           ) : (
             "Create"
           )}
         </Button>
+        {error && (
+          <Typography
+            sx={{ color: "#ff0000", margin: "0.5rem 0", fontWeight: "bold" }}
+          >
+            {error}
+          </Typography>
+        )}
       </div>
     </Dialog>
   );
