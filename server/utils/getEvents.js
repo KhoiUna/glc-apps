@@ -14,6 +14,8 @@ module.exports = async () => {
 
     const events = res.map((i) => i.dataValues);
     events.map(async (item) => {
+      if (item.status === "pending") return item;
+
       if (!(dateDifference(item.created_at) > 2)) return item;
 
       if (!(await closeEvent({ id: item.id })))
