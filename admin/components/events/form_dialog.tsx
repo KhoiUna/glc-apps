@@ -12,11 +12,26 @@ import { buttonTheme, appBarTheme } from "../../themes/themes";
 import { useState } from "react";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import EventUtil from "../../utils/EventUtil";
+import CircularProgress from "@mui/material/CircularProgress";
 
-export default function FormDialog({ toggleFormDialog, open, handleCreate }) {
+interface FormDialogProps {
+  toggleFormDialog: () => void;
+  open: boolean;
+  handleCreate: () => void;
+}
+
+export default function FormDialog({
+  toggleFormDialog,
+  open,
+  handleCreate,
+}: FormDialogProps) {
   const [createdDate, setCreatedDate] = useState(new Date());
+  const [inProgress, setInProgress] = useState(false);
   const handleClick = async () => {
+    setInProgress(true);
+
     if (await EventUtil.createEvent(createdDate)) {
+      setInProgress(false);
       handleCreate();
       toggleFormDialog();
     }
@@ -64,7 +79,17 @@ export default function FormDialog({ toggleFormDialog, open, handleCreate }) {
           onClick={handleClick}
           sx={{ ...buttonTheme }}
         >
-          Create
+          {inProgress ? (
+            <CircularProgress
+              sx={{
+                width: "0.5rem",
+                height: "0.5rem",
+                color: "#fff",
+              }}
+            />
+          ) : (
+            "Create"
+          )}
         </Button>
       </div>
     </Dialog>
