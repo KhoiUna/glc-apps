@@ -13,6 +13,10 @@ Events.init(
       type: DataTypes.CHAR(7),
       allowNull: false,
     },
+    sql_created_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
   },
   {
     sequelize,

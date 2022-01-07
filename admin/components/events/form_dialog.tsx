@@ -12,14 +12,36 @@ import { buttonTheme, appBarTheme } from "../../themes/themes";
 import { useState } from "react";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import EventUtil from "../../utils/EventUtil";
+import CircularProgress from "@mui/material/CircularProgress";
+import { setDefaultResultOrder } from "dns/promises";
 
-export default function FormDialog({ toggleFormDialog, open, handleCreate }) {
+interface FormDialogProps {
+  toggleFormDialog: () => void;
+  open: boolean;
+  handleCreate: () => void;
+}
+
+export default function FormDialog({
+  toggleFormDialog,
+  open,
+  handleCreate,
+}: FormDialogProps) {
   const [createdDate, setCreatedDate] = useState(new Date());
+  const [inProgress, setInProgress] = useState(false);
+  const [error, setError] = useState("");
   const handleClick = async () => {
-    if (await EventUtil.createEvent(createdDate)) {
+    setInProgress(true);
+
+    const res = await EventUtil.createEvent(createdDate);
+    if (res.ok) {
       handleCreate();
       toggleFormDialog();
+      return;
     }
+
+    setInProgress(false);
+    setError(await res.text());
+    return;
   };
 
   return (
@@ -51,7 +73,10 @@ export default function FormDialog({ toggleFormDialog, open, handleCreate }) {
               label="Date mobile"
               inputFormat="MM/dd/yyyy"
               value={createdDate}
-              onChange={(newValue) => setCreatedDate(newValue)}
+              onChange={(newValue) => {
+                setCreatedDate(newValue);
+                setError("");
+              }}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
@@ -63,9 +88,26 @@ export default function FormDialog({ toggleFormDialog, open, handleCreate }) {
           variant="contained"
           onClick={handleClick}
           sx={{ ...buttonTheme }}
+          disabled={inProgress}
         >
-          Create
+          {inProgress ? (
+            <CircularProgress
+              sx={{
+                width: "0.5rem",
+                height: "0.5rem",
+              }}
+            />
+          ) : (
+            "Create"
+          )}
         </Button>
+        {error && (
+          <Typography
+            sx={{ color: "#ff0000", margin: "0.5rem 0", fontWeight: "bold" }}
+          >
+            {error}
+          </Typography>
+        )}
       </div>
     </Dialog>
   );

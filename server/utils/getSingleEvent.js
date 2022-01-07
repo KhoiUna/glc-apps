@@ -10,6 +10,7 @@ module.exports = async ({ id }) => {
 
     const event = res.dataValues;
     if (!(dateDifference(event.created_at) > 2)) return event;
+    if (event.status === "pending") return event;
     if (await closeEvent({ id })) return event;
 
     return;

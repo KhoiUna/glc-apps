@@ -8,6 +8,8 @@ const getSubmissions = require("../utils/getSubmissions");
 const deleteEvent = require("../utils/deleteEvent");
 const updateSubmission = require("../utils/updateSubmission");
 const checkStudentName = require("../helpers/checkStudentName");
+const checkEvent = require("../helpers/checkEvent");
+const validateEventDate = require("../helpers/validateEventDate");
 
 const router = require("express").Router();
 
@@ -25,7 +27,15 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const eventId = await saveEvent({ date: req.body.date });
+    const { date } = req.body;
+
+    if (!validateEventDate({ date }))
+      return res.status(406).send("Don't try to go back in time!");
+
+    if (await checkEvent({ date }))
+      return res.status(406).send("An event already created on this date!");
+
+    const eventId = await saveEvent({ date });
     if (!eventId)
       return res.status(406).send("Sorry, there is something wrong");
 
