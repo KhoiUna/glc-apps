@@ -3,8 +3,8 @@
 require("dotenv").config();
 const { Op } = require("sequelize");
 const { eventSubmissionOrigin } = require("../../config");
-const createDiscordEvent = require("../../helpers/createDiscordEvent");
 const Events = require("../Events");
+const createDiscordEvent = require("../../helpers/createDiscordEvent");
 
 (async () => {
   try {
@@ -30,13 +30,13 @@ const Events = require("../Events");
 
     if (process.env.NODE_ENV === "production" && res[1].length !== 0) {
       const id = res[1][0].dataValues.id;
-      createDiscordEvent({
+      await createDiscordEvent({
         message: `${eventSubmissionOrigin}?id=${id}`,
       });
     }
 
     return process.exit();
-  } catch (e) {
+  } catch (err) {
     console.error("Error getting single event");
     return process.exit();
   }
