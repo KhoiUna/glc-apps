@@ -17,6 +17,7 @@ module.exports = async ({ date }) => {
         {
           created_at: createdDate,
           status: dateDifference(createdDate) > 0 ? "pending" : "opened",
+          sql_created_at: d,
         },
         { transaction: t }
       );

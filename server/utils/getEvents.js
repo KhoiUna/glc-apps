@@ -9,7 +9,7 @@ module.exports = async () => {
       where: {
         [Op.or]: [{ status: "opened" }, { status: "pending" }],
       },
-      order: [["id", "DESC"]],
+      order: [["sql_created_at", "DESC"]],
     });
 
     const events = res.map((i) => i.dataValues);
