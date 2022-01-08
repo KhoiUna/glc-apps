@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const Events = require("../db/Events");
 
 module.exports = async ({ date }) => {
@@ -10,6 +11,7 @@ module.exports = async ({ date }) => {
     const res = await Events.findOne({
       where: {
         created_at: createdDate,
+        [Op.or]: [{ status: "opened" }, { status: "pending" }],
       },
     });
     return res?.dataValues.id;
