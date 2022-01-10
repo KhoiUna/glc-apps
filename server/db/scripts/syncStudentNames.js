@@ -11,7 +11,7 @@ const updateBackupStudentNamesTable = async () => {
 
 const updateStudentsTable = async () => {
   await connection.query(
-    "truncate events, students, submissions, reservations restart identity;"
+    "truncate students, submissions, reservations restart identity;"
   );
   await connection.query(
     "insert into students(full_name) select distinct full_name from backup_student_names order by full_name;"
