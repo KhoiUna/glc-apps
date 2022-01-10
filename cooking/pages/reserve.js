@@ -149,16 +149,7 @@ export default function Reserve() {
               spacing={3}
             >
               <h2 className="reserve-notice">PLEASE FILL IN ALL FIELDS</h2>
-              <h3
-                style={{
-                  color: "#00e412",
-                  margin: "1rem 1.5rem",
-                  textAlign: "center",
-                  fontStyle: "italic",
-                }}
-              >
-                * Tip: do not close this tab for faster reserving next time!
-              </h3>
+              <br />
 
               <Grid item xs={12} sm={6}>
                 <Autocomplete
