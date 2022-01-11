@@ -10,6 +10,7 @@ import StudentUtil from "../../utils/StudentUtil";
 import Paper from "@mui/material/Paper";
 import Image from "next/image";
 import imageLoader from "../../helpers/imageLoader";
+import { maxSignatureCount } from "../../config/config";
 
 interface StudentViewDialogProps {
   toggleOpenDialog: () => any;
@@ -64,7 +65,7 @@ export default function StudentViewDialog({
         </Typography>
 
         <Typography variant="h6" component="div">
-          Signature count: {signatureCount} / 8
+          Signature count: {signatureCount} / {maxSignatureCount}
         </Typography>
       </div>
 
