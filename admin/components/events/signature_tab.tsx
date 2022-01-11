@@ -7,7 +7,7 @@ import StudentUtil from "../../utils/StudentUtil";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Fab from "@mui/material/Fab";
 import { buttonTheme } from "../../themes/themes";
-import { origin } from "../../config/config";
+import { maxSignatureCount, origin } from "../../config/config";
 import TextField from "@mui/material/TextField";
 
 const StudentPaper = ({ item }) => {
@@ -27,7 +27,7 @@ const StudentPaper = ({ item }) => {
           <b>Student name:</b> {item.full_name}
         </Typography>
         <Typography>
-          <b>Signature count:</b> {item.signature_count} / 8
+          <b>Signature count:</b> {item.signature_count} / {maxSignatureCount}
         </Typography>
 
         <div style={{ textAlign: "right" }}>

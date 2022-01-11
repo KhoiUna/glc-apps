@@ -3,4 +3,5 @@ module.exports = {
   submissionOrigin:
     process.env.NEXT_PUBLIC_SUBMISSION_ORIGIN ||
     "https://glc-events.vercel.app",
+  maxSignatureCount: 6,
 };
