@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import StudentUtil from "../utils/StudentUtil";
 import TextField from "@mui/material/TextField";
 import Layout from "../containers/layout";
+import { maxSignatureCount } from "../config/config";
 
 const StudentPaper = ({ item }) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -24,7 +25,7 @@ const StudentPaper = ({ item }) => {
           <b>Student name:</b> {item.full_name}
         </Typography>
         <Typography>
-          <b>Signature count:</b> {item.signature_count} / 8
+          <b>Signature count:</b> {item.signature_count} / {maxSignatureCount}
         </Typography>
 
         <div style={{ textAlign: "right" }}>
