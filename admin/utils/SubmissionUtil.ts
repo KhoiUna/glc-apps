@@ -21,6 +21,15 @@ export default class SubmissionUtil {
     }
   }
 
+  static async fetchPendingSubmissionsCount(): Promise<number> {
+    try {
+      const count = await (await fetch("/api/events/submissions/count")).json();
+      return count;
+    } catch (err) {
+      console.error("Error fetching pending submissions count -util");
+    }
+  }
+
   static async updateSubmission({
     id,
     action,

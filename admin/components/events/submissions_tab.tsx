@@ -11,15 +11,22 @@ export default function SubmissionsTab({}) {
   const [isLoading, setIsLoading] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const [dateIndex, setDateIndex] = useState(0);
+  const [pendingSubmissionsCount, setPendingSubmissionsCount] = useState(0);
   useEffect(() => {
     setIsLoading(true);
 
     SubmissionUtil.getSubmissions({ dateIndex })
+      .then((r) => setSubmissions(r))
+      .catch((err) => console.error("Error getting submissions"));
+
+    SubmissionUtil.fetchPendingSubmissionsCount()
       .then((r) => {
-        setSubmissions(r);
+        setPendingSubmissionsCount(r);
         setIsLoading(false);
       })
-      .catch((err) => console.error("Error getting submissions"));
+      .catch((err) =>
+        console.error("Error fetching pending submissions count")
+      );
   }, [dateIndex]);
 
   const backAndForwardDate = (direction: "left" | "right") => {
@@ -35,10 +42,12 @@ export default function SubmissionsTab({}) {
     action: "approve" | "reject";
     id: number;
     student_id: number;
-  }): Promise<any> => {
+  }) => {
     try {
-      if (await SubmissionUtil.updateSubmission({ action, student_id, id }))
+      if (await SubmissionUtil.updateSubmission({ action, student_id, id })) {
+        setPendingSubmissionsCount((prev) => prev - 1);
         return setSubmissions((prev) => prev.filter((item) => item.id !== id));
+      }
     } catch (err) {
       console.error(`Error ${action} submission`);
       return;
@@ -48,6 +57,10 @@ export default function SubmissionsTab({}) {
   if (isLoading)
     return (
       <>
+        <Typography sx={{ margin: "1rem 0.5rem" }}>
+          <b>Pending submissions left:</b> ...
+        </Typography>
+
         <Stack
           direction="row"
           justifyContent="space-evenly"
@@ -84,6 +97,19 @@ export default function SubmissionsTab({}) {
   if (submissions.length === 0)
     return (
       <>
+        <Typography sx={{ margin: "1rem 0.5rem" }}>
+          <b>Pending submissions left:</b>{" "}
+          <span
+            style={
+              pendingSubmissionsCount > 0
+                ? { color: "red", fontWeight: "bold" }
+                : null
+            }
+          >
+            {pendingSubmissionsCount}
+          </span>
+        </Typography>
+
         <Stack
           direction="row"
           justifyContent="space-evenly"
@@ -119,6 +145,19 @@ export default function SubmissionsTab({}) {
 
   return (
     <>
+      <Typography sx={{ margin: "1rem 0.5rem" }}>
+        <b>Pending submissions left:</b>{" "}
+        <span
+          style={
+            pendingSubmissionsCount > 0
+              ? { color: "red", fontWeight: "bold" }
+              : null
+          }
+        >
+          {pendingSubmissionsCount}
+        </span>
+      </Typography>
+
       <Stack
         direction="row"
         justifyContent="space-evenly"
