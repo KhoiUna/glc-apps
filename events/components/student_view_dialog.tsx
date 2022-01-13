@@ -95,8 +95,9 @@ export default function StudentViewDialog({
               }}
             >
               <Image
-                priority
                 loader={imageLoader}
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP05559BgADaQHDtWQFWQAAAABJRU5ErkJggg=="
                 src={item.img_url}
                 height={450}
                 width={450}
