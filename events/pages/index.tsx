@@ -22,13 +22,15 @@ export default function Home() {
   useEffect(() => {
     setIsLoading(true);
 
-    const url = new URL(window.location);
+    const url = new URL(window.location.href);
     const eventId = url.searchParams.get("id");
 
     fetch(`${origin}/api/event/${eventId}`)
       .then((r) => r.json())
       .then((r) => {
-        if (      
+        r.status = r.status.trim();
+
+        if (
           r.status === "closed" ||
           r.status === "pending" ||
           dateDifference(r.created_at, new Date()) > 2
@@ -111,7 +113,7 @@ export default function Home() {
     try {
       setError(false);
 
-      const url = new URL(window.location);
+      const url = new URL(window.location.href);
       const eventId = url.searchParams.get("id");
       const submitObject = {
         fullName,
@@ -211,7 +213,7 @@ export default function Home() {
               key={index}
               index={index}
               submissionDetailsLength={submissionDetails.length}
-              submissionDetail={i}
+              // submissionDetail={i}
               createSubmissionDetails={createSubmissionDetails}
               removeSubmissionDetails={removeSubmissionDetails}
               handleChangeSubmissionDetails={handleChangeSubmissionDetails}

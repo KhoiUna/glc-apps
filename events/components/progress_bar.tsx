@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 
-export default function ProgressBar({ progressValue }) {
+interface ProgressBarProps {
+  progressValue: number;
+}
+
+export default function ProgressBar({ progressValue }: ProgressBarProps) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
