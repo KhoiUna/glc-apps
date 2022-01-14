@@ -31,7 +31,7 @@ export default function Home() {
         if (      
           r.status === "closed" ||
           r.status === "pending" ||
-          dateDifference(r.created_at, new Date()) >= 3
+          dateDifference(r.created_at, new Date()) > 2
         ) {
           setErr(true);
         } else {
