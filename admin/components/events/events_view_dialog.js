@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { appBarTheme } from "../../themes/themes";
 import { submissionOrigin } from "../../config/config";
+import Image from "next/image";
 
 export default function EventsViewDialog({
   toggleOpenEventView,
@@ -31,9 +32,13 @@ export default function EventsViewDialog({
       </AppBar>
 
       <div style={{ textAlign: "center", marginTop: "4rem" }}>
-        <img
+        <Image
           width={150}
+          height={150}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP05559BgADaQHDtWQFWQAAAABJRU5ErkJggg=="
           src={`https://api.qrserver.com/v1/create-qr-code/?data=${submissionOrigin}?id=${eventName}`}
+          alt="Event's QR code"
         />
       </div>
 
