@@ -13,7 +13,7 @@
     "@mui/icons-material": "^5.2.5",
     "@mui/lab": "^5.0.0-alpha.54",
     "@mui/material": "^5.2.5",
-    "@types/node": "^16.11.15",
+    "@types/node": "^16.11.17",
     "@types/react": "^17.0.37",
     "bcrypt": "^5.0.1",
     "date-fns": "^2.27.0",
