@@ -28,10 +28,10 @@ export default function Home() {
     fetch(`${origin}/api/event/${eventId}`)
       .then((r) => r.json())
       .then((r) => {
-        if (
-          dateDifference(r.created_at, new Date()) >= 3 ||
+        if (      
           r.status === "closed" ||
-          r.status === "pending"
+          r.status === "pending" ||
+          dateDifference(r.created_at, new Date()) >= 3
         ) {
           setErr(true);
         } else {
