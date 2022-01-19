@@ -38,7 +38,9 @@ export default function FeedbackTab({ value, index }) {
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
       >
-        <Typography>No feedback!</Typography>
+        <Typography>
+          <b>No feedback!</b>
+        </Typography>
       </div>
     );
 
