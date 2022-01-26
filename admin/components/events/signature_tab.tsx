@@ -56,6 +56,8 @@ export default function SignatureTab({}) {
   useEffect(() => {
     setIsLoading(true);
 
+    const controller = new AbortController();
+
     StudentUtil.fetchAllStudents()
       .then((r) => {
         setStudents(r);
@@ -66,6 +68,10 @@ export default function SignatureTab({}) {
         console.error("Error getting students");
         setIsLoading(false);
       });
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const downloadCsv = async () => {

@@ -13,13 +13,21 @@ export default function OpenedEventsTab({}) {
   useEffect(() => {
     setIsLoading(true);
 
-    fetch(`${origin}/api/event`)
+    const controller = new AbortController();
+
+    fetch(`${origin}/api/event`, {
+      signal: controller.signal,
+    })
       .then((r) => r.json())
       .then((r) => {
         setEvents(r);
         setIsLoading(false);
       })
       .catch((err) => console.error("Error getting events"));
+
+    return () => {
+      controller.abort();
+    };
   }, [created]);
 
   const deleteEvent = async ({ id }) => {

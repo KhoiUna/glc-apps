@@ -15,6 +15,8 @@ export default function SubmissionsTab({}) {
   useEffect(() => {
     setIsLoading(true);
 
+    const controller = new AbortController();
+
     SubmissionUtil.getSubmissions({ dateIndex })
       .then((r) => setSubmissions(r))
       .catch((err) => console.error("Error getting submissions"));
@@ -27,6 +29,10 @@ export default function SubmissionsTab({}) {
       .catch((err) =>
         console.error("Error fetching pending submissions count")
       );
+
+    return () => {
+      controller.abort();
+    };
   }, [dateIndex]);
 
   const backAndForwardDate = (direction: "left" | "right") => {
