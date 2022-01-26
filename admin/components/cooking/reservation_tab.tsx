@@ -13,10 +13,14 @@ export default function ReservationTab({ value, index }) {
   useEffect(() => {
     setIsLoading(true);
 
+    const controller = new AbortController();
+
     const fetchReservations = async () => {
       try {
         const res = await (
-          await fetch(`${origin}/api/reserve?dateIndex=${dateIndex}`)
+          await fetch(`${origin}/api/reserve?dateIndex=${dateIndex}`, {
+            signal: controller.signal,
+          })
         ).json();
         return res;
       } catch (err) {
@@ -30,6 +34,10 @@ export default function ReservationTab({ value, index }) {
         setIsLoading(false);
       })
       .catch((err) => console.error("Error getting reservations"));
+
+    return () => {
+      controller.abort();
+    };
   }, [dateIndex]);
 
   const handleClick = (direction) => {
