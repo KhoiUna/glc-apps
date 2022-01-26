@@ -7,13 +7,21 @@ export default function FeedbackTab({ value, index }) {
   useEffect(() => {
     setIsLoading(true);
 
-    fetch("/api/cooking/feedback")
+    const controller = new AbortController();
+
+    fetch("/api/cooking/feedback", {
+      signal: controller.signal,
+    })
       .then((r) => r.json())
       .then((r) => {
         setFeedback(r);
         setIsLoading(false);
       })
       .catch((err) => console.error("Error fetching feedback"));
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   if (isLoading)
