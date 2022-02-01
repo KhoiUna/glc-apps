@@ -175,6 +175,14 @@ export default function Home() {
 
       {!success && (
         <form onSubmit={handleSubmit}>
+          <Typography
+            variant="body1"
+            sx={{ margin: "1rem 1.5rem", color: "red" }}
+          >
+            * If this is your first time submitting, your name will not show in
+            the dropdown menu.
+          </Typography>
+
           <Stack
             sx={{ margin: "1.5rem 1rem" }}
             direction="row"
