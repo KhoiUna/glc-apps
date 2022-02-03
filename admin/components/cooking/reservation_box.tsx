@@ -1,3 +1,5 @@
+import useAuth from "../../lib/useAuth";
+
 export default function ReservationBox({
   id,
   fullName,
@@ -6,6 +8,8 @@ export default function ReservationBox({
   numberOfPeople,
   handleClick,
 }) {
+  const { data } = useAuth();
+
   return (
     <div
       style={{
@@ -31,18 +35,20 @@ export default function ReservationBox({
           <b>Num of Ppl: </b>
           {numberOfPeople}
         </span>
-        <span
-          style={{
-            textDecoration: "underline",
-            fontWeight: "bold",
-            color: "red",
-            cursor: "pointer",
-            marginLeft: "0.5rem",
-          }}
-          onClick={() => handleClick(id)}
-        >
-          Delete
-        </span>
+        {data.user.username === "admin" && (
+          <span
+            style={{
+              textDecoration: "underline",
+              fontWeight: "bold",
+              color: "red",
+              cursor: "pointer",
+              marginLeft: "0.5rem",
+            }}
+            onClick={() => handleClick(id)}
+          >
+            Delete
+          </span>
+        )}
       </p>
     </div>
   );
