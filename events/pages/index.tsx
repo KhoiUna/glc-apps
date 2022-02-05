@@ -175,13 +175,25 @@ export default function Home() {
 
       {!success && (
         <form onSubmit={handleSubmit}>
-          <Typography
-            variant="body1"
-            sx={{ margin: "1rem 1.5rem", color: "red" }}
-          >
-            * If this is your first time submitting, your name will not show in
-            the dropdown menu.
-          </Typography>
+          <ul>
+            <li>
+              <Typography
+                variant="body1"
+                sx={{ margin: "1rem 1.5rem", color: "red" }}
+              >
+                If this is your first time submitting, your name will not show
+                in the dropdown menu.
+              </Typography>
+            </li>
+            <li>
+              <Typography
+                variant="body1"
+                sx={{ margin: "1rem 1.5rem", color: "red" }}
+              >
+                Please wait for navigators to approve your submissions
+              </Typography>
+            </li>
+          </ul>
 
           <Stack
             sx={{ margin: "1.5rem 1rem" }}
@@ -240,7 +252,11 @@ export default function Home() {
         <div style={{ margin: "5rem 1rem" }}>
           <h3 style={{ textAlign: "center", color: "#1da51d" }}>
             Successsfully submitted! <br />
-            Please wait to be reviewed by navigators! Click{" "}
+            <span style={{ color: "red" }}>
+              Please wait to be reviewed by navigators!
+            </span>
+            <br />
+            Click{" "}
             <Link href="/students">
               <span
                 style={{
