@@ -5,6 +5,8 @@ import Paper from "@mui/material/Paper";
 import Image from "next/image";
 import imageLoader from "../../helpers/imageLoader";
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import StudentViewDialog from "./student_view_dialog";
 
 interface SubmissionPaperProps {
   submissionDetail: {
@@ -33,6 +35,9 @@ export default function SubmissionPaper({
   const { id, event_name, full_name, img_url, submitted_at, student_id } =
     submissionDetail;
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const toggleOpenDialog = () => setOpenDialog(!openDialog);
+
   return (
     <Paper
       elevation={3}
@@ -42,7 +47,18 @@ export default function SubmissionPaper({
       }}
     >
       <Typography>
-        <b>Student name:</b> {full_name}
+        <b>Student name:</b>{" "}
+        <span
+          onClick={toggleOpenDialog}
+          style={{
+            color: "#46166B",
+            textDecoration: "underline",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          {full_name}
+        </span>
       </Typography>
       <Typography>
         <b>Event name:</b> {event_name}
@@ -97,6 +113,17 @@ export default function SubmissionPaper({
           <CheckIcon />
         </IconButton>
       </div>
+
+      {openDialog && (
+        <StudentViewDialog
+          toggleOpenDialog={toggleOpenDialog}
+          openDialog={openDialog}
+          studentId={student_id}
+          studentName={full_name}
+          signatureCount={0}
+          fromPage="submission"
+        />
+      )}
     </Paper>
   );
 }

@@ -18,6 +18,7 @@ interface StudentViewDialogProps {
   studentId: number;
   studentName: string;
   signatureCount: number;
+  fromPage?: string;
 }
 export default function StudentViewDialog({
   toggleOpenDialog,
@@ -25,6 +26,7 @@ export default function StudentViewDialog({
   studentId,
   studentName,
   signatureCount,
+  fromPage = "signature",
 }: StudentViewDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [submissionDetails, setSubmissionDetails] = useState([]);
@@ -64,9 +66,11 @@ export default function StudentViewDialog({
           {studentName}
         </Typography>
 
-        <Typography variant="h6" component="div">
-          Signature count: {signatureCount} / {maxSignatureCount}
-        </Typography>
+        {fromPage === "signature" && (
+          <Typography variant="h6" component="div">
+            Signature count: {signatureCount} / {maxSignatureCount}
+          </Typography>
+        )}
       </div>
 
       {isLoading && <h2 style={{ margin: "1rem auto" }}>Loading...</h2>}
@@ -107,6 +111,10 @@ export default function StudentViewDialog({
             </div>
           </Paper>
         ))}
+
+      {submissionDetails.length === 0 && (
+        <h2 style={{ margin: "1rem auto" }}>No submissions yet!</h2>
+      )}
     </Dialog>
   );
 }
