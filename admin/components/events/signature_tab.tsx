@@ -43,7 +43,6 @@ const StudentPaper = ({ item }) => {
           openDialog={openDialog}
           studentId={item.id}
           studentName={item.full_name}
-          signatureCount={item.signature_count}
         />
       )}
     </>

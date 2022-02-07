@@ -120,8 +120,6 @@ export default function SubmissionPaper({
           openDialog={openDialog}
           studentId={student_id}
           studentName={full_name}
-          signatureCount={0}
-          fromPage="submission"
         />
       )}
     </Paper>
