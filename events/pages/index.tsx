@@ -190,7 +190,7 @@ export default function Home() {
                 variant="body1"
                 sx={{ margin: "1rem 1.5rem", color: "red" }}
               >
-                Please wait for navigators to approve your submissions
+                Please wait for Maria to approve your submissions
               </Typography>
             </li>
           </ul>
@@ -253,7 +253,7 @@ export default function Home() {
           <h3 style={{ textAlign: "center", color: "#1da51d" }}>
             Successsfully submitted! <br />
             <span style={{ color: "red" }}>
-              Please wait to be reviewed by navigators!
+              Please wait to be reviewed by Maria!
             </span>
             <br />
             Click{" "}
