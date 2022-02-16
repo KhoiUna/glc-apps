@@ -11,6 +11,9 @@ import Paper from "@mui/material/Paper";
 import Image from "next/image";
 import imageLoader from "../../helpers/imageLoader";
 import { maxSignatureCount } from "../../config/config";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Button from "@mui/material/Button";
+import SubmissionUtil from "../../utils/SubmissionUtil";
 
 interface StudentViewDialogProps {
   toggleOpenDialog: () => any;
@@ -38,6 +41,36 @@ export default function StudentViewDialog({
         console.error("Error getting student's approved submission details")
       );
   }, []);
+
+  const deleteSubmission = async ({
+    id,
+    student_id,
+  }: {
+    id: number;
+    student_id: number;
+  }) => {
+    try {
+      const confirmed = confirm(
+        "Are you sure you want to delete this submission?"
+      );
+
+      if (!confirmed) return;
+
+      if (
+        await SubmissionUtil.updateSubmission({
+          action: "reject",
+          student_id,
+          id,
+        })
+      )
+        return setSubmissionDetails((prev) =>
+          prev.filter((item) => item.id !== id)
+        );
+    } catch (err) {
+      console.error(`Error deleting submission`);
+      return;
+    }
+  };
 
   return (
     <Dialog fullScreen open={openDialog} onClose={toggleOpenDialog}>
@@ -77,6 +110,9 @@ export default function StudentViewDialog({
             key={index}
           >
             <Typography>
+              <b>#{item.id}</b>
+            </Typography>
+            <Typography>
               <b>Event name:</b> {item.event_name}
             </Typography>
             <Typography>
@@ -103,6 +139,19 @@ export default function StudentViewDialog({
                 width={450}
                 alt={`${studentName}'s submission image: ${item.event_name}`}
               />
+            </div>
+
+            <div style={{ textAlign: "right" }}>
+              <Button
+                onClick={() =>
+                  deleteSubmission({ id: item.id, student_id: item.student_id })
+                }
+                variant="contained"
+                type="submit"
+                sx={{ margin: "0.5rem 1rem 0 0", backgroundColor: "#db0505" }}
+              >
+                <DeleteIcon />
+              </Button>
             </div>
           </Paper>
         ))}
