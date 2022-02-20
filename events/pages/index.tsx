@@ -173,28 +173,35 @@ export default function Home() {
         </Typography>
       </div>
 
+      <ul
+        style={{
+          border: "3px solid #000",
+          borderRadius: "12px",
+          margin: "0 0.5rem",
+          backgroundColor: "#f7f7f7",
+        }}
+      >
+        <li>
+          <Typography
+            variant="body1"
+            sx={{ margin: "1rem 1.5rem", color: "red" }}
+          >
+            If this is your first time submitting, your name will not show in
+            the dropdown menu.
+          </Typography>
+        </li>
+        <li>
+          <Typography
+            variant="body1"
+            sx={{ margin: "1rem 1.5rem", color: "red" }}
+          >
+            Please wait for Maria to approve your submissions
+          </Typography>
+        </li>
+      </ul>
+
       {!success && (
         <form onSubmit={handleSubmit}>
-          <ul>
-            <li>
-              <Typography
-                variant="body1"
-                sx={{ margin: "1rem 1.5rem", color: "red" }}
-              >
-                If this is your first time submitting, your name will not show
-                in the dropdown menu.
-              </Typography>
-            </li>
-            <li>
-              <Typography
-                variant="body1"
-                sx={{ margin: "1rem 1.5rem", color: "red" }}
-              >
-                Please wait for Maria to approve your submissions
-              </Typography>
-            </li>
-          </ul>
-
           <Stack
             sx={{ margin: "1.5rem 1rem" }}
             direction="row"
