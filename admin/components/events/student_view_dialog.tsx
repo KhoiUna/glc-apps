@@ -102,6 +102,9 @@ export default function StudentViewDialog({
       </div>
 
       {isLoading && <h2 style={{ margin: "1rem auto" }}>Loading...</h2>}
+      {!isLoading && submissionDetails.length === 0 && (
+        <h2 style={{ margin: "1rem auto" }}>No approved submissions yet!</h2>
+      )}
       {!isLoading &&
         submissionDetails.map((item, index) => (
           <Paper
@@ -110,7 +113,7 @@ export default function StudentViewDialog({
             key={index}
           >
             <Typography>
-              <b>#{item.id}</b>
+              <b>Submission ID: #{item.id}</b>
             </Typography>
             <Typography>
               <b>Event name:</b> {item.event_name}
@@ -155,10 +158,6 @@ export default function StudentViewDialog({
             </div>
           </Paper>
         ))}
-
-      {!isLoading && submissionDetails.length === 0 && (
-        <h2 style={{ margin: "1rem auto" }}>No submissions yet!</h2>
-      )}
     </Dialog>
   );
 }
