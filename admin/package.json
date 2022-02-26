@@ -12,7 +12,7 @@
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.3.1",
     "@mui/lab": "^5.0.0-alpha.54",
-    "@mui/material": "^5.3.0",
+    "@mui/material": "^5.4.0",
     "@types/node": "^16.11.21",
     "@types/react": "^17.0.39",
     "bcrypt": "^5.0.1",
