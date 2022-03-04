@@ -1,3 +1,4 @@
+import { DateRangeSharp } from "@mui/icons-material";
 import { origin } from "../config/config";
 
 export default class SubmissionUtil {
@@ -27,6 +28,19 @@ export default class SubmissionUtil {
       return count;
     } catch (err) {
       console.error("Error fetching pending submissions count -util");
+    }
+  }
+
+  static async fetchPendingSubmissionsDates(): Promise<
+    Array<{ created_at: string }>
+  > {
+    try {
+      const dates = await (
+        await fetch("/api/events/submissions/pendingDates")
+      ).json();
+      return dates;
+    } catch (err) {
+      console.error("Error fetching pending submissions dates -util");
     }
   }
 
