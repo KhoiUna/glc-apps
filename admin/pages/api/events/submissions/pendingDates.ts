@@ -18,8 +18,12 @@ async function getPendingSubmissionsDates(
     const { rows } = await client.query(sql);
 
     const dates = rows
-      .map(({ created_at }) => new Date(created_at).toLocaleDateString())
-      .sort();
+      .sort(
+        (a: { created_at: string }, b: { created_at: string }) =>
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      )
+      .map(({ created_at }) => new Date(created_at).toLocaleDateString());
+
     res.json(dates);
   } catch (err) {
     console.error("Error getting pending submissions dates");
