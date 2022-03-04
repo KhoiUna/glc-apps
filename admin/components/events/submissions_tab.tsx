@@ -1,44 +1,91 @@
 import { useEffect, useState } from "react";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import SubmissionUtil from "../../utils/SubmissionUtil";
-import calculateDate from "../../helpers/calculateDate";
-import Stack from "@mui/material/Stack";
-import { buttonTheme } from "../../themes/themes";
 import SubmissionPaper from "./submission_paper";
+
+const PendingSubmissionsCountComp = ({
+  isLoading = false,
+  pendingSubmissionsCount = 0,
+  currentSubmissionsCount = 0,
+}: {
+  isLoading?: boolean;
+  pendingSubmissionsCount?: number;
+  currentSubmissionsCount?: number;
+}) => {
+  if (isLoading)
+    return (
+      <Typography sx={{ margin: "1rem 0.5rem" }}>
+        <b>Total submissions left:</b>...
+        <br />
+        <b>Current submissions left:</b>...
+      </Typography>
+    );
+
+  return (
+    <Typography sx={{ margin: "1rem 0.5rem" }}>
+      <b>Total submissions left:</b>{" "}
+      <span
+        style={
+          pendingSubmissionsCount > 0
+            ? { color: "red", fontWeight: "bold" }
+            : null
+        }
+      >
+        {pendingSubmissionsCount}
+      </span>
+      <br />
+      <b>Current submissions left:</b>{" "}
+      <span
+        style={
+          currentSubmissionsCount > 0
+            ? { color: "red", fontWeight: "bold" }
+            : null
+        }
+      >
+        {currentSubmissionsCount}
+      </span>
+    </Typography>
+  );
+};
 
 export default function SubmissionsTab({}) {
   const [isLoading, setIsLoading] = useState(false);
   const [submissions, setSubmissions] = useState([]);
-  const [dateIndex, setDateIndex] = useState(0);
+  const [pendingSubmissionsDates, setPendingSubmissionsDates] = useState([]);
   const [pendingSubmissionsCount, setPendingSubmissionsCount] = useState(0);
+  const [queryDate, setQueryDate] = useState("");
   useEffect(() => {
     setIsLoading(true);
 
     const controller = new AbortController();
 
-    SubmissionUtil.getSubmissions({ dateIndex })
+    SubmissionUtil.getSubmissions({ queryDate })
       .then((r) => setSubmissions(r))
       .catch((err) => console.error("Error getting submissions"));
 
     SubmissionUtil.fetchPendingSubmissionsCount()
+      .then((r) => setPendingSubmissionsCount(r))
+      .catch((err) =>
+        console.error("Error fetching pending submissions count")
+      );
+
+    SubmissionUtil.fetchPendingSubmissionsDates()
       .then((r) => {
-        setPendingSubmissionsCount(r);
+        setPendingSubmissionsDates(r);
         setIsLoading(false);
       })
       .catch((err) =>
-        console.error("Error fetching pending submissions count")
+        console.error("Error fetching pending submissions dates")
       );
 
     return () => {
       controller.abort();
     };
-  }, [dateIndex]);
-
-  const backAndForwardDate = (direction: "left" | "right") => {
-    if (direction === "left") return setDateIndex((prev) => prev - 1);
-    if (direction === "right") return setDateIndex((prev) => prev + 1);
-  };
+  }, [queryDate]);
 
   const approveOrRejectSubmission = async ({
     action,
@@ -48,149 +95,152 @@ export default function SubmissionsTab({}) {
     action: "approve" | "reject";
     id: number;
     student_id: number;
-  }) => {
+  }): Promise<void> => {
     try {
       if (await SubmissionUtil.updateSubmission({ action, student_id, id })) {
         setPendingSubmissionsCount((prev) => prev - 1);
-        return setSubmissions((prev) => prev.filter((item) => item.id !== id));
+        setPendingSubmissionsDates((r) =>
+          r.filter((date) => date !== queryDate)
+        );
+
+        setSubmissions((prev) => prev.filter((item) => item.id !== id));
       }
     } catch (err) {
       console.error(`Error ${action} submission`);
-      return;
     }
   };
+
+  const handleChange = ({ target }) => setQueryDate(target.value);
 
   if (isLoading)
     return (
       <>
-        <Typography sx={{ margin: "1rem 0.5rem" }}>
-          <b>Pending submissions left:</b> ...
-        </Typography>
+        <PendingSubmissionsCountComp isLoading={true} />
 
-        <Stack
-          direction="row"
-          justifyContent="space-evenly"
-          alignItems="center"
-          spacing={2}
-          sx={{ margin: "1rem" }}
-        >
-          <Button
-            sx={buttonTheme}
-            variant="contained"
-            onClick={() => backAndForwardDate("left")}
+        <div style={{ margin: "0.6rem" }}>
+          <FormControl
+            sx={{ width: "100%", margin: "0 0 1rem 0" }}
+            variant="filled"
           >
-            Back
-          </Button>
-
-          <Typography>
-            <b>Event date:</b>{" "}
-            {calculateDate({ dateIndex }).toLocaleDateString()}
-          </Typography>
-
-          <Button
-            sx={buttonTheme}
-            variant="contained"
-            onClick={() => backAndForwardDate("right")}
-          >
-            Forward
-          </Button>
-        </Stack>
+            <InputLabel id="demo-simple-select-label">
+              Pending Event Dates
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Query Date"
+              value={""}
+            >
+              Loading...
+            </Select>
+          </FormControl>
+        </div>
 
         <h2 style={{ textAlign: "center" }}>Loading...</h2>
       </>
     );
 
-  if (submissions.length === 0)
+  if (pendingSubmissionsDates.length === 0)
     return (
       <>
-        <Typography sx={{ margin: "1rem 0.5rem" }}>
-          <b>Pending submissions left:</b>{" "}
-          <span
-            style={
-              pendingSubmissionsCount > 0
-                ? { color: "red", fontWeight: "bold" }
-                : null
-            }
-          >
-            {pendingSubmissionsCount}
-          </span>
-        </Typography>
+        <PendingSubmissionsCountComp
+          pendingSubmissionsCount={pendingSubmissionsCount}
+          currentSubmissionsCount={submissions.length}
+        />
 
-        <Stack
-          direction="row"
-          justifyContent="space-evenly"
-          alignItems="center"
-          spacing={2}
-          sx={{ margin: "1rem" }}
-        >
-          <Button
-            sx={buttonTheme}
-            variant="contained"
-            onClick={() => backAndForwardDate("left")}
+        <div style={{ margin: "0.6rem" }}>
+          <FormControl
+            sx={{ width: "100%", margin: "0 0 1rem 0" }}
+            variant="filled"
           >
-            Back
-          </Button>
-
-          <Typography>
-            <b>Event date:</b>{" "}
-            {calculateDate({ dateIndex }).toLocaleDateString()}
-          </Typography>
-
-          <Button
-            sx={buttonTheme}
-            variant="contained"
-            onClick={() => backAndForwardDate("right")}
-          >
-            Forward
-          </Button>
-        </Stack>
+            <InputLabel id="demo-simple-select-label">
+              Pending Event Dates
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={queryDate}
+              label="Query Date"
+              onChange={handleChange}
+            >
+              {pendingSubmissionsDates.map((date) => (
+                <MenuItem value={new Date(date).toLocaleDateString()}>
+                  {new Date(date).toLocaleDateString()}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
 
         <h2 style={{ textAlign: "center" }}>No pending submissions</h2>
       </>
     );
 
+  if (!queryDate)
+    return (
+      <>
+        <PendingSubmissionsCountComp
+          pendingSubmissionsCount={pendingSubmissionsCount}
+          currentSubmissionsCount={submissions.length}
+        />
+
+        <div style={{ margin: "0.6rem" }}>
+          <FormControl
+            sx={{ width: "100%", margin: "0 0 1rem 0" }}
+            variant="filled"
+          >
+            <InputLabel id="demo-simple-select-label">
+              Pending Event Dates
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={queryDate}
+              label="Query Date"
+              onChange={handleChange}
+            >
+              {pendingSubmissionsDates.map((date) => (
+                <MenuItem value={new Date(date).toLocaleDateString()}>
+                  {new Date(date).toLocaleDateString()}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        <h2 style={{ textAlign: "center" }}>Please pick a date</h2>
+      </>
+    );
+
   return (
     <>
-      <Typography sx={{ margin: "1rem 0.5rem" }}>
-        <b>Pending submissions left:</b>{" "}
-        <span
-          style={
-            pendingSubmissionsCount > 0
-              ? { color: "red", fontWeight: "bold" }
-              : null
-          }
+      <PendingSubmissionsCountComp
+        pendingSubmissionsCount={pendingSubmissionsCount}
+        currentSubmissionsCount={submissions.length}
+      />
+      <div style={{ margin: "0.6rem" }}>
+        <FormControl
+          sx={{ width: "100%", margin: "0 0 1rem 0" }}
+          variant="filled"
         >
-          {pendingSubmissionsCount}
-        </span>
-      </Typography>
-
-      <Stack
-        direction="row"
-        justifyContent="space-evenly"
-        alignItems="center"
-        spacing={2}
-        sx={{ margin: "1rem" }}
-      >
-        <Button
-          sx={buttonTheme}
-          variant="contained"
-          onClick={() => backAndForwardDate("left")}
-        >
-          Back
-        </Button>
-
-        <Typography>
-          <b>Event date:</b> {calculateDate({ dateIndex }).toLocaleDateString()}
-        </Typography>
-
-        <Button
-          sx={buttonTheme}
-          variant="contained"
-          onClick={() => backAndForwardDate("right")}
-        >
-          Forward
-        </Button>
-      </Stack>
+          <InputLabel id="demo-simple-select-label">
+            Pending Event Dates
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={queryDate}
+            label="Query Date"
+            onChange={handleChange}
+          >
+            {pendingSubmissionsDates.map((date) => (
+              <MenuItem value={new Date(date).toLocaleDateString()}>
+                {new Date(date).toLocaleDateString()}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
 
       {submissions.map((item, index) => (
         <SubmissionPaper
