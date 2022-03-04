@@ -1,14 +1,9 @@
-import { DateRangeSharp } from "@mui/icons-material";
 import { origin } from "../config/config";
 
 export default class SubmissionUtil {
-  static async getSubmissions({ dateIndex }: { dateIndex: number }) {
+  static async getSubmissions({ queryDate }: { queryDate: string }) {
     try {
-      const d = new Date();
-      const date = new Date(
-        new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime() +
-          24 * 60 * 60 * 1000 * dateIndex
-      ).toUTCString();
+      const date = new Date(queryDate).toUTCString();
       const sqlLikeDate = date.slice(0, 16);
 
       const res = await (
