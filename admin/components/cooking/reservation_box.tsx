@@ -35,7 +35,7 @@ export default function ReservationBox({
           <b>Num of Ppl: </b>
           {numberOfPeople}
         </span>
-        {data.user.username === "admin" && (
+        {data?.user.username === "admin" && (
           <span
             style={{
               textDecoration: "underline",
