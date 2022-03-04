@@ -143,10 +143,7 @@ export default function SubmissionsTab({}) {
   if (pendingSubmissionsDates.length === 0)
     return (
       <>
-        <PendingSubmissionsCountComp
-          pendingSubmissionsCount={pendingSubmissionsCount}
-          currentSubmissionsCount={submissions.length}
-        />
+        <PendingSubmissionsCountComp />
 
         <div style={{ margin: "0.6rem" }}>
           <FormControl
@@ -218,6 +215,7 @@ export default function SubmissionsTab({}) {
         pendingSubmissionsCount={pendingSubmissionsCount}
         currentSubmissionsCount={submissions.length}
       />
+
       <div style={{ margin: "0.6rem" }}>
         <FormControl
           sx={{ width: "100%", margin: "0 0 1rem 0" }}
