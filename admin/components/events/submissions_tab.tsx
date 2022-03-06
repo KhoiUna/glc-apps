@@ -9,8 +9,8 @@ import SubmissionPaper from "./submission_paper";
 
 const PendingSubmissionsCountComp = ({
   isLoading = false,
-  pendingSubmissionsCount = 0,
-  currentSubmissionsCount = 0,
+  pendingSubmissionsCount,
+  currentSubmissionsCount,
 }: {
   isLoading?: boolean;
   pendingSubmissionsCount?: number;
@@ -143,7 +143,10 @@ export default function SubmissionsTab({}) {
   if (pendingSubmissionsDates.length === 0)
     return (
       <>
-        <PendingSubmissionsCountComp />
+        <PendingSubmissionsCountComp
+          pendingSubmissionsCount={pendingSubmissionsCount}
+          currentSubmissionsCount={0}
+        />
 
         <div style={{ margin: "0.6rem" }}>
           <FormControl
@@ -206,6 +209,42 @@ export default function SubmissionsTab({}) {
         </div>
 
         <h2 style={{ textAlign: "center" }}>Please pick a date</h2>
+      </>
+    );
+
+  if (submissions.length === 0)
+    return (
+      <>
+        <PendingSubmissionsCountComp
+          pendingSubmissionsCount={pendingSubmissionsCount}
+          currentSubmissionsCount={0}
+        />
+
+        <div style={{ margin: "0.6rem" }}>
+          <FormControl
+            sx={{ width: "100%", margin: "0 0 1rem 0" }}
+            variant="filled"
+          >
+            <InputLabel id="demo-simple-select-label">
+              Pending Event Dates
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={queryDate}
+              label="Query Date"
+              onChange={handleChange}
+            >
+              {pendingSubmissionsDates.map((date) => (
+                <MenuItem value={new Date(date).toLocaleDateString()}>
+                  {new Date(date).toLocaleDateString()}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+
+        <h2 style={{ textAlign: "center" }}>Nothing left for this date</h2>
       </>
     );
 
