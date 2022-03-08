@@ -8,20 +8,20 @@ import SubmissionUtil from "../../utils/SubmissionUtil";
 import SubmissionPaper from "./submission_paper";
 
 const PendingSubmissionsCountComp = ({
-  isLoading = false,
+  isLoading,
   pendingSubmissionsCount,
   currentSubmissionsCount,
 }: {
-  isLoading?: boolean;
+  isLoading: boolean;
   pendingSubmissionsCount?: number;
-  currentSubmissionsCount?: number;
+  currentSubmissionsCount?: number | string;
 }) => {
   if (isLoading)
     return (
       <Typography sx={{ margin: "1rem 0.5rem" }}>
-        <b>Total submissions left:</b>...
+        <b>Total submissions left: </b>...
         <br />
-        <b>Current submissions left:</b>...
+        <b>Current submissions left: </b>...
       </Typography>
     );
 
@@ -144,6 +144,7 @@ export default function SubmissionsTab({}) {
     return (
       <>
         <PendingSubmissionsCountComp
+          isLoading={isLoading}
           pendingSubmissionsCount={pendingSubmissionsCount}
           currentSubmissionsCount={0}
         />
@@ -176,12 +177,13 @@ export default function SubmissionsTab({}) {
       </>
     );
 
-  if (!queryDate)
+  if (queryDate === "")
     return (
       <>
         <PendingSubmissionsCountComp
+          isLoading={isLoading}
           pendingSubmissionsCount={pendingSubmissionsCount}
-          currentSubmissionsCount={submissions.length}
+          currentSubmissionsCount={"n/a"}
         />
 
         <div style={{ margin: "0.6rem" }}>
@@ -216,8 +218,9 @@ export default function SubmissionsTab({}) {
     return (
       <>
         <PendingSubmissionsCountComp
+          isLoading={isLoading}
           pendingSubmissionsCount={pendingSubmissionsCount}
-          currentSubmissionsCount={0}
+          currentSubmissionsCount={submissions.length}
         />
 
         <div style={{ margin: "0.6rem" }}>
@@ -251,6 +254,7 @@ export default function SubmissionsTab({}) {
   return (
     <>
       <PendingSubmissionsCountComp
+        isLoading={isLoading}
         pendingSubmissionsCount={pendingSubmissionsCount}
         currentSubmissionsCount={submissions.length}
       />
