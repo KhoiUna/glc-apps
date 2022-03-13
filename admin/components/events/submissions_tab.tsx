@@ -164,8 +164,11 @@ export default function SubmissionsTab({}) {
               label="Query Date"
               onChange={handleChange}
             >
-              {pendingSubmissionsDates.map((date) => (
-                <MenuItem value={new Date(date).toLocaleDateString()}>
+              {pendingSubmissionsDates.map((date, index) => (
+                <MenuItem
+                  value={new Date(date).toLocaleDateString()}
+                  key={index}
+                >
                   {new Date(date).toLocaleDateString()}
                 </MenuItem>
               ))}
@@ -201,8 +204,11 @@ export default function SubmissionsTab({}) {
               label="Query Date"
               onChange={handleChange}
             >
-              {pendingSubmissionsDates.map((date) => (
-                <MenuItem value={new Date(date).toLocaleDateString()}>
+              {pendingSubmissionsDates.map((date, index) => (
+                <MenuItem
+                  value={new Date(date).toLocaleDateString()}
+                  key={index}
+                >
                   {new Date(date).toLocaleDateString()}
                 </MenuItem>
               ))}
@@ -238,8 +244,11 @@ export default function SubmissionsTab({}) {
               label="Query Date"
               onChange={handleChange}
             >
-              {pendingSubmissionsDates.map((date) => (
-                <MenuItem value={new Date(date).toLocaleDateString()}>
+              {pendingSubmissionsDates.map((date, index) => (
+                <MenuItem
+                  value={new Date(date).toLocaleDateString()}
+                  key={index}
+                >
                   {new Date(date).toLocaleDateString()}
                 </MenuItem>
               ))}
@@ -274,8 +283,8 @@ export default function SubmissionsTab({}) {
             label="Query Date"
             onChange={handleChange}
           >
-            {pendingSubmissionsDates.map((date) => (
-              <MenuItem value={new Date(date).toLocaleDateString()}>
+            {pendingSubmissionsDates.map((date, index) => (
+              <MenuItem value={new Date(date).toLocaleDateString()} key={index}>
                 {new Date(date).toLocaleDateString()}
               </MenuItem>
             ))}
