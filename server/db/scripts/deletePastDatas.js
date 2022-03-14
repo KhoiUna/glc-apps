@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
 require("dotenv").config();
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
+const connection = require("../connection");
 const Reservations = require("../Reservations");
+const Submissions = require("../Submissions");
 
 (async () => {
   try {
@@ -19,10 +21,18 @@ const Reservations = require("../Reservations");
       },
     });
 
+    // Delete past rejected submissions before one week ago
+    const sql =
+      "DELETE FROM submissions WHERE status = 'rejected' AND DATE(submitted_at) < DATE(:oneWeekAgoDate)";
+    await connection.query(sql, {
+      replacements: { oneWeekAgoDate },
+      model: Submissions,
+      type: QueryTypes.DELETE,
+    });
+
     return process.exit();
   } catch (err) {
     console.error("Error deleting past data");
-    console.error(err);
     return process.exit();
   }
 })();
