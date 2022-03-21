@@ -19,12 +19,16 @@ interface SubmissionPaperProps {
   };
   approveOrRejectSubmission: ({
     action,
-    id,
-    student_id,
+    submissionDetail,
   }: {
     action: "approve" | "reject";
-    id: number;
-    student_id: number;
+    submissionDetail: {
+      id: number;
+      event_name: string;
+      submitted_at: string;
+      img_url: string;
+      student_id: number;
+    };
   }) => Promise<any>;
 }
 
@@ -96,7 +100,7 @@ export default function SubmissionPaper({
         <IconButton
           aria-label="Reject submission"
           onClick={() =>
-            approveOrRejectSubmission({ action: "reject", id, student_id })
+            approveOrRejectSubmission({ action: "reject", submissionDetail })
           }
           sx={{ backgroundColor: "#db0505", color: "#fff", margin: "0 1.5rem" }}
         >
@@ -106,7 +110,7 @@ export default function SubmissionPaper({
         <IconButton
           aria-label="Approve submission"
           onClick={() =>
-            approveOrRejectSubmission({ action: "approve", id, student_id })
+            approveOrRejectSubmission({ action: "approve", submissionDetail })
           }
           sx={{ backgroundColor: "#009d00", color: "#fff" }}
         >
