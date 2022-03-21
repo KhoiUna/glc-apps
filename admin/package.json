@@ -8,12 +8,12 @@
     "start": "next start"
   },
   "dependencies": {
-    "@emotion/react": "^11.7.1",
-    "@emotion/styled": "^11.6.0",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.4.2",
     "@mui/lab": "^5.0.0-alpha.54",
-    "@mui/material": "^5.4.2",
-    "@types/node": "^16.11.24",
+    "@mui/material": "^5.4.3",
+    "@types/node": "^16.11.26",
     "@types/react": "^17.0.39",
     "bcrypt": "^5.0.1",
     "date-fns": "^2.28.0",
