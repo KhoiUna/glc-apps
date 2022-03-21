@@ -30,11 +30,13 @@ interface SubmissionPaperProps {
       student_id: number;
     };
   }) => Promise<any>;
+  hideName?: boolean;
 }
 
 export default function SubmissionPaper({
   submissionDetail,
   approveOrRejectSubmission,
+  hideName = false,
 }: SubmissionPaperProps) {
   const { event_name, full_name, img_url, submitted_at, student_id } =
     submissionDetail;
@@ -50,20 +52,22 @@ export default function SubmissionPaper({
         margin: "1.25rem 0.7rem",
       }}
     >
-      <Typography>
-        <b>Student name:</b>{" "}
-        <span
-          onClick={toggleOpenDialog}
-          style={{
-            color: "#46166B",
-            textDecoration: "underline",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          {full_name}
-        </span>
-      </Typography>
+      {!hideName && (
+        <Typography>
+          <b>Student name:</b>{" "}
+          <span
+            onClick={toggleOpenDialog}
+            style={{
+              color: "#46166B",
+              textDecoration: "underline",
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
+          >
+            {full_name}
+          </span>
+        </Typography>
+      )}
       <Typography>
         <b>Event name:</b> {event_name}
       </Typography>
