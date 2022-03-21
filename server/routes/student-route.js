@@ -3,6 +3,7 @@ const getAllStudentApprovedSubmissions = require("../utils/getAllStudentApproved
 const getStudentApprovedSubmissions = require("../utils/getStudentApprovedSubmissions");
 const getStudentNames = require("../utils/getStudentNames");
 const getStudents = require("../utils/getStudents");
+const getStudentSubmissions = require("../utils/getStudentSubmissions");
 const router = require("express").Router();
 
 router.get("/", async (req, res, next) => {
@@ -50,6 +51,20 @@ router.get("/csv", async (req, res, next) => {
     res.status(200).end(csvData);
   } catch (err) {
     console.error("Error getting student signatures csv");
+    next(err);
+  }
+});
+
+router.get("/all/:studentId", async (req, res, next) => {
+  try {
+    const { studentId } = req.params;
+    const submissions = await getStudentSubmissions({ studentId });
+    if (!submissions)
+      return res.status(406).send("Sorry, there is something wrong");
+
+    res.status(200).json(submissions);
+  } catch (err) {
+    console.error("Error getting student's submissions");
     next(err);
   }
 });
