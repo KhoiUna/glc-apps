@@ -14,12 +14,12 @@ export default class StudentUtil {
   static async fetchSubmissionDetails({ studentId }: { studentId: number }) {
     try {
       const res = await (
-        await fetch(`${origin}/api/student/${studentId}`)
+        await fetch(`${origin}/api/student/all/${studentId}`)
       ).json();
 
       return res;
     } catch (err) {
-      console.error(`Error getting student approved submissioni details -util`);
+      console.error(`Error getting student submissions details -util`);
       return;
     }
   }
