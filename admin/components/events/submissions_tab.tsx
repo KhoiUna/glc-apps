@@ -89,14 +89,20 @@ export default function SubmissionsTab({}) {
 
   const approveOrRejectSubmission = async ({
     action,
-    id,
-    student_id,
+    submissionDetail,
   }: {
     action: "approve" | "reject";
-    id: number;
-    student_id: number;
+    submissionDetail: {
+      id: number;
+      event_name: string;
+      submitted_at: string;
+      img_url: string;
+      student_id: number;
+    };
   }): Promise<void> => {
     try {
+      const { id, student_id } = submissionDetail;
+
       if (await SubmissionUtil.updateSubmission({ action, student_id, id })) {
         setPendingSubmissionsCount((prev) => prev - 1);
         setPendingSubmissionsDates((r) =>
