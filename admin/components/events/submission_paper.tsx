@@ -36,7 +36,7 @@ export default function SubmissionPaper({
   submissionDetail,
   approveOrRejectSubmission,
 }: SubmissionPaperProps) {
-  const { id, event_name, full_name, img_url, submitted_at, student_id } =
+  const { event_name, full_name, img_url, submitted_at, student_id } =
     submissionDetail;
 
   const [openDialog, setOpenDialog] = useState(false);
