@@ -49,8 +49,9 @@ const PendingSubmissionDetails = ({
         </span>
       </Typography>
 
-      {pendingSubmissionDetails.map((detail) => (
+      {pendingSubmissionDetails.map((detail, index) => (
         <SubmissionPaper
+          key={index}
           submissionDetail={detail}
           approveOrRejectSubmission={approveOrRejectSubmission}
           hideName={true}
@@ -247,26 +248,27 @@ export default function StudentViewDialog({
         approveOrRejectSubmission={approveOrRejectSubmission}
       />
 
-      <Typography
-        variant="h6"
-        component="div"
-        sx={{ margin: "0.3rem 1rem 0 1rem" }}
-      >
-        <span
-          style={{
-            backgroundColor: "#009d00",
-            padding: "0.2rem",
-            fontWeight: "bold",
-            color: "#fff",
-          }}
-        >
-          Approved submissions:
-        </span>
-      </Typography>
-
       {isLoading && <h2 style={{ margin: "1rem auto" }}>Loading...</h2>}
       {!isLoading && submissionDetails.length === 0 && (
         <h2 style={{ margin: "1rem auto" }}>No approved submissions yet!</h2>
+      )}
+      {!isLoading && (
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ margin: "0.3rem 1rem 0 1rem" }}
+        >
+          <span
+            style={{
+              backgroundColor: "#009d00",
+              padding: "0.2rem",
+              fontWeight: "bold",
+              color: "#fff",
+            }}
+          >
+            Approved submissions:
+          </span>
+        </Typography>
       )}
       {!isLoading &&
         submissionDetails.map((item, index) => (
