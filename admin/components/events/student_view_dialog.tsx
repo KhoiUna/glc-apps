@@ -16,7 +16,7 @@ import Button from "@mui/material/Button";
 import SubmissionUtil from "../../utils/SubmissionUtil";
 import SubmissionPaper from "./submission_paper";
 
-const PendingSubmissionDetails = ({
+function PendingSubmissionDetails({
   isLoading,
   pendingSubmissionDetails,
   approveOrRejectSubmission,
@@ -24,7 +24,7 @@ const PendingSubmissionDetails = ({
   isLoading: boolean;
   pendingSubmissionDetails: any[];
   approveOrRejectSubmission: ({ action, submissionDetail }) => Promise<any>;
-}) => {
+}) {
   if (isLoading || pendingSubmissionDetails.length === 0) return <></>;
 
   return (
@@ -54,7 +54,7 @@ const PendingSubmissionDetails = ({
           key={index}
           submissionDetail={detail}
           approveOrRejectSubmission={approveOrRejectSubmission}
-          hideName={true}
+          fromComponent={"StudentViewDialog"}
         />
       ))}
 
@@ -63,7 +63,7 @@ const PendingSubmissionDetails = ({
       </div>
     </div>
   );
-};
+}
 
 const ApprovedSubmissionPaper = ({ studentName, detail, deleteSubmission }) => {
   const { id, event_name, submitted_at, img_url, student_id } = detail;

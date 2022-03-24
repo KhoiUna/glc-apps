@@ -30,13 +30,13 @@ interface SubmissionPaperProps {
       student_id: number;
     };
   }) => Promise<any>;
-  hideName?: boolean;
+  fromComponent: string;
 }
 
 export default function SubmissionPaper({
   submissionDetail,
   approveOrRejectSubmission,
-  hideName = false,
+  fromComponent,
 }: SubmissionPaperProps) {
   const { event_name, full_name, img_url, submitted_at, student_id } =
     submissionDetail;
@@ -50,9 +50,10 @@ export default function SubmissionPaper({
       sx={{
         padding: "1rem 1.2rem",
         margin: "1.25rem 0.7rem",
+        backgroundColor: "#ffffd7",
       }}
     >
-      {!hideName && (
+      {fromComponent !== "StudentViewDialog" && (
         <Typography>
           <b>Student name:</b>{" "}
           <span
