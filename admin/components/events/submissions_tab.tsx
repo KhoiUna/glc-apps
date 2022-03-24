@@ -52,6 +52,42 @@ const PendingSubmissionsCountComp = ({
   );
 };
 
+const DatePicker = ({
+  queryDate,
+  handleChangeDate,
+  pendingSubmissionsDates,
+}: {
+  queryDate: string;
+  handleChangeDate: ({}) => any;
+  pendingSubmissionsDates: string[];
+}) => {
+  return (
+    <div style={{ margin: "0.6rem" }}>
+      <FormControl
+        sx={{ width: "100%", margin: "0 0 1rem 0" }}
+        variant="filled"
+      >
+        <InputLabel id="demo-simple-select-label">
+          Pending Event Dates
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={queryDate}
+          label="Query Date"
+          onChange={handleChangeDate}
+        >
+          {pendingSubmissionsDates.map((date, index) => (
+            <MenuItem value={new Date(date).toLocaleDateString()} key={index}>
+              {new Date(date).toLocaleDateString()}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </div>
+  );
+};
+
 export default function SubmissionsTab({}) {
   const [isLoading, setIsLoading] = useState(false);
   const [submissions, setSubmissions] = useState([]);
@@ -116,12 +152,12 @@ export default function SubmissionsTab({}) {
     }
   };
 
-  const handleChange = ({ target }) => setQueryDate(target.value);
+  const handleChangeDate = ({ target }) => setQueryDate(target.value);
 
   if (isLoading)
     return (
       <>
-        <PendingSubmissionsCountComp isLoading={true} />
+        <PendingSubmissionsCountComp isLoading={isLoading} />
 
         <div style={{ margin: "0.6rem" }}>
           <FormControl
@@ -155,32 +191,11 @@ export default function SubmissionsTab({}) {
           currentSubmissionsCount={0}
         />
 
-        <div style={{ margin: "0.6rem" }}>
-          <FormControl
-            sx={{ width: "100%", margin: "0 0 1rem 0" }}
-            variant="filled"
-          >
-            <InputLabel id="demo-simple-select-label">
-              Pending Event Dates
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={queryDate}
-              label="Query Date"
-              onChange={handleChange}
-            >
-              {pendingSubmissionsDates.map((date, index) => (
-                <MenuItem
-                  value={new Date(date).toLocaleDateString()}
-                  key={index}
-                >
-                  {new Date(date).toLocaleDateString()}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
+        <DatePicker
+          queryDate={queryDate}
+          handleChangeDate={handleChangeDate}
+          pendingSubmissionsDates={pendingSubmissionsDates}
+        />
 
         <h2 style={{ textAlign: "center" }}>No pending submissions</h2>
       </>
@@ -195,32 +210,11 @@ export default function SubmissionsTab({}) {
           currentSubmissionsCount={"n/a"}
         />
 
-        <div style={{ margin: "0.6rem" }}>
-          <FormControl
-            sx={{ width: "100%", margin: "0 0 1rem 0" }}
-            variant="filled"
-          >
-            <InputLabel id="demo-simple-select-label">
-              Pending Event Dates
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={queryDate}
-              label="Query Date"
-              onChange={handleChange}
-            >
-              {pendingSubmissionsDates.map((date, index) => (
-                <MenuItem
-                  value={new Date(date).toLocaleDateString()}
-                  key={index}
-                >
-                  {new Date(date).toLocaleDateString()}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
+        <DatePicker
+          queryDate={queryDate}
+          handleChangeDate={handleChangeDate}
+          pendingSubmissionsDates={pendingSubmissionsDates}
+        />
 
         <h2 style={{ textAlign: "center" }}>Please pick a date</h2>
       </>
@@ -235,32 +229,11 @@ export default function SubmissionsTab({}) {
           currentSubmissionsCount={submissions.length}
         />
 
-        <div style={{ margin: "0.6rem" }}>
-          <FormControl
-            sx={{ width: "100%", margin: "0 0 1rem 0" }}
-            variant="filled"
-          >
-            <InputLabel id="demo-simple-select-label">
-              Pending Event Dates
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={queryDate}
-              label="Query Date"
-              onChange={handleChange}
-            >
-              {pendingSubmissionsDates.map((date, index) => (
-                <MenuItem
-                  value={new Date(date).toLocaleDateString()}
-                  key={index}
-                >
-                  {new Date(date).toLocaleDateString()}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
+        <DatePicker
+          queryDate={queryDate}
+          handleChangeDate={handleChangeDate}
+          pendingSubmissionsDates={pendingSubmissionsDates}
+        />
 
         <h2 style={{ textAlign: "center" }}>Nothing left for this date</h2>
       </>
@@ -274,29 +247,11 @@ export default function SubmissionsTab({}) {
         currentSubmissionsCount={submissions.length}
       />
 
-      <div style={{ margin: "0.6rem" }}>
-        <FormControl
-          sx={{ width: "100%", margin: "0 0 1rem 0" }}
-          variant="filled"
-        >
-          <InputLabel id="demo-simple-select-label">
-            Pending Event Dates
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={queryDate}
-            label="Query Date"
-            onChange={handleChange}
-          >
-            {pendingSubmissionsDates.map((date, index) => (
-              <MenuItem value={new Date(date).toLocaleDateString()} key={index}>
-                {new Date(date).toLocaleDateString()}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
+      <DatePicker
+        queryDate={queryDate}
+        handleChangeDate={handleChangeDate}
+        pendingSubmissionsDates={pendingSubmissionsDates}
+      />
 
       {submissions.map((item, index) => (
         <SubmissionPaper
