@@ -11,29 +11,112 @@ import Paper from "@mui/material/Paper";
 import Image from "next/image";
 import imageLoader from "../helpers/imageLoader";
 import { maxSignatureCount } from "../config/config";
+import SubmissionPaper from "./submission_paper";
+
+function PendingSubmissionDetails({
+  isLoading,
+  pendingSubmissionDetails,
+}: {
+  isLoading: boolean;
+  pendingSubmissionDetails: any[];
+}) {
+  if (isLoading || pendingSubmissionDetails.length === 0) return <></>;
+
+  return (
+    <div style={{ margin: "1.5rem 0 0.3rem 0" }}>
+      <div style={{ margin: "0 1rem" }}>
+        <hr />
+      </div>
+
+      <Typography
+        variant="h6"
+        component="div"
+        sx={{ margin: "0.3rem 1rem 0 1rem" }}
+      >
+        <span
+          style={{
+            backgroundColor: "yellow",
+            padding: "0.2rem",
+            fontWeight: "bold",
+          }}
+        >
+          Pending submissions:
+        </span>
+      </Typography>
+
+      {pendingSubmissionDetails.map((detail, index) => (
+        <SubmissionPaper key={index} submissionDetail={detail} />
+      ))}
+
+      <div style={{ margin: "0 1rem" }}>
+        <hr />
+      </div>
+    </div>
+  );
+}
+
+const ApprovedSubmissionPaper = ({ studentName, detail }) => {
+  const { id, event_name, submitted_at, img_url, student_id } = detail;
+
+  return (
+    <Paper elevation={5} sx={{ margin: "1rem", padding: "1rem" }}>
+      <Typography>
+        <b>Event name:</b> {event_name}
+      </Typography>
+      <Typography>
+        <b>Date submitted:</b> {new Date(submitted_at).toLocaleDateString()}
+      </Typography>
+      <Typography>
+        <b>Submission image:</b>
+      </Typography>
+
+      <div
+        style={{
+          margin: "0.5rem auto",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        <Image
+          loader={imageLoader}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP05559BgADaQHDtWQFWQAAAABJRU5ErkJggg=="
+          src={img_url}
+          height={450}
+          width={450}
+          alt={`${studentName}'s submission image: ${event_name}`}
+        />
+      </div>
+    </Paper>
+  );
+};
 
 interface StudentViewDialogProps {
   toggleOpenDialog: () => any;
   openDialog: boolean;
   studentId: number;
   studentName: string;
-  signatureCount: number;
 }
 export default function StudentViewDialog({
   toggleOpenDialog,
   openDialog,
   studentId,
   studentName,
-  signatureCount,
 }: StudentViewDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [submissionDetails, setSubmissionDetails] = useState([]);
+  const [pendingSubmissionDetails, setPendingSubmissionDetails] = useState([]);
   useEffect(() => {
     setIsLoading(true);
 
     StudentUtil.fetchSubmissionDetails({ studentId })
       .then((r) => {
-        setSubmissionDetails(r);
+        setSubmissionDetails(
+          r.filter(({ status }) => status.trim() === "approved")
+        );
+        setPendingSubmissionDetails(
+          r.filter(({ status }) => status.trim() === "pending")
+        );
         setIsLoading(false);
       })
       .catch((err) =>
@@ -65,47 +148,45 @@ export default function StudentViewDialog({
         </Typography>
 
         <Typography variant="h6" component="div">
-          Signature count: {signatureCount} / {maxSignatureCount}
+          Signature count: {isLoading ? "..." : submissionDetails.length} /{" "}
+          {maxSignatureCount}
         </Typography>
       </div>
 
+      <PendingSubmissionDetails
+        isLoading={isLoading}
+        pendingSubmissionDetails={pendingSubmissionDetails}
+      />
+
       {isLoading && <h2 style={{ margin: "1rem auto" }}>Loading...</h2>}
+      {!isLoading && submissionDetails.length === 0 && (
+        <h2 style={{ margin: "1rem auto" }}>No approved submissions yet!</h2>
+      )}
+      {!isLoading && (
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ margin: "0.3rem 1rem 0 1rem" }}
+        >
+          <span
+            style={{
+              backgroundColor: "#009d00",
+              padding: "0.2rem",
+              fontWeight: "bold",
+              color: "#fff",
+            }}
+          >
+            Approved submissions:
+          </span>
+        </Typography>
+      )}
       {!isLoading &&
         submissionDetails.map((item, index) => (
-          <Paper
-            elevation={5}
-            sx={{ margin: "1rem", padding: "1rem" }}
+          <ApprovedSubmissionPaper
             key={index}
-          >
-            <Typography>
-              <b>Event name:</b> {item.event_name}
-            </Typography>
-            <Typography>
-              <b>Date submitted:</b>{" "}
-              {new Date(item.submitted_at).toLocaleDateString()}
-            </Typography>
-            <Typography>
-              <b>Submission image:</b>
-            </Typography>
-
-            <div
-              style={{
-                margin: "0.5rem auto",
-                width: "100%",
-                textAlign: "center",
-              }}
-            >
-              <Image
-                loader={imageLoader}
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP05559BgADaQHDtWQFWQAAAABJRU5ErkJggg=="
-                src={item.img_url}
-                height={450}
-                width={450}
-                alt={`${studentName}'s submission image: ${item.event_name}`}
-              />
-            </div>
-          </Paper>
+            detail={item}
+            studentName={studentName}
+          />
         ))}
     </Dialog>
   );
