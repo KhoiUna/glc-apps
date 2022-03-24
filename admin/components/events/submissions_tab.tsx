@@ -92,7 +92,7 @@ export default function SubmissionsTab({}) {
   const [isLoading, setIsLoading] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const [pendingSubmissionsDates, setPendingSubmissionsDates] = useState([]);
-  const [pendingSubmissionsCount, setPendingSubmissionsCount] = useState(0);
+  const [pendingSubmissionsCount, setPendingSubmissionsCount] = useState(null);
   const [queryDate, setQueryDate] = useState("");
   useEffect(() => {
     setIsLoading(true);
