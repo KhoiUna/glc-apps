@@ -303,6 +303,7 @@ export default function SubmissionsTab({}) {
           key={index}
           submissionDetail={item}
           approveOrRejectSubmission={approveOrRejectSubmission}
+          fromComponent={"SubmissionsTab"}
         />
       ))}
     </>
