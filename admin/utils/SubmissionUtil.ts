@@ -50,7 +50,7 @@ export default class SubmissionUtil {
   }) {
     try {
       const res = await (
-        await fetch(`${origin}/api/event/submission/${id}`, {
+        await fetch(`/api/events/submissions/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
