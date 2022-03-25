@@ -34,7 +34,7 @@ export default function SubmissionPaper({
       sx={{
         padding: "1rem 1.2rem",
         margin: "1.25rem 0.7rem",
-        backgroundColor: "#ffffd7",
+        backgroundColor: "#ffff8e",
       }}
     >
       <Typography>
