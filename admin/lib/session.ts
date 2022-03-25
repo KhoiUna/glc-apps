@@ -1,6 +1,6 @@
 import type { IronSessionOptions } from "iron-session";
-import type { User } from "../pages/api/user";
 import dotenv from "dotenv";
+import { User } from "../types/types";
 dotenv.config();
 
 export const sessionOptions: IronSessionOptions = {
