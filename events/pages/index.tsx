@@ -240,7 +240,6 @@ export default function Home() {
               key={index}
               index={index}
               submissionDetailsLength={submissionDetails.length}
-              // submissionDetail={i}
               createSubmissionDetails={createSubmissionDetails}
               removeSubmissionDetails={removeSubmissionDetails}
               handleChangeSubmissionDetails={handleChangeSubmissionDetails}
