@@ -19,6 +19,9 @@ Submissions.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    img_id: {
+      type: DataTypes.STRING,
+    },
     status: {
       type: DataTypes.CHAR(8),
       defaultValue: "pending",

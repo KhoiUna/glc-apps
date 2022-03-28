@@ -103,10 +103,11 @@ router.post("/submission", async (req, res, next) => {
       return res.status(400).send("Sorry, something is wrong");
 
     const invalid = submissionDetails.every(
-      ({ eventName, imagePath }) =>
+      ({ eventName, imagePath, imageId }) =>
         !Object.values({
           eventName: eventName.trim(),
           imagePath: imagePath.trim(),
+          imageId: imageId.trim(),
         }).includes("")
     );
     if (!invalid) return res.status(400).send("Sorry, something is wrong");
@@ -117,8 +118,8 @@ router.post("/submission", async (req, res, next) => {
       if (!studentId) return res.status(400).send("Sorry, something is wrong");
     }
 
-    submissionDetails.forEach(({ eventName, imagePath }) => {
-      saveSubmissions({ studentId, eventId, eventName, imagePath });
+    submissionDetails.forEach(({ eventName, imagePath, imageId }) => {
+      saveSubmissions({ studentId, eventId, eventName, imagePath, imageId });
     });
 
     res.status(200).send("ok");
