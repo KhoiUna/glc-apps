@@ -11,6 +11,7 @@ import Image from "next/image";
 import imageLoader from "../helpers/imageLoader";
 import CancelIcon from "@mui/icons-material/Cancel";
 import IconButton from "@mui/material/IconButton";
+import { SubmissionDetailsPaperProps } from "../types/types";
 
 export default function SubmissionDetailsPaper({
   index,
@@ -18,7 +19,7 @@ export default function SubmissionDetailsPaper({
   createSubmissionDetails,
   removeSubmissionDetails,
   handleChangeSubmissionDetails,
-}) {
+}: SubmissionDetailsPaperProps) {
   const [showProgress, setShowProgress] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
   const showProgressBar = (status) => {
@@ -51,10 +52,12 @@ export default function SubmissionDetailsPaper({
       if (res.fileType === "image") {
         const imagePath = res.filePath;
         setImageURL(imagePath);
+
         handleChangeSubmissionDetails({
           index,
           type: "imagePath",
           imagePath,
+          imageId: res.fileId,
         });
         showProgressBar("success");
       }

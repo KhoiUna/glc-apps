@@ -1,7 +1,8 @@
 import { origin } from "../config/config";
+import { submitFormProps } from "../types/types";
 
 export default class SubmissionUtil {
-  static async submitForm({ submitObject }) {
+  static async submitForm({ submitObject }: submitFormProps) {
     try {
       const res = await fetch(`${origin}/api/event/submission`, {
         method: "POST",

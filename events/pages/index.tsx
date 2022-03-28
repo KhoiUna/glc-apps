@@ -10,6 +10,7 @@ import SubmissionUtil from "../utils/SubmissionUtil";
 import dateDifference from "../helpers/dateDifference";
 import Autocomplete from "@mui/material/Autocomplete";
 import Link from "next/link";
+import { handleChangeSubmissionDetailsProps } from "../types/types";
 
 export default function Home() {
   const [eventData, setEventData] = useState({
@@ -71,6 +72,7 @@ export default function Home() {
     {
       eventName: "",
       imagePath: "",
+      imageId: "",
     },
   ]);
 
@@ -80,6 +82,7 @@ export default function Home() {
       {
         eventName: "",
         imagePath: "",
+        imageId: "",
       },
     ]);
   const removeSubmissionDetails = ({ index }) =>
@@ -88,9 +91,10 @@ export default function Home() {
   const handleChangeSubmissionDetails = ({
     index,
     type,
-    eventName = "",
-    imagePath = "",
-  }) => {
+    eventName,
+    imagePath,
+    imageId,
+  }: handleChangeSubmissionDetailsProps) => {
     if (type === "eventName")
       setSubmissionDetails((prev) => {
         const newSubmissionDetails = prev;
@@ -102,6 +106,7 @@ export default function Home() {
       setSubmissionDetails((prev) => {
         const newSubmissionDetails = prev;
         newSubmissionDetails[index].imagePath = imagePath;
+        newSubmissionDetails[index].imageId = imageId;
         return newSubmissionDetails;
       });
   };
@@ -128,6 +133,7 @@ export default function Home() {
           {
             eventName: "",
             imagePath: "",
+            imageId: "",
           },
         ]);
       }
