@@ -45,7 +45,7 @@ function PendingSubmissionDetails({
             fontWeight: "bold",
           }}
         >
-          Pending submissions:
+          Pending submissions: {pendingSubmissionDetails.length}
         </span>
       </Typography>
 
@@ -65,11 +65,19 @@ function PendingSubmissionDetails({
   );
 }
 
-const ApprovedSubmissionPaper = ({ studentName, detail, deleteSubmission }) => {
+const ApprovedSubmissionPaper = ({
+  studentName,
+  detail,
+  deleteSubmission,
+  index,
+}) => {
   const { id, event_name, submitted_at, img_url, student_id } = detail;
 
   return (
     <Paper elevation={5} sx={{ margin: "1rem", padding: "1rem" }}>
+      <Typography>
+        <b>{index}.</b>
+      </Typography>
       <Typography>
         <b>Submission ID: #{id}</b>
       </Typography>
@@ -252,7 +260,7 @@ export default function StudentViewDialog({
       {!isLoading && submissionDetails.length === 0 && (
         <h2 style={{ margin: "1rem auto" }}>No approved submissions yet!</h2>
       )}
-      {!isLoading && (
+      {!isLoading && submissionDetails.length > 0 && (
         <Typography
           variant="h6"
           component="div"
@@ -266,7 +274,7 @@ export default function StudentViewDialog({
               color: "#fff",
             }}
           >
-            Approved submissions:
+            Approved submissions: {submissionDetails.length}
           </span>
         </Typography>
       )}
@@ -274,6 +282,7 @@ export default function StudentViewDialog({
         submissionDetails.map((item, index) => (
           <ApprovedSubmissionPaper
             key={index}
+            index={index + 1}
             detail={item}
             studentName={studentName}
             deleteSubmission={deleteSubmission}
