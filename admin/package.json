@@ -14,7 +14,7 @@
     "@mui/lab": "^5.0.0-alpha.54",
     "@mui/material": "^5.5.2",
     "@types/node": "^16.11.26",
-    "@types/react": "^17.0.40",
+    "@types/react": "^17.0.43",
     "bcrypt": "^5.0.1",
     "date-fns": "^2.28.0",
     "dompurify": "^2.3.6",
