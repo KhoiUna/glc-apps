@@ -55,6 +55,14 @@ export default function Popup({ fromForm, firstName }) {
       )}
       <br />
 
+      <Link href="https://forms.gle/BPQqL51btozTzxuNA" passHref>
+        <a target={"_blank"}>
+          <p style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>
+            {">>"} Let's do a quick survey
+          </p>
+        </a>
+      </Link>
+
       {/* <Link href="/apply">
         <div
           id="apply-link"

@@ -39,10 +39,17 @@ export default function Home() {
         <nav className={homeStyles.home_nav}>
           <ul>
             <li className={homeStyles.home_nav_li}>
+              <Link href="https://forms.gle/BPQqL51btozTzxuNA" passHref>
+                <a target={"_blank"}>
+                  <p>{">>"} Let's do a quick survey</p>
+                </a>
+              </Link>
+            </li>
+            {/* <li className={homeStyles.home_nav_li}>
               <Link href="/sponsor">
                 <p>{">>"} Check out our sponsorships</p>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
 
