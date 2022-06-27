@@ -30,7 +30,7 @@ export default function Popup({ fromForm, firstName }) {
       ) : (
         <h2 className="greet">Thanks for your feedback!</h2>
       )}
-      {showSponsor ? (
+      {showSponsor && (
         <>
           <h2 className="gobi-stories-load" style={{ margin: "3rem 1rem" }}>
             Please wait to see our sponsors...
@@ -45,13 +45,6 @@ export default function Popup({ fromForm, firstName }) {
             style={{ zIndex: 2 }}
           ></div>
         </>
-      ) : (
-        <img
-          src="/thankyou.jpg"
-          alt="Thank you"
-          width={200}
-          style={{ margin: "3rem 1rem" }}
-        />
       )}
       <br />
 
