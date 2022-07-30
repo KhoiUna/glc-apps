@@ -30,7 +30,7 @@ export default function Popup({ fromForm, firstName }) {
       ) : (
         <h2 className="greet">Thanks for your feedback!</h2>
       )}
-      {showSponsor ? (
+      {showSponsor && (
         <>
           <h2 className="gobi-stories-load" style={{ margin: "3rem 1rem" }}>
             Please wait to see our sponsors...
@@ -45,15 +45,16 @@ export default function Popup({ fromForm, firstName }) {
             style={{ zIndex: 2 }}
           ></div>
         </>
-      ) : (
-        <img
-          src="/thankyou.jpg"
-          alt="Thank you"
-          width={200}
-          style={{ margin: "3rem 1rem" }}
-        />
       )}
       <br />
+
+      <Link href="https://forms.gle/BPQqL51btozTzxuNA" passHref>
+        <a target={"_blank"}>
+          <p style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>
+            {">>"} Let's do a quick survey
+          </p>
+        </a>
+      </Link>
 
       {/* <Link href="/apply">
         <div
