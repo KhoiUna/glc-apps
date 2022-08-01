@@ -8,7 +8,7 @@
 - Link for admin [here](https://glc-admin.vercel.app/).
   - Use **username**: test-admin
   - Use **password**: TestAdmin123!
-- Link for students to reserve their cooking time [here](https://glc-cooking.vercel.app/).
+- Link for students to reserve their cooking time [here](https://glc-cooking.vercel.app/). You can read more about this app's story [here](https://github.com/KhoiUna/cooking-reservation).
 
 ## Tech stack
 
