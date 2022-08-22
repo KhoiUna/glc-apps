@@ -2,6 +2,7 @@ import Head from "next/head";
 import { ReactChild } from "react";
 import Header from "../components/header";
 import useAuth from "../lib/useAuth";
+import Link from "next/link";
 
 export default function Layout({
   children,
@@ -31,6 +32,20 @@ export default function Layout({
       </header>
 
       <main>{children}</main>
+
+      <footer
+        style={{ margin: "4rem 2rem", textAlign: "center", fontWeight: "bold" }}
+      >
+        &copy; {new Date().getFullYear()} A product of{" "}
+        <Link href={"https://www.khoiuna.info"} passHref>
+          <a
+            target={"_blank"}
+            style={{ textDecoration: "underline", color: "#000" }}
+          >
+            Khoi Nguyen
+          </a>
+        </Link>
+      </footer>
     </>
   );
 }
