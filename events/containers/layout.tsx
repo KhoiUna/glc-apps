@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { appBarTheme } from "../themes/themes";
 import { ReactNode } from "react";
+import Link from "next/link";
 
 interface LayoutProps {
   children: ReactNode;
@@ -46,6 +47,20 @@ export default function Layout({
       </header>
 
       <main>{children}</main>
+
+      <footer
+        style={{ margin: "4rem 2rem", textAlign: "center", fontWeight: "bold" }}
+      >
+        &copy; {new Date().getFullYear()} A product of{" "}
+        <Link href={"https://www.khoiuna.info"} passHref>
+          <a
+            target={"_blank"}
+            style={{ textDecoration: "underline", color: "#000" }}
+          >
+            Khoi Nguyen
+          </a>
+        </Link>
+      </footer>
     </>
   );
 }
